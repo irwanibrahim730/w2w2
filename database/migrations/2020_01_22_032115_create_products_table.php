@@ -29,10 +29,11 @@ class CreateProductsTable extends Migration
             $table->string('product_state')->nullable();
             $table->string('product_transport')->nullable();
             $table->string('product_description')->nullable();
-            $table->string('product_image')->nullable();
+            $table->longText('product_image', 255)->nullable();
             $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
             $table->timestamps();
+            
         });
     }
 
