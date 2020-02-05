@@ -100,7 +100,7 @@ class ProductController extends Controller
             'product_material' => 'required',
             'product_category' => 'required',
             'product_price' => 'required',
-            'product_image' => 'mimes:jpg,jpeg,png|required', 
+            
         ]);
 
         if ($validator->fails()) {
