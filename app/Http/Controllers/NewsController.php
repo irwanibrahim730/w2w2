@@ -118,7 +118,7 @@ class NewsController extends Controller
             $extention = $news_photo->getClientOriginalExtension();
             $imagename = rand(11111, 99999) . '.' . $extention;
             $destinationPath = 'image';
-    
+
             $news_photo->move($destinationPath, $imagename);
 
             if ($news_title == null) {

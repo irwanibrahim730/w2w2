@@ -92,14 +92,15 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        {
 
-        $validator = \validator::make($request->all(),
+           $validator = \validator::make($request->all(),
         [
             'product_name' => 'required',
             'product_material' => 'required',
             'product_category' => 'required',
             'product_price' => 'required',
-            'product_image' => 'mimes:jpg,jpeg,png|required',
+            'product_image' => 'mimes:jpg,jpeg,png|required', 
         ]);
 
         if ($validator->fails()) {
@@ -125,40 +126,50 @@ class ProductController extends Controller
             $product_location = $request->input('product_location');
             $product_state = $request->input('product_state');
             $product_transport = $request->input('product_transport');
-            $product_description = $request->input('product_description');
-            $product_image = $request->file('product_image');
-
-            $extention = $product_image->getClientOriginalExtension();
-            $imagename = rand(11111, 99999) . '.' . $extention;
-            $destinationPath = 'image';
-    
-            $product_image->move($destinationPath, $imagename);
+            $product_description = $request->input('product_description');  
+            $product_image = $request->file('product_image'); 
 
 
-        }
+ 
+              $images=array();
+
+              
+                foreach( $product_image as $image){ 
+
+                 $extention = $image->getClientOriginalExtension();
+                 $imagename = rand(11111, 99999) . '.' . $extention;
+                 $destinationPath = 'image';
+                 $image->move($destinationPath, $imagename);
+                 $images[] = $imagename;
+
+                }
         
+        $file = new Product();
+        $file->product_name = $product_name;
+        $file->product_status = $product_status;
+        $file->product_material = $product_material;
+        $file->product_category = $product_category;
+        $file->product_target = $product_target;
+        $file->product_continuity = $product_continuity;
+        $file->product_quantity = $product_quantity;
+        $file->product_price = $product_price;
+        $file->product_period = $product_period;
+        $file->product_package = $product_package;
+        $file->product_location = $product_location;
+        $file->product_state = $product_state;
+        $file->product_transport = $product_state;
+        $file->product_description = $product_description;
+        $file->product_image = json_encode($images);
+        $file->save(); 
+        return response()->json('product added');
+ 
+                
+    
+    }
 
-        $data = new Product();
-        $data->product_name = $product_name;
-        $data->product_status = $product_status;
-        $data->product_material = $product_material;
-        $data->product_category = $product_category;
-        $data->product_target = $product_target;
-        $data->product_continuity = $product_continuity;
-        $data->product_quantity = $product_quantity;
-        $data->product_price = $product_price;
-        $data->product_period = $product_period;
-        $data->product_package = $product_package;
-        $data->product_location = $product_location;
-        $data->product_state = $product_state;
-        $data->product_transport = $product_state;
-        $data->product_description = $product_description;
-        $data->product_image = $imagename;
-        $data->save();
-
-
-      return response()->json('product added');       
+             
 }
+    }
 
 
 
@@ -236,15 +247,22 @@ class ProductController extends Controller
     }
 
     if ($product_image == null) {
-        $imagename = $data->product_image;
+        $images = $data->product_image;
     } 
     else {
 
-        $extention = $product_image->getClientOriginalExtension();
-        $imagename = rand(11111, 99999) . '.' . $extention;
-        $destinationPath = 'image';
+        $images=array();
+        $product_image = $request->file('product_image'); 
+                 
+        foreach( $product_image as $image){ 
 
-        $product_image->move($destinationPath, $imagename);
+         $extention = $image->getClientOriginalExtension();
+         $imagename = rand(11111, 99999) . '.' . $extention;
+         $destinationPath = 'image';
+         $image->move($destinationPath, $imagename);
+         $images[] = $imagename;
+
+        }
     }
 
     $data->product_name = $product_name;
@@ -261,7 +279,7 @@ class ProductController extends Controller
     $data->product_state = $product_state;
     $data->product_transport = $product_state;
     $data->product_description = $product_description;
-    $data->product_image = $imagename;
+    $data->product_image = json_encode($images);
     $data->save();
 
     return response()->json('product updated');
