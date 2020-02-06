@@ -18,11 +18,20 @@ class ProductController extends Controller
 
         foreach ($products as $data) {
 
-            $public = rtrim(app()->basePath('public/image'), '/');
-            $imagename = $data->product_image;
-            $dirfile = $public.'/'. $imagename;
+             $public = rtrim(app()->basePath('public/image'), '/');
+             $pictures = json_encode($data->product_image);
+             $test = explode(',',$pictures);
+             
+            $path = $public.'/'.$pictures.'<br/>';
+            echo $path;
+            
+            
+             
+               
+             
+               
 
-            $tempArray = [
+/*               $tempArray = [
 
                 'product name' => $data->product_name,
                 'product status' => $data->product_status,
@@ -38,17 +47,26 @@ class ProductController extends Controller
                 'product state' => $data->product_state,
                 'product transport' =>$data->product_transport,
                 'product description' => $data->product_description,
-                'product image' => $dirfile,
+                'product image' => $graphic,
+
+
+                
             ];
         
         
-            array_push($finalArray, $tempArray);
-        }
+            array_push($finalArray, $tempArray);  */
+        
+         
+             
 
-        return response()->json($finalArray);
 
+}
+         /*  return response()->json($finalArray);  
+ */
    
     }
+
+
 
     public function show($product_id)
     {
@@ -82,6 +100,7 @@ class ProductController extends Controller
                 'product description' => $data->product_description,
                 'product image' => $dirfile,
              ];
+             
 
 
              return response()->json($tempArray);
@@ -100,7 +119,7 @@ class ProductController extends Controller
             'product_material' => 'required',
             'product_category' => 'required',
             'product_price' => 'required',
-            
+
         ]);
 
         if ($validator->fails()) {

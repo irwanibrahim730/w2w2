@@ -98,7 +98,7 @@ class UserController extends Controller
         [
             'password' => 'required',
             'user_email' => 'required',
-            'profilepicture' => 'mimes:jpg,jpeg,png|required',
+            
         ]);
 
         if ($validator->fails()) {
@@ -123,11 +123,21 @@ class UserController extends Controller
             $user_type = $request->input('user_type');     
             $profilepicture = $request->file('profilepicture');
 
+            if($request->hasfile('profilepicture')){
             $extention = $profilepicture->getClientOriginalExtension();
             $imagename = rand(11111, 99999) . '.' . $extention;
             $destinationPath = 'image';
     
             $profilepicture->move($destinationPath, $imagename);
+
+            }
+
+            else if ($profilepicture == null) {
+                $imagename = null;
+
+            }
+
+            
 
          }
 
@@ -153,7 +163,7 @@ class UserController extends Controller
         $data->save();
     
         return response()->json('User has been registered');
-    
+        
     }
 
 
