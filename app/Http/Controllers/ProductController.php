@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Laravel\Lumen\Routing\Controller;
 use Illuminate\Http\Request;
 use App\Product;
+use App\Package;
 use App\User;
 
 class ProductController extends Controller
@@ -11,60 +12,78 @@ class ProductController extends Controller
 
 
     public function index(){
-
+        
+       
         $finalArray = array();
         $products = Product::all();
         
 
+
+       
+                    
+
         foreach ($products as $data) {
+           
+            if ($data->approved_at != null) {
 
-             $public = rtrim(app()->basePath('public/image'), '/');
-             $pictures = json_encode($data->product_image);
-             $test = explode(',',$pictures);
-             
-            $path = $public.'/'.$pictures.'<br/>';
-            echo $path;
+            $json_array = json_decode($data->product_image, true);
+            $imageArray = array();
+            
+                    foreach ($json_array as $pic)
+                    {
+                        $public = rtrim(app()->basePath('public/image'), '/');
+                        $imagepath = $public.'/'.$pic;
+                        
+
+                        $imagetempArray = [
+                            'image' => $imagepath,
+                        ];
+
+                        array_push($imageArray,$imagetempArray);
+                    }
+
+                    
+
+
+                  
             
             
-             
-               
-             
-               
+                 $tempArray = [
 
-/*               $tempArray = [
-
-                'product name' => $data->product_name,
-                'product status' => $data->product_status,
-                'product material' => $data->product_material,
-                'product category' => $data->product_category,
-                'product target' => $data->product_target,
-                'product continuity' => $data->product_continuity,
-                'product quantity' => $data->product_quantity,
-                'product price' => $data->product_price,
-                'product period' => $data->product_period,
-                'product package' =>$data->product_package,
-                'product location' => $data->product_location,
-                'product state' => $data->product_state,
-                'product transport' =>$data->product_transport,
-                'product description' => $data->product_description,
-                'product image' => $graphic,
+                'product_name' => $data->product_name,
+                'product_status' => $data->product_status,
+                'product_material' => $data->product_material,
+                'product_category' => $data->product_category,
+                'product_target' => $data->product_target,
+                'product_continuity' => $data->product_continuity,
+                'product_quantity' => $data->product_quantity,
+                'product_price' => $data->product_price,
+                'product_period' => $data->product_period,
+                'product_package' =>$data->product_package,
+                'product_location' => $data->product_location,
+                'product_state' => $data->product_state,
+                'product_transport' =>$data->product_transport,
+                'product_description' => $data->product_description,
+                'product_image' => $imageArray,
+                 
 
 
                 
             ];
         
         
-            array_push($finalArray, $tempArray);  */
-        
+            array_push($finalArray, $tempArray);  
          
+         
+                     } }    
+
+
+
+             return response()->json($finalArray);   }
              
-
-
-}
-         /*  return response()->json($finalArray);  
- */
+ 
    
-    }
+    
 
 
 
@@ -72,15 +91,31 @@ class ProductController extends Controller
     {
         $data = Product::find($product_id);
 
-        if ($data == null) {
+        if ($data->approved_at == null) {
 
-            return response()->json('data not exist');
+            return response()->json('product not approved');
         
-         } else {
+         } 
+         
+         
+         
+         else {
       
-            $public = rtrim(app()->basePath('public/image'), '/');
-            $imagename = $data->product_image;
-             $dirfile = $public.'/'.$imagename;
+            $json_array = json_decode($data->product_image, true);
+            $imageArray = array();
+            
+                    foreach ($json_array as $pic)
+                    {
+                        $public = rtrim(app()->basePath('public/image'), '/');
+                        $imagepath = $public.'/'.$pic;
+                        
+
+                        $imagetempArray = [
+                            'image' => $imagepath,
+                        ];
+
+                        array_push($imageArray,$imagetempArray);
+                    }
            
              $tempArray = [
 
@@ -98,7 +133,7 @@ class ProductController extends Controller
                 'product state' => $data->product_state,
                 'product transport' =>$data->product_transport,
                 'product description' => $data->product_description,
-                'product image' => $dirfile,
+                'product image' => $imageArray,
              ];
              
 
@@ -147,7 +182,7 @@ class ProductController extends Controller
             $product_transport = $request->input('product_transport');
             $product_description = $request->input('product_description');  
             $product_image = $request->file('product_image'); 
-
+            
 
  
               $images=array();
@@ -179,6 +214,7 @@ class ProductController extends Controller
         $file->product_transport = $product_state;
         $file->product_description = $product_description;
         $file->product_image = json_encode($images);
+        $file->user_id=
         $file->save(); 
         return response()->json('product added');
  

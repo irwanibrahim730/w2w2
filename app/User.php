@@ -14,4 +14,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     protected $table = 'users';
     protected $primaryKey = 'user_id';
+
+
+    public function Package(){
+        return $this->hasOne('App\Package'); 
+    }
+
 }

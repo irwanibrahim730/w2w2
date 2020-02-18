@@ -36,8 +36,10 @@ Route::post('/news/add', 'NewsController@store');
 Route::post('/news/update/{id}', 'NewsController@update');
 Route::delete('/news/delete/{id}', 'NewsController@destroy');
 
-//login
-Route::post('/login', 'LoginController@signin');
+/* //login
+Route::post('/login', 'LoginController@signin'); */
+
+Route::post('login/', ['middleware' => 'auth', 'uses' => 'LoginController@signin']);
 
 //product
 Route::get('/product', 'ProductController@index');
@@ -46,7 +48,9 @@ Route::post('/product/add','ProductController@store');
 Route::post('/product/update/{id}','ProductController@update');
 Route::delete('/product/delete/{id}','ProductController@destroy');
 
-
+//admin
+Route::post('/admin/approve/{id}','AdminController@approve');
+Route::get('/admin/list','AdminController@listapproval');
 
 
 

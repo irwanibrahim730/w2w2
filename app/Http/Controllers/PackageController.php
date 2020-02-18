@@ -41,6 +41,8 @@ class PackageController extends Controller
         $data->package_duration = $request->input('package_duration');
         $data->package_price = $request->input('package_price');
         $data->save();
+
+
     
         return response()->json('Package success added');
 

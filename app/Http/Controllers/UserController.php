@@ -24,21 +24,21 @@ class UserController extends Controller
      
 
 			$tempArray = [
-
-                'firstname' => $data->user_fname,
-                'lastname' => $data->user_lname,
+                'user_id' =>$data->user_id,
+                'user_fname' => $data->user_fname,
+                'user_lname' => $data->user_lname,
                 'companyname' => $data->companyname,
                 'password' => $data->password,
-                'contactnumber' => $data->user_contact,
-                'email' => $data->user_email,
+                'user_contact' => $data->user_contact,
+                'user_email' => $data->user_email,
                 'companyregisternumber' => $data->companyregisternumber,
                 'companydesc' => $data->companydesc,
                 'address' => $data->address,
                 'occupation' => $data->occupation,
                 'job_title' => $data->job_title,
-                'type' => $data->user_type,
+                'user_type' => $data->user_type,
                 'profilepicture' => $dirfile,
-                'role' => $data->user_role,
+                'user_role' => $data->user_role,
 
 			];
         
@@ -68,20 +68,21 @@ class UserController extends Controller
             
              $tempArray = [
 
-                'firstname' => $data->user_fname,
-                'lastname' => $data->user_lname,
+                'user_id' => $data->user_id,
+                'user_fname' => $data->user_fname,
+                'user_lname' => $data->user_lname,
                 'companyname' => $data->companyname,
                 'password' => $data->password,
-                'contactnumber' => $data->user_contact,
-                'email' => $data->user_email,
+                'user_contact' => $data->user_contact,
+                'user_email' => $data->user_email,
                 'companyregisternumber' => $data->companyregisternumber,
                 'companydesc' => $data->companydesc,
                 'address' => $data->address,
                 'occupation' => $data->occupation,
                 'job_title' => $data->job_title,
-                'type' => $data->user_type,
+                'user_type' => $data->user_type,
                 'profilepicture' => $dirfile,
-                'role' => $data->user_role,
+                'user_role' => $data->user_role,
 
              ];
             

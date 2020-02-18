@@ -51,9 +51,9 @@ class NewsController extends Controller
             $dirfile = $public.'/'.$imagename;
 
             $tempArray = [
-            'title' => $data->news_title,
-            'description' => $data->news_desc,
-            'photo' => $dirfile,
+            'news_title' => $data->news_title,
+            'news_desc' => $data->news_desc,
+            'news_photo' => $dirfile,
             ];
 
             return response()->json($tempArray);

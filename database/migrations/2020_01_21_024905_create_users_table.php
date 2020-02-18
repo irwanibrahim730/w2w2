@@ -28,9 +28,11 @@ class CreateUsersTable extends Migration
             $table->string('job_title')->nullable();
             $table->string('user_type')->nullable();
             $table->string('profilepicture')->nullable();
+            $table->string('user_role')->nullable();
+            $table->unsignedInteger('package_id')->nullable();
+            $table->unsignedInteger('product_id')->nullable(); 
             $table->rememberToken();
             $table->timestamps();
-            $table->string('user_role')->nullable();
         });
     }
 
