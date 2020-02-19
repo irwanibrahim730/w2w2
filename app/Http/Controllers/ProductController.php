@@ -180,8 +180,7 @@ class ProductController extends Controller
             $product_state = $request->input('product_state');
             $product_transport = $request->input('product_transport');
             $product_description = $request->input('product_description');  
-            $product_image = $request->file('product_image'); 
-            
+            $product_image = $request->file('product_image');     
             $product_status = 'process';
 
  

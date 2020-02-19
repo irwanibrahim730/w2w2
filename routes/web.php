@@ -19,7 +19,7 @@ $router->get('/', function () use ($router) {
 Route::get('/user', 'UserController@index');
 Route::get('/user/{id}', 'UserController@show');
 Route::post('/user/add', 'UserController@store');
-Route::post('/user/update/{user_id}', 'UserController@update');
+Route::post('/user/update', 'UserController@update');
 Route::delete('/user/delete/{id}', 'UserController@destroy');
 
 //package
