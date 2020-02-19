@@ -50,8 +50,10 @@ class UserController extends Controller
     
 }
 
-    public function show($user_id){
-   
+    public function show(Request $request){
+        
+        $user_id = $request->input('user_id');
+
         $data = User::find($user_id);
 
         if ($data == null) {
@@ -168,9 +170,11 @@ class UserController extends Controller
     }
 
 
-    public function update(Request $request, $user_id)
+    public function update(Request $request)
     {
-      
+        
+        $user_id = $request->input('user_id');
+
         $data = User::where('user_id',$user_id)->first();
         $user_fname = $request->input('user_fname');
         $user_lname = $request->input('user_lname');

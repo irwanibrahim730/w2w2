@@ -168,7 +168,6 @@ class ProductController extends Controller
 
 
             $product_name = $request->input('product_name');
-            $product_status = $request->input ('product_status');
             $product_material = $request->input ('product_material');
             $product_category = $request->input ('product_category');
             $product_target = $request->input('product_target');
@@ -183,6 +182,7 @@ class ProductController extends Controller
             $product_description = $request->input('product_description');  
             $product_image = $request->file('product_image'); 
             
+            $product_status = 'process';
 
  
               $images=array();
