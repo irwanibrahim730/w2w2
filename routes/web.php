@@ -36,10 +36,10 @@ Route::post('/news/add', 'NewsController@store');
 Route::post('/news/update/{id}', 'NewsController@update');
 Route::delete('/news/delete/{id}', 'NewsController@destroy');
 
-/* //login
-Route::post('/login', 'LoginController@signin'); */
+//login
+Route::post('/login', 'LoginController@signin');
 
-Route::post('login/', ['middleware' => 'auth', 'uses' => 'LoginController@signin']);
+
 
 //product
 Route::get('/product', 'ProductController@index');

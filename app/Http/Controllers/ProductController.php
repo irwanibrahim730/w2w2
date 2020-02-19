@@ -214,7 +214,6 @@ class ProductController extends Controller
         $file->product_transport = $product_state;
         $file->product_description = $product_description;
         $file->product_image = json_encode($images);
-        $file->user_id=
         $file->save(); 
         return response()->json('product added');
  
