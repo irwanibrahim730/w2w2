@@ -43,7 +43,7 @@ class LoginController extends Controller
                  
             
                         $tempArray = [
-            
+                            'id' => $data->user_id,
                             'firstname' => $data->user_fname,
                             'lastname' => $data->user_lname,
                             'companyname' => $data->companyname,
@@ -89,6 +89,7 @@ class LoginController extends Controller
 
                           
                           $finalArray = [
+                              'id' => $user->user_id,
                              'firstname'=>$user->user_fname,
                              'lastname'=>$user->user_lastname,
                              'password'=>$user->password,
@@ -118,6 +119,7 @@ class LoginController extends Controller
                         $dirfile = $public.'/' . $imagename;
 
                         $compArray = [
+                              'id' => $user->user_id,
                               'company name'=>$user->companyname,
                               'password'=>$user->password,
                               'contactnumber'=>$user->user_contact,
