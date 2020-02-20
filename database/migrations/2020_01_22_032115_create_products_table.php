@@ -32,7 +32,6 @@ class CreateProductsTable extends Migration
             $table->string('product_image', 255)->nullable();
             $table->string('approved_at')->nullable();
             $table->string('expired_at')->nullable();
-            $table->unsignedInteger('user_id')->nullable();
             $table->unsignedInteger('package_id')->nullable();
             $table->timestamps();
             

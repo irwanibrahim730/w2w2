@@ -57,8 +57,10 @@ Route::get('/admin/list','AdminController@listapproval');
 
 
 
-
-
+//category
+Route::post('/category/add','CategoryController@addcategory');
+Route::get('/category','CategoryController@listcategory');
+Route::get('/category/sub','CategoryController@listsubcategory');
 
 
 
