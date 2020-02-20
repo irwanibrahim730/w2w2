@@ -24,7 +24,7 @@ class ProductController extends Controller
 
         foreach ($products as $data) {
            
-            if ($data->approved_at != null) {
+    
 
             $json_array = json_decode($data->product_image, true);
             $imageArray = array();
@@ -61,11 +61,14 @@ class ProductController extends Controller
                 'product_period' => $data->product_period,
                 'product_package' =>$data->product_package,
                 'product_location' => $data->product_location,
+                'latitud' => $data->latitud,
+                'longitud' => $data->longitud,
                 'product_state' => $data->product_state,
                 'product_transport' =>$data->product_transport,
                 'product_description' => $data->product_description,
                 'product_image' => $imageArray,
-                 
+                'mainstatus' => $data->mainstatus,
+                'website' => $data->website,
 
 
                 
@@ -75,7 +78,7 @@ class ProductController extends Controller
             array_push($finalArray, $tempArray);  
          
          
-                     } }    
+                      }    
 
 
 
@@ -91,15 +94,10 @@ class ProductController extends Controller
     {
         $data = Product::find($product_id);
 
-        if ($data->approved_at == null) {
 
-            return response()->json('product not approved');
-        
-         } 
          
          
-         
-         else {
+      
       
             $json_array = json_decode($data->product_image, true);
             $imageArray = array();
@@ -130,10 +128,14 @@ class ProductController extends Controller
                 'product period' => $data->product_period,
                 'product package' =>$data->product_package,
                 'product location' => $data->product_location,
+                'latitud' => $data->latitud,
+                'longitud' => $data->longitud,
                 'product state' => $data->product_state,
                 'product transport' =>$data->product_transport,
                 'product description' => $data->product_description,
                 'product image' => $imageArray,
+                'mainstatus' => $data->mainstatus,
+                'website' => $data->website,
              ];
              
 
@@ -141,7 +143,7 @@ class ProductController extends Controller
              return response()->json($tempArray);
 
 
-    }
+    
 }
 
     public function store(Request $request)
@@ -151,9 +153,9 @@ class ProductController extends Controller
            $validator = \validator::make($request->all(),
         [
             'product_name' => 'required',
-            'product_material' => 'required',
             'product_category' => 'required',
-            'product_price' => 'required',
+            'product_package' => 'required',
+            
 
         ]);
 
@@ -166,22 +168,28 @@ class ProductController extends Controller
         else
         {
 
-
+            
             $product_name = $request->input('product_name');
             $product_material = $request->input ('product_material');
             $product_category = $request->input ('product_category');
             $product_target = $request->input('product_target');
-            $product_continuity = $request->input ('product_continuity');
+            $product_continuity = $request->input ('product_season');
             $product_quantity = $request->input ('product_quantity');
             $product_price = $request->input ('product_price');
             $product_period = $request->input('product_period');
             $product_package = $request->input('product_package');
             $product_location = $request->input('product_location');
+            $longitud = $request->input('longitud');
+            $latitud = $request->input('latitud');
             $product_state = $request->input('product_state');
             $product_transport = $request->input('product_transport');
             $product_description = $request->input('product_description');  
-            $product_image = $request->file('product_image');     
-            $product_status = 'process';
+            $product_image = $request->file('product_image');
+            $mainstatus = $request->input('mainstatus');
+            $website = $request->input('website');
+            $user_id = $request->input('user_id');  
+            $package_id = $request->input('package_id');   
+            $product_status = 'processed';
 
  
               $images=array();
@@ -209,11 +217,18 @@ class ProductController extends Controller
         $file->product_period = $product_period;
         $file->product_package = $product_package;
         $file->product_location = $product_location;
+        $file->latitud = $latitud;
+        $file->longitud = $longitud;
         $file->product_state = $product_state;
-        $file->product_transport = $product_state;
+        $file->product_transport = $product_transport;
         $file->product_description = $product_description;
         $file->product_image = json_encode($images);
+        $file->mainstatus = $mainstatus;
+        $file->website = $website;
+        $file->user_id = $user_id;
+        $file->package_id = $package_id;   
         $file->save(); 
+
         return response()->json('product added');
  
                 
@@ -241,10 +256,14 @@ class ProductController extends Controller
     $product_period = $request->input('product_period');
     $product_package = $request->input('product_package');
     $product_location = $request->input('product_location');
+    $latitud = $request->input('latitud');
+    $longitud = $request->input('longitud');
     $product_state = $request->input('product_state');
     $product_transport = $request->input('product_transport');
     $product_description = $request->input('product_description');
     $product_image = $request->file('product_image');
+    $mainstatus = $request->input('mainstatus');
+    $website = $request->input('website');
 
 
     if ($product_name == null) {
@@ -287,6 +306,15 @@ class ProductController extends Controller
         $product_location = $data->product_location;
     }
 
+    if($latitud == null) {
+        $latitud = $data->latitud;
+    }
+
+    if($longitud == null)
+    {
+        $longitud = $data->longitud;
+    }
+
     if ($product_state == null) {
         $product_state = $data->product_state;
     }
@@ -318,6 +346,16 @@ class ProductController extends Controller
         }
     }
 
+    if ($mainstatus == null)
+    {
+        $mainstatus = $data->mainstatus;
+    }
+    
+    if($website == null){
+
+        $website = $data->website;
+    }
+
     $data->product_name = $product_name;
     $data->product_status = $product_status;
     $data->product_material = $product_material;
@@ -329,10 +367,14 @@ class ProductController extends Controller
     $data->product_period = $product_period;
     $data->product_package = $product_package;
     $data->product_location = $product_location;
+    $data->latitud = $latitud;
+    $data->longitud = $longitud;
     $data->product_state = $product_state;
     $data->product_transport = $product_state;
     $data->product_description = $product_description;
     $data->product_image = json_encode($images);
+    $data->mainstatus = $mainstatus;
+    $data->website = $website;
     $data->save();
 
     return response()->json('product updated');
@@ -348,4 +390,170 @@ class ProductController extends Controller
     return response()->json('packages success deleted');
 }
 
-}
+
+
+  public function listcategory(Request $request)
+  {
+    
+      $product_category = $request->input('product_category');
+      $finalArray = array();
+      $products = Product::where('product_category',$product_category)->get();
+
+      foreach ($products as $product){
+
+      $json_array = json_decode($product->product_image, true);
+      $imageArray = array();
+      
+              foreach ($json_array as $pic)
+              {
+                  $public = rtrim(app()->basePath('public/image'), '/');
+                  $imagepath = $public.'/'.$pic;
+                  
+
+                  $imagetempArray = [
+                      'image' => $imagepath,
+                  ];
+
+                  array_push($imageArray,$imagetempArray);
+              }
+     
+       $tempArray = [
+
+          'product name' => $product->product_name,
+          'product status' => $product->product_status,
+          'product material' => $product->product_material,
+          'product category' => $product->product_category,
+          'product target' => $product->product_target,
+          'product continuity' => $product->product_continuity,
+          'product quantity' => $product->product_quantity,
+          'product price' => $product->product_price,
+          'product period' => $product->product_period,
+          'product package' =>$product->product_package,
+          'product location' => $product->product_location,
+          'product state' => $product->product_state,
+          'product transport' =>$product->product_transport,
+          'product description' => $product->product_description,
+          'product image' => $imageArray,
+       ];
+       
+      array_push($finalArray,$tempArray);
+        }        
+       return response()->json($finalArray); 
+
+    } 
+
+
+    public function listuserproduct(Request $request)
+
+    {
+        $user_id = $request->input('user_id');
+        $finalArray = array();
+        $products = Product::where('user_id',$user_id)->get();
+
+        foreach ($products as $product){
+
+            $json_array = json_decode($product->product_image, true);
+            $imageArray = array();
+            
+                    foreach ($json_array as $pic)
+                    {
+                        $public = rtrim(app()->basePath('public/image'), '/');
+                        $imagepath = $public.'/'.$pic;
+                        
+      
+                        $imagetempArray = [
+                            'image' => $imagepath,
+                        ];
+      
+                        array_push($imageArray,$imagetempArray);
+                    }
+           
+             $tempArray = [
+      
+                'product name' => $product->product_name,
+                'product status' => $product->product_status,
+                'product material' => $product->product_material,
+                'product category' => $product->product_category,
+                'product target' => $product->product_target,
+                'product continuity' => $product->product_continuity,
+                'product quantity' => $product->product_quantity,
+                'product price' => $product->product_price,
+                'product period' => $product->product_period,
+                'product package' =>$product->product_package,
+                'product location' => $product->product_location,
+                'product state' => $product->product_state,
+                'product transport' =>$product->product_transport,
+                'product description' => $product->product_description,
+                'product image' => $imageArray,
+             ];
+             
+            array_push($finalArray,$tempArray);
+              }        
+             return response()->json($finalArray); 
+      
+
+    }
+
+    public function productstatus(Request $request)
+    {
+        $product_status = $request->input('product_status');
+        $finalArray = array();
+        $products = Product::where('product_status',$product_status)->get();
+
+
+        foreach ($products as $product){
+
+            $json_array = json_decode($product->product_image, true);
+            $imageArray = array();
+            
+                    foreach ($json_array as $pic)
+                    {
+                        $public = rtrim(app()->basePath('public/image'), '/');
+                        $imagepath = $public.'/'.$pic;
+                        
+      
+                        $imagetempArray = [
+                            'image' => $imagepath,
+                        ];
+      
+                        array_push($imageArray,$imagetempArray);
+                    }
+           
+             $tempArray = [
+      
+                'product name' => $product->product_name,
+                'product status' => $product->product_status,
+                'product material' => $product->product_material,
+                'product category' => $product->product_category,
+                'product target' => $product->product_target,
+                'product continuity' => $product->product_continuity,
+                'product quantity' => $product->product_quantity,
+                'product price' => $product->product_price,
+                'product period' => $product->product_period,
+                'product package' =>$product->product_package,
+                'product location' => $product->product_location,
+                'product state' => $product->product_state,
+                'product transport' =>$product->product_transport,
+                'product description' => $product->product_description,
+                'product image' => $imageArray,
+             ];
+             
+            array_push($finalArray,$tempArray);
+              }        
+             
+              return response()->json($finalArray); 
+
+
+
+    }
+
+
+
+
+  }
+
+
+
+
+
+

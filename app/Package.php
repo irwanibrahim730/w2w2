@@ -12,9 +12,7 @@ class Package extends Model
     protected $primaryKey = 'package_id';
 
 
-    public function users(){
-        return $this->belongsTo('App\User'); 
-    }
+
 
 
 

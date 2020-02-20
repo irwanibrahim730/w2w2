@@ -21,6 +21,7 @@ Route::get('/user/{id}', 'UserController@show');
 Route::post('/user/add', 'UserController@store');
 Route::post('/user/update', 'UserController@update');
 Route::delete('/user/delete/{id}', 'UserController@destroy');
+Route::post('/user/addpackage', 'UserController@addpackage');
 
 //package
 Route::get('/packages', 'PackageController@index');
@@ -43,13 +44,15 @@ Route::post('/login', 'LoginController@signin');
 
 //product
 Route::get('/product', 'ProductController@index');
-Route::get('/product/{id}', 'ProductController@show');
+Route::get('/product/listcategory', 'ProductController@listcategory');
+Route::get('/product/listuserproduct', 'ProductController@listuserproduct');
+Route::get('/product/productstatus', 'ProductController@productstatus');
 Route::post('/product/add','ProductController@store');
 Route::post('/product/update/{id}','ProductController@update');
 Route::delete('/product/delete/{id}','ProductController@destroy');
 
 //admin
-Route::post('/admin/approve/{id}','AdminController@approve');
+Route::post('/admin/approve','AdminController@approve');
 Route::get('/admin/list','AdminController@listapproval');
 
 

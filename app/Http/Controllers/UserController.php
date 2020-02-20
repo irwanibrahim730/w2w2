@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Laravel\Lumen\Routing\Controller;
 use Illuminate\Http\Request;
 use App\User;
+use App\Package;
 
 
 class UserController extends Controller
@@ -324,6 +325,27 @@ class UserController extends Controller
         $data->delete();
     
         return response()->json('User deleted');
+    }
+
+
+    public function addpackage(Request $request)
+    {
+        $user_id = $request->input('user_id');
+        $package_name = $request->input('package_name'); 
+
+
+        $data = User::where('user_id',$user_id)->first();
+        $package = Package::where('package_name',$package_name)->first();
+
+
+        $data->package_id = $package->package_id;
+        $data->package_limit = $package->package_limit;
+        $data->save();
+
+        
+        return response()->json('package added');
+
+
     }
 
 
