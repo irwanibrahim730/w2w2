@@ -241,10 +241,13 @@ class ProductController extends Controller
 
 
 
-    public function update(Request $request, $product_id)
+    public function update(Request $request)
    {
+    
+    $product_id = $request->input('product_id');
       
     $data=Product::where('product_id',$product_id)->first();
+    
     $product_name = $request->input('product_name');
     $product_status = $request->input ('product_status');
     $product_material = $request->input ('product_material');
@@ -418,22 +421,27 @@ class ProductController extends Controller
               }
      
        $tempArray = [
-
-          'product name' => $product->product_name,
-          'product status' => $product->product_status,
-          'product material' => $product->product_material,
-          'product category' => $product->product_category,
-          'product target' => $product->product_target,
-          'product continuity' => $product->product_continuity,
-          'product quantity' => $product->product_quantity,
-          'product price' => $product->product_price,
-          'product period' => $product->product_period,
-          'product package' =>$product->product_package,
-          'product location' => $product->product_location,
-          'product state' => $product->product_state,
-          'product transport' =>$product->product_transport,
-          'product description' => $product->product_description,
-          'product image' => $imageArray,
+          'product_id' => $product->product_id,
+          'product_name' => $product->product_name,
+          'product_status' => $product->product_status,
+          'product_material' => $product->product_material,
+          'product_category' => $product->product_category,
+          'product_target' => $product->product_target,
+          'product_continuity' => $product->product_continuity,
+          'product_quantity' => $product->product_quantity,
+          'product_price' => $product->product_price,
+          'product_period' => $product->product_period,
+          'product_package' =>$product->product_package,
+          'product_location' => $product->product_location,
+          'latitud' => $product->latitud,
+          'longitud' => $product->longitud,
+          'product_state' => $product->product_state,
+          'product_transport' =>$product->product_transport,
+          'product_description' => $product->product_description,
+          'product_image' => $imageArray,
+          'mainstatus' => $product->mainstatus,
+          'website' => $product->website,
+          'user_id' => $product->user_id,
        ];
        
       array_push($finalArray,$tempArray);
@@ -470,21 +478,27 @@ class ProductController extends Controller
            
              $tempArray = [
       
-                'product name' => $product->product_name,
-                'product status' => $product->product_status,
-                'product material' => $product->product_material,
-                'product category' => $product->product_category,
-                'product target' => $product->product_target,
-                'product continuity' => $product->product_continuity,
-                'product quantity' => $product->product_quantity,
-                'product price' => $product->product_price,
-                'product period' => $product->product_period,
-                'product package' =>$product->product_package,
-                'product location' => $product->product_location,
-                'product state' => $product->product_state,
-                'product transport' =>$product->product_transport,
-                'product description' => $product->product_description,
-                'product image' => $imageArray,
+                'product_id' => $product->product_id,
+                'product_name' => $product->product_name,
+                'product_status' => $product->product_status,
+                'product_material' => $product->product_material,
+                'product_category' => $product->product_category,
+                'product_target' => $product->product_target,
+                'product_continuity' => $product->product_continuity,
+                'product_quantity' => $product->product_quantity,
+                'product_price' => $product->product_price,
+                'product_period' => $product->product_period,
+                'product_package' =>$product->product_package,
+                'product_location' => $product->product_location,
+                'latitud' => $product->latitud,
+                'longitud' => $product->longitud,
+                'product_state' => $product->product_state,
+                'product_transport' =>$product->product_transport,
+                'product_description' => $product->product_description,
+                'product_image' => $imageArray,
+                'mainstatus' => $product->mainstatus,
+                'website' => $product->website,
+                'user_id' => $product->user_id,
              ];
              
             array_push($finalArray,$tempArray);
@@ -521,21 +535,27 @@ class ProductController extends Controller
            
              $tempArray = [
       
-                'product name' => $product->product_name,
-                'product status' => $product->product_status,
-                'product material' => $product->product_material,
-                'product category' => $product->product_category,
-                'product target' => $product->product_target,
-                'product continuity' => $product->product_continuity,
-                'product quantity' => $product->product_quantity,
-                'product price' => $product->product_price,
-                'product period' => $product->product_period,
-                'product package' =>$product->product_package,
-                'product location' => $product->product_location,
-                'product state' => $product->product_state,
-                'product transport' =>$product->product_transport,
-                'product description' => $product->product_description,
-                'product image' => $imageArray,
+                'product_id' => $product->product_id,
+                'product_name' => $product->product_name,
+                'product_status' => $product->product_status,
+                'product_material' => $product->product_material,
+                'product_category' => $product->product_category,
+                'product_target' => $product->product_target,
+                'product_continuity' => $product->product_continuity,
+                'product_quantity' => $product->product_quantity,
+                'product_price' => $product->product_price,
+                'product_period' => $product->product_period,
+                'product_package' =>$product->product_package,
+                'product_location' => $product->product_location,
+                'latitud' => $product->latitud,
+                'longitud' => $product->longitud,
+                'product_state' => $product->product_state,
+                'product_transport' =>$product->product_transport,
+                'product_description' => $product->product_description,
+                'product_image' => $imageArray,
+                'mainstatus' => $product->mainstatus,
+                'website' => $product->website,
+                'user_id' => $product->user_id,
              ];
              
             array_push($finalArray,$tempArray);
