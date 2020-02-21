@@ -48,8 +48,9 @@ Route::get('/product/listcategory', 'ProductController@listcategory');
 Route::get('/product/listuserproduct', 'ProductController@listuserproduct');
 Route::get('/product/productstatus', 'ProductController@productstatus');
 Route::post('/product/add','ProductController@store');
-Route::post('/product/update/{id}','ProductController@update');
-Route::delete('/product/delete/{id}','ProductController@destroy');
+Route::post('/product/update','ProductController@update');
+Route::delete('/product/delete','ProductController@destroy');
+Route::get('/product/detail','ProductController@show');
 
 //admin
 Route::post('/admin/approve','AdminController@approve');
