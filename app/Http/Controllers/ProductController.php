@@ -18,9 +18,9 @@ class ProductController extends Controller
         $products = Product::all();
                     
 
-        foreach ($products as $data) {
+        foreach ($products as $product) {
            
-            $json_array = json_decode($data->product_image, true);
+            $json_array = json_decode($product->product_image, true);
             $imageArray = array();
             
                     foreach ($json_array as $pic)
@@ -38,26 +38,32 @@ class ProductController extends Controller
 
                       
                  $tempArray = [
-
-                'product_name' => $data->product_name,
-                'product_status' => $data->product_status,
-                'product_material' => $data->product_material,
-                'product_category' => $data->product_category,
-                'product_target' => $data->product_target,
-                'product_continuity' => $data->product_continuity,
-                'product_quantity' => $data->product_quantity,
-                'product_price' => $data->product_price,
-                'product_period' => $data->product_period,
-                'product_package' =>$data->product_package,
-                'product_location' => $data->product_location,
-                'latitud' => $data->latitud,
-                'longitud' => $data->longitud,
-                'product_state' => $data->product_state,
-                'product_transport' =>$data->product_transport,
-                'product_description' => $data->product_description,
-                'product_image' => $imageArray,
-                'mainstatus' => $data->mainstatus,
-                'website' => $data->website,
+                 
+                    'product_id' => $product->product_id,
+                    'product_date' => $product->product_date,
+                    'product_name' => $product->product_name,
+                    'product_status' => $product->product_status,
+                    'product_material' => $product->product_material,
+                    'product_category' => $product->product_category,
+                    'product_target' => $product->product_target,
+                    'product_continuity' => $product->product_continuity,
+                    'product_quantity' => $product->product_quantity,
+                    'product_price' => $product->product_price,
+                    'product_period' => $product->product_period,
+                    'product_package' =>$product->product_package,
+                    'product_location' => $product->product_location,
+                    'latitud' => $product->latitud,
+                    'longitud' => $product->longitud,
+                    'product_state' => $product->product_state,
+                    'product_transport' =>$product->product_transport,
+                    'product_description' => $product->product_description,
+                    'product_image' => $imageArray,
+                    'mainstatus' => $product->mainstatus,
+                    'website' => $product->website,
+                    'user_id' => $product->user_id,
+                    'company_name' => $product->company_name,
+                    'company_email' => $product->company_email,
+                    'company_contact' => $product->company_contact,
 
 
                 
@@ -103,6 +109,7 @@ class ProductController extends Controller
              $tempArray = [
       
                 'product_id' => $product->product_id,
+                'product_date' => $product->product_date,
                 'product_name' => $product->product_name,
                 'product_status' => $product->product_status,
                 'product_material' => $product->product_material,
@@ -123,6 +130,9 @@ class ProductController extends Controller
                 'mainstatus' => $product->mainstatus,
                 'website' => $product->website,
                 'user_id' => $product->user_id,
+                'company_name' => $product->company_name,
+                'company_email' => $product->company_email,
+                'company_contact' => $product->company_contact,
              ];
              
             array_push($finalArray,$tempArray);
@@ -155,7 +165,7 @@ class ProductController extends Controller
         else
         {
 
-            
+            $product_date = $request->input('product_date');
             $product_name = $request->input('product_name');
             $product_material = $request->input ('product_material');
             $product_category = $request->input ('product_category');
@@ -177,6 +187,9 @@ class ProductController extends Controller
             $user_id = $request->input('user_id');  
             $package_id = $request->input('package_id');   
             $product_status = 'processed';
+            $company_name = $request->input('company_name');
+            $company_email = $request->input('company_email');
+            $company_contact = $request->input('company_contact');
 
  
               $images=array();
@@ -193,6 +206,7 @@ class ProductController extends Controller
                 }
         
         $file = new Product();
+        $file->product_date = $product_date;
         $file->product_name = $product_name;
         $file->product_status = $product_status;
         $file->product_material = $product_material;
@@ -214,6 +228,9 @@ class ProductController extends Controller
         $file->website = $website;
         $file->user_id = $user_id;
         $file->package_id = $package_id;   
+        $file->company_name = $company_name;
+        $file->company_email = $company_email;
+        $file->company_contact = $company_contact;
         $file->save(); 
 
         return response()->json('product added');
@@ -235,26 +252,36 @@ class ProductController extends Controller
       
     $data=Product::where('product_id',$product_id)->first();
     
+    $product_date = $request->input('product_date');
     $product_name = $request->input('product_name');
-    $product_status = $request->input ('product_status');
     $product_material = $request->input ('product_material');
     $product_category = $request->input ('product_category');
     $product_target = $request->input('product_target');
-    $product_continuity = $request->input ('product_continuity');
+    $product_continuity = $request->input ('product_season');
     $product_quantity = $request->input ('product_quantity');
     $product_price = $request->input ('product_price');
     $product_period = $request->input('product_period');
     $product_package = $request->input('product_package');
     $product_location = $request->input('product_location');
-    $latitud = $request->input('latitud');
     $longitud = $request->input('longitud');
+    $latitud = $request->input('latitud');
     $product_state = $request->input('product_state');
     $product_transport = $request->input('product_transport');
-    $product_description = $request->input('product_description');
+    $product_description = $request->input('product_description');  
     $product_image = $request->file('product_image');
     $mainstatus = $request->input('mainstatus');
     $website = $request->input('website');
+    $user_id = $request->input('user_id');  
+    $package_id = $request->input('package_id');   
+    $product_status = $request->input('product_status');
+    $company_name = $request->input('company_name');
+    $company_email = $request->input('company_email');
+    $company_contact = $request->input('company_contact');
 
+
+    if ($product_date == null) {
+        $product_date = $data->product_date;
+    }
 
     if ($product_name == null) {
         $product_name = $data->product_name;
@@ -346,6 +373,22 @@ class ProductController extends Controller
         $website = $data->website;
     }
 
+    if($company_name == null){
+
+        $company_name = $data->company_name;
+    }
+
+    if($company_email == null){
+
+        $company_email = $data->company_email;
+    }
+
+    if($company_contact == null){
+
+        $company_contact = $data->company_contact;
+    }
+
+    $data->product_date = $product_date;
     $data->product_name = $product_name;
     $data->product_status = $product_status;
     $data->product_material = $product_material;
@@ -365,6 +408,9 @@ class ProductController extends Controller
     $data->product_image = json_encode($images);
     $data->mainstatus = $mainstatus;
     $data->website = $website;
+    $data->company_name = $company_name;
+    $data->company_email = $company_email;
+    $data->company_contact = $company_contact;
     $data->save();
 
     return response()->json('product updated');
@@ -411,27 +457,31 @@ class ProductController extends Controller
               }
      
        $tempArray = [
-          'product_id' => $product->product_id,
-          'product_name' => $product->product_name,
-          'product_status' => $product->product_status,
-          'product_material' => $product->product_material,
-          'product_category' => $product->product_category,
-          'product_target' => $product->product_target,
-          'product_continuity' => $product->product_continuity,
-          'product_quantity' => $product->product_quantity,
-          'product_price' => $product->product_price,
-          'product_period' => $product->product_period,
-          'product_package' =>$product->product_package,
-          'product_location' => $product->product_location,
-          'latitud' => $product->latitud,
-          'longitud' => $product->longitud,
-          'product_state' => $product->product_state,
-          'product_transport' =>$product->product_transport,
-          'product_description' => $product->product_description,
-          'product_image' => $imageArray,
-          'mainstatus' => $product->mainstatus,
-          'website' => $product->website,
-          'user_id' => $product->user_id,
+        'product_id' => $product->product_id,
+        'product_date' => $product->product_date,
+        'product_name' => $product->product_name,
+        'product_status' => $product->product_status,
+        'product_material' => $product->product_material,
+        'product_category' => $product->product_category,
+        'product_target' => $product->product_target,
+        'product_continuity' => $product->product_continuity,
+        'product_quantity' => $product->product_quantity,
+        'product_price' => $product->product_price,
+        'product_period' => $product->product_period,
+        'product_package' =>$product->product_package,
+        'product_location' => $product->product_location,
+        'latitud' => $product->latitud,
+        'longitud' => $product->longitud,
+        'product_state' => $product->product_state,
+        'product_transport' =>$product->product_transport,
+        'product_description' => $product->product_description,
+        'product_image' => $imageArray,
+        'mainstatus' => $product->mainstatus,
+        'website' => $product->website,
+        'user_id' => $product->user_id,
+        'company_name' => $product->company_name,
+        'company_email' => $product->company_email,
+        'company_contact' => $product->company_contact,
        ];
        
       array_push($finalArray,$tempArray);
@@ -469,6 +519,7 @@ class ProductController extends Controller
              $tempArray = [
       
                 'product_id' => $product->product_id,
+                'product_date' => $product->product_date,
                 'product_name' => $product->product_name,
                 'product_status' => $product->product_status,
                 'product_material' => $product->product_material,
@@ -489,6 +540,9 @@ class ProductController extends Controller
                 'mainstatus' => $product->mainstatus,
                 'website' => $product->website,
                 'user_id' => $product->user_id,
+                'company_name' => $product->company_name,
+                'company_email' => $product->company_email,
+                'company_contact' => $product->company_contact,
              ];
              
             array_push($finalArray,$tempArray);
@@ -526,6 +580,7 @@ class ProductController extends Controller
              $tempArray = [
       
                 'product_id' => $product->product_id,
+                'product_date' => $product->product_date,
                 'product_name' => $product->product_name,
                 'product_status' => $product->product_status,
                 'product_material' => $product->product_material,
@@ -546,6 +601,9 @@ class ProductController extends Controller
                 'mainstatus' => $product->mainstatus,
                 'website' => $product->website,
                 'user_id' => $product->user_id,
+                'company_name' => $product->company_name,
+                'company_email' => $product->company_email,
+                'company_contact' => $product->company_contact,
              ];
              
             array_push($finalArray,$tempArray);

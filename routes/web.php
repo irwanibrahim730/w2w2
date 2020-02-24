@@ -62,6 +62,7 @@ Route::get('/admin/list','AdminController@listapproval');
 Route::post('/category/add','CategoryController@addcategory');
 Route::get('/category','CategoryController@listcategory');
 Route::get('/category/sub','CategoryController@listsubcategory');
+Route::delete('/category/delete','CategoryController@delete');
 
 
 

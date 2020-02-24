@@ -81,5 +81,18 @@ public function listsubcategory(Request $request)
 
 }
 
+public function delete(Request $request)
+{
+    $id = $request->input('id');
+
+    $category = Category::where('id',$id)->first();
+    $category->delete();
+
+    return response()->json('category deleted');
+
+
+
+}
+
 
 }
