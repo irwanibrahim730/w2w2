@@ -18,27 +18,27 @@ class ProductController extends Controller
         $products = Product::all();
                     
 
-        foreach ($products as $product) {
-           
-            $json_array = json_decode($product->product_image, true);
-            $imageArray = array();
             
-                    foreach ($json_array as $pic)
-                    {
-                        $public = rtrim(app()->basePath('public/image'), '/');
-                        $imagepath = $public.'/'.$pic;
-                        
+            foreach ($products as $product){
 
-                        $imagetempArray = [
-                            'image' => $imagepath,
-                        ];
-
-                        array_push($imageArray,$imagetempArray);
-                    }
-
-                      
+                $json_array = json_decode($product->product_image, true);
+                $imageArray = array();
+                
+                        foreach ($json_array as $pic)
+                        {
+                            $public = rtrim(app()->basePath('public/image'), '/');
+                            $imagepath = $public.'/'.$pic;
+                            
+          
+                            $imagetempArray = [
+                                'image' => $imagepath,
+                            ];
+          
+                            array_push($imageArray,$imagetempArray);
+                        }
+               
                  $tempArray = [
-                 
+          
                     'product_id' => $product->product_id,
                     'product_date' => $product->product_date,
                     'product_name' => $product->product_name,
@@ -49,6 +49,7 @@ class ProductController extends Controller
                     'product_continuity' => $product->product_continuity,
                     'product_quantity' => $product->product_quantity,
                     'product_price' => $product->product_price,
+                    'product_pricemax' => $product->product_pricemax,
                     'product_period' => $product->product_period,
                     'product_package' =>$product->product_package,
                     'product_location' => $product->product_location,
@@ -64,17 +65,14 @@ class ProductController extends Controller
                     'company_name' => $product->company_name,
                     'company_email' => $product->company_email,
                     'company_contact' => $product->company_contact,
-
-
-                
-            ];
-     
-            array_push($finalArray, $tempArray);  
+                 ];
                  
-                      }    
+                array_push($finalArray,$tempArray);
+                        
+                }
 
-             return response()->json($finalArray);   }
-             
+             return response()->json($finalArray);   
+            }
  
    
     
@@ -118,6 +116,7 @@ class ProductController extends Controller
                 'product_continuity' => $product->product_continuity,
                 'product_quantity' => $product->product_quantity,
                 'product_price' => $product->product_price,
+                'product_pricemax' => $product->product_pricemax,
                 'product_period' => $product->product_period,
                 'product_package' =>$product->product_package,
                 'product_location' => $product->product_location,
@@ -173,6 +172,7 @@ class ProductController extends Controller
             $product_continuity = $request->input ('product_season');
             $product_quantity = $request->input ('product_quantity');
             $product_price = $request->input ('product_price');
+            $product_pricemax = $request->input('product_pricemax');
             $product_period = $request->input('product_period');
             $product_package = $request->input('product_package');
             $product_location = $request->input('product_location');
@@ -215,6 +215,7 @@ class ProductController extends Controller
         $file->product_continuity = $product_continuity;
         $file->product_quantity = $product_quantity;
         $file->product_price = $product_price;
+        $file->product_pricemax = $product_pricemax;
         $file->product_period = $product_period;
         $file->product_package = $product_package;
         $file->product_location = $product_location;
@@ -260,6 +261,7 @@ class ProductController extends Controller
     $product_continuity = $request->input ('product_season');
     $product_quantity = $request->input ('product_quantity');
     $product_price = $request->input ('product_price');
+    $product_pricemax = $request->input ('product_pricemax');
     $product_period = $request->input('product_period');
     $product_package = $request->input('product_package');
     $product_location = $request->input('product_location');
@@ -309,6 +311,10 @@ class ProductController extends Controller
 
     if ($product_price == null) {
         $product_price = $data->product_price;
+    }
+
+    if ($product_pricemax == null) {
+        $product_pricemax = $data->product_pricemax;
     }
 
     if ($product_period == null) {
@@ -397,6 +403,7 @@ class ProductController extends Controller
     $data->product_continuity = $product_continuity;
     $data->product_quantity = $product_quantity;
     $data->product_price = $product_price;
+    $data->product_pricemax = $product_pricemax;
     $data->product_period = $product_period;
     $data->product_package = $product_package;
     $data->product_location = $product_location;
@@ -426,7 +433,7 @@ class ProductController extends Controller
     $data = Product::where('product_id',$product_id)->first();
     $data->delete();
 
-    return response()->json('packages success deleted');
+    return response()->json('product success deleted');
 }
 
 
@@ -467,6 +474,7 @@ class ProductController extends Controller
         'product_continuity' => $product->product_continuity,
         'product_quantity' => $product->product_quantity,
         'product_price' => $product->product_price,
+        'product_pricemax' => $product->product_pricemax,
         'product_period' => $product->product_period,
         'product_package' =>$product->product_package,
         'product_location' => $product->product_location,
@@ -528,6 +536,7 @@ class ProductController extends Controller
                 'product_continuity' => $product->product_continuity,
                 'product_quantity' => $product->product_quantity,
                 'product_price' => $product->product_price,
+                'product_pricemax' => $product->product_pricemax,
                 'product_period' => $product->product_period,
                 'product_package' =>$product->product_package,
                 'product_location' => $product->product_location,
@@ -589,6 +598,72 @@ class ProductController extends Controller
                 'product_continuity' => $product->product_continuity,
                 'product_quantity' => $product->product_quantity,
                 'product_price' => $product->product_price,
+                'product_pricemax' => $product->product_pricemax,
+                'product_period' => $product->product_period,
+                'product_package' =>$product->product_package,
+                'product_location' => $product->product_location,
+                'latitud' => $product->latitud,
+                'longitud' => $product->longitud,
+                'product_state' => $product->product_state,
+                'product_transport' =>$product->product_transport,
+                'product_description' => $product->product_description,
+                'product_image' => $imageArray,
+                'mainstatus' => $product->mainstatus,
+                'website' => $product->website,
+                'user_id' => $product->user_id,
+                'company_name' => $product->company_name,
+                'company_email' => $product->company_email,
+                'company_contact' => $product->company_contact,
+             ];
+             
+            array_push($finalArray,$tempArray);
+              }        
+             
+              return response()->json($finalArray); 
+
+
+
+    }
+
+
+    public function mainstatus(Request $request)
+    {
+        $mainstatus = $request->input('mainstatus');
+        $finalArray = array();
+        $products = Product::where('mainstatus',$mainstatus)->get();
+
+
+        foreach ($products as $product){
+
+            $json_array = json_decode($product->product_image, true);
+            $imageArray = array();
+            
+                    foreach ($json_array as $pic)
+                    {
+                        $public = rtrim(app()->basePath('public/image'), '/');
+                        $imagepath = $public.'/'.$pic;
+                        
+      
+                        $imagetempArray = [
+                            'image' => $imagepath,
+                        ];
+      
+                        array_push($imageArray,$imagetempArray);
+                    }
+           
+             $tempArray = [
+      
+                'product_id' => $product->product_id,
+                'product_date' => $product->product_date,
+                'product_name' => $product->product_name,
+                'product_status' => $product->product_status,
+                'product_material' => $product->product_material,
+                'product_category' => $product->product_category,
+                'product_target' => $product->product_target,
+                'product_continuity' => $product->product_continuity,
+                'product_quantity' => $product->product_quantity,
+                'product_price' => $product->product_price,
+                'product_pricemax' => $product->product_pricemax,
                 'product_period' => $product->product_period,
                 'product_package' =>$product->product_package,
                 'product_location' => $product->product_location,
