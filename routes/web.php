@@ -52,6 +52,7 @@ Route::post('/product/update','ProductController@update');
 Route::delete('/product/delete','ProductController@destroy');
 Route::get('/product/detail','ProductController@show');
 Route::get('/product/type','ProductController@mainstatus');
+Route::get('/product/usertype','ProductController@usertype');
 
 //admin
 Route::post('/admin/approve','AdminController@approve');
