@@ -66,6 +66,11 @@ Route::get('/category','CategoryController@listcategory');
 Route::get('/category/sub','CategoryController@listsubcategory');
 Route::delete('/category/delete','CategoryController@delete');
 
+//comment
+Route::post('/comment','CommentController@addcategory');
+Route::get('/comment/list','CommentController@listcomment');
+Route::delete('/comment/delete','CommentController@delete');
+
 
 
 

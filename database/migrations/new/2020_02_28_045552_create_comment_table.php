@@ -17,6 +17,7 @@ class CreateCommentTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->string('description');
+            $table->string('product_id');
             $table->timestamps();
         });
     }
