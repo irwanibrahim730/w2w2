@@ -37,41 +37,94 @@ class ProductController extends Controller
                             array_push($imageArray,$imagetempArray);
                         }
                
-                 $tempArray = [
-          
-                    'product_id' => $product->product_id,
-                    'product_date' => $product->product_date,
-                    'product_name' => $product->product_name,
-                    'product_status' => $product->product_status,
-                    'product_material' => $product->product_material,
-                    'product_category' => $product->product_category,
-                    'product_target' => $product->product_target,
-                    'product_continuity' => $product->product_continuity,
-                    'product_quantity' => $product->product_quantity,
-                    'product_price' => $product->product_price,
-                    'product_pricemax' => $product->product_pricemax,
-                    'product_period' => $product->product_period,
-                    'product_package' =>$product->product_package,
-                    'product_location' => $product->product_location,
-                    'latitud' => $product->latitud,
-                    'longitud' => $product->longitud,
-                    'product_state' => $product->product_state,
-                    'product_transport' =>$product->product_transport,
-                    'product_description' => $product->product_description,
-                    'product_image' => $imageArray,
-                    'mainstatus' => $product->mainstatus,
-                    'website' => $product->website,
-                    'user_id' => $product->user_id,
-                    'company_name' => $product->company_name,
-                    'company_email' => $product->company_email,
-                    'company_contact' => $product->company_contact,
-                 ];
-                 
-                array_push($finalArray,$tempArray);
+                        $json_arrays = json_decode($product->product_location, true);
+                        $locationArray = array();
+            
+                                foreach ($json_arrays as $locate)
+                                {
+                                    $locationtempArray = [
+                                          'location' => $locate,
+                                    ];
+            
+                                    array_push($locationArray,$locationtempArray);
+            
+                                }
+            
                         
-                }
-
-             return response()->json($finalArray);   
+            
+                        $json_longitud = json_decode($product->longitud, true);
+                        $longitudArray = array();
+                    
+                                    foreach ($json_longitud as $longitude)
+                                    {
+                                        $longitudtempArray = [
+                                              'longitud' => $longitude,
+                                        ];
+                    
+                                            array_push($longitudArray,$longitudtempArray);
+                    
+                                        }
+            
+                        $json_latitud = json_decode($product->latitud, true);
+                        $latitudArray = array();
+                                    
+                                    foreach ($json_latitud as $latitude)
+                                     {
+                                         $latitudtempArray = [
+                                                'latitud' => $latitude,
+                                         ];
+                                    
+                                            array_push($latitudArray,$latitudtempArray);
+                                    
+                                        }
+            
+                        $json_state = json_decode($product->product_state, true);
+                        $stateArray = array();
+                                                    
+                                    foreach ($json_state as $states)
+                                    {
+                                        $statetempArray = [
+                                            'state' => $states,
+                                        ];
+                                                    
+                                             array_push($stateArray,$statetempArray);
+                                                    
+                                        }
+                        
+                       
+                         $tempArray = [
+                  
+                            'product_id' => $product->product_id,
+                            'product_date' => $product->product_date,
+                            'product_name' => $product->product_name,
+                            'product_status' => $product->product_status,
+                            'product_material' => $product->product_material,
+                            'product_category' => $product->product_category,
+                            'product_target' => $product->product_target,
+                            'product_continuity' => $product->product_continuity,
+                            'product_quantity' => $product->product_quantity,
+                            'product_price' => $product->product_price,
+                            'product_pricemax' => $product->product_pricemax,
+                            'product_period' => $product->product_period,
+                            'product_package' =>$product->product_package,
+                            'product_location' =>$locationArray,
+                            'latitud' => $latitudArray,
+                            'longitud' => $longitudArray,
+                            'product_state' => $stateArray,
+                            'product_transport' =>$product->product_transport,
+                            'product_description' => $product->product_description,
+                            'product_image' => $imageArray,
+                            'mainstatus' => $product->mainstatus,
+                            'website' => $product->website,
+                            'user_id' => $product->user_id,
+                            'company_name' => $product->company_name,
+                            'company_email' => $product->company_email,
+                            'company_contact' => $product->company_contact,
+                         ];
+                         
+                        array_push($finalArray,$tempArray);
+                          }        
+                         return response()->json($finalArray); 
             }
  
    
@@ -103,6 +156,61 @@ class ProductController extends Controller
       
                         array_push($imageArray,$imagetempArray);
                     }
+
+            $json_arrays = json_decode($product->product_location, true);
+            $locationArray = array();
+
+                    foreach ($json_arrays as $locate)
+                    {
+                        $locationtempArray = [
+                              'location' => $locate,
+                        ];
+
+                        array_push($locationArray,$locationtempArray);
+
+                    }
+
+            
+
+            $json_longitud = json_decode($product->longitud, true);
+            $longitudArray = array();
+        
+                        foreach ($json_longitud as $longitude)
+                        {
+                            $longitudtempArray = [
+                                  'longitud' => $longitude,
+                            ];
+        
+                                array_push($longitudArray,$longitudtempArray);
+        
+                            }
+
+            $json_latitud = json_decode($product->latitud, true);
+            $latitudArray = array();
+                        
+                        foreach ($json_latitud as $latitude)
+                         {
+                             $latitudtempArray = [
+                                    'latitud' => $latitude,
+                             ];
+                        
+                                array_push($latitudArray,$latitudtempArray);
+                        
+                            }
+
+            $json_state = json_decode($product->product_state, true);
+            $stateArray = array();
+                                        
+                        foreach ($json_state as $states)
+                        {
+                            $statetempArray = [
+                                'state' => $states,
+                            ];
+                                        
+                                 array_push($stateArray,$statetempArray);
+                                        
+                            }
+            
            
              $tempArray = [
       
@@ -119,10 +227,10 @@ class ProductController extends Controller
                 'product_pricemax' => $product->product_pricemax,
                 'product_period' => $product->product_period,
                 'product_package' =>$product->product_package,
-                'product_location' => $product->product_location,
-                'latitud' => $product->latitud,
-                'longitud' => $product->longitud,
-                'product_state' => $product->product_state,
+                'product_location' =>$locationArray,
+                'latitud' => $latitudArray,
+                'longitud' => $longitudArray,
+                'product_state' => $stateArray,
                 'product_transport' =>$product->product_transport,
                 'product_description' => $product->product_description,
                 'product_image' => $imageArray,
@@ -192,10 +300,34 @@ class ProductController extends Controller
             $company_email = $request->input('company_email');
             $company_contact = $request->input('company_contact');
 
+             $locations=array();  
+          
+              foreach($product_location as $location)
+              {
+                 $locations[] = $location;
 
-            
+              }
 
- 
+             $longituds=array();
+              foreach($longitud as $longitude)
+              {
+                  $longituds[] = $longitude;
+              }
+
+              $latituds=array();
+              foreach($latitud as $latitude)
+              {
+                  $latituds[] = $latitude;
+              }
+
+              $states=array();
+              foreach($product_state as $stated)
+              {
+                  $states[] = $stated;
+              }
+
+
+
               $images=array();
 
               
@@ -222,10 +354,10 @@ class ProductController extends Controller
         $file->product_pricemax = $product_pricemax;
         $file->product_period = $product_period;
         $file->product_package = $product_package;
-        $file->product_location = $product_location;
-        $file->latitud = $latitud;
-        $file->longitud = $longitud;
-        $file->product_state = $product_state;
+        $file->product_location = json_encode($locations);
+        $file->latitud = json_encode($latituds);
+        $file->longitud = json_encode($longituds);
+        $file->product_state = json_encode($states);
         $file->product_transport = $product_transport;
         $file->product_description = $product_description;
         $file->product_image = json_encode($images);
@@ -333,17 +465,52 @@ class ProductController extends Controller
         $product_location = $data->product_location;
     }
 
+    else
+    {
+        $locations=array();
+        foreach($product_location as $location)
+        {
+           $locations[] = $location;
+
+        }
+    }
+
     if($latitud == null) {
         $latitud = $data->latitud;
+    }
+
+    else{
+
+        $latituds=array();
+        foreach($latitud as $latitude)
+        {
+            $latituds[] = $latitude;
+        }
+
     }
 
     if($longitud == null)
     {
         $longitud = $data->longitud;
     }
+    else{
+        $longituds=array();
+        foreach($longitud as $longitude)
+        {
+            $longituds[] = $longitude;
+        }
+
+    }
 
     if ($product_state == null) {
         $product_state = $data->product_state;
+    }
+    else{
+        $states=array();
+        foreach($product_state as $stated)
+        {
+            $states[] = $stated;
+        }
     }
 
     if ($product_transport == null) {
@@ -467,38 +634,94 @@ class ProductController extends Controller
                   array_push($imageArray,$imagetempArray);
               }
      
-       $tempArray = [
-        'product_id' => $product->product_id,
-        'product_date' => $product->product_date,
-        'product_name' => $product->product_name,
-        'product_status' => $product->product_status,
-        'product_material' => $product->product_material,
-        'product_category' => $product->product_category,
-        'product_target' => $product->product_target,
-        'product_continuity' => $product->product_continuity,
-        'product_quantity' => $product->product_quantity,
-        'product_price' => $product->product_price,
-        'product_pricemax' => $product->product_pricemax,
-        'product_period' => $product->product_period,
-        'product_package' =>$product->product_package,
-        'product_location' => $product->product_location,
-        'latitud' => $product->latitud,
-        'longitud' => $product->longitud,
-        'product_state' => $product->product_state,
-        'product_transport' =>$product->product_transport,
-        'product_description' => $product->product_description,
-        'product_image' => $imageArray,
-        'mainstatus' => $product->mainstatus,
-        'website' => $product->website,
-        'user_id' => $product->user_id,
-        'company_name' => $product->company_name,
-        'company_email' => $product->company_email,
-        'company_contact' => $product->company_contact,
-       ];
-       
-      array_push($finalArray,$tempArray);
-        }        
-       return response()->json($finalArray); 
+              $json_arrays = json_decode($product->product_location, true);
+              $locationArray = array();
+  
+                      foreach ($json_arrays as $locate)
+                      {
+                          $locationtempArray = [
+                                'location' => $locate,
+                          ];
+  
+                          array_push($locationArray,$locationtempArray);
+  
+                      }
+  
+              
+  
+              $json_longitud = json_decode($product->longitud, true);
+              $longitudArray = array();
+          
+                          foreach ($json_longitud as $longitude)
+                          {
+                              $longitudtempArray = [
+                                    'longitud' => $longitude,
+                              ];
+          
+                                  array_push($longitudArray,$longitudtempArray);
+          
+                              }
+  
+              $json_latitud = json_decode($product->latitud, true);
+              $latitudArray = array();
+                          
+                          foreach ($json_latitud as $latitude)
+                           {
+                               $latitudtempArray = [
+                                      'latitud' => $latitude,
+                               ];
+                          
+                                  array_push($latitudArray,$latitudtempArray);
+                          
+                              }
+  
+              $json_state = json_decode($product->product_state, true);
+              $stateArray = array();
+                                          
+                          foreach ($json_state as $states)
+                          {
+                              $statetempArray = [
+                                  'state' => $states,
+                              ];
+                                          
+                                   array_push($stateArray,$statetempArray);
+                                          
+                              }
+              
+             
+               $tempArray = [
+        
+                  'product_id' => $product->product_id,
+                  'product_date' => $product->product_date,
+                  'product_name' => $product->product_name,
+                  'product_status' => $product->product_status,
+                  'product_material' => $product->product_material,
+                  'product_category' => $product->product_category,
+                  'product_target' => $product->product_target,
+                  'product_continuity' => $product->product_continuity,
+                  'product_quantity' => $product->product_quantity,
+                  'product_price' => $product->product_price,
+                  'product_pricemax' => $product->product_pricemax,
+                  'product_period' => $product->product_period,
+                  'product_package' =>$product->product_package,
+                  'product_location' =>$locationArray,
+                  'latitud' => $latitudArray,
+                  'longitud' => $longitudArray,
+                  'product_state' => $stateArray,
+                  'product_transport' =>$product->product_transport,
+                  'product_description' => $product->product_description,
+                  'product_image' => $imageArray,
+                  'mainstatus' => $product->mainstatus,
+                  'website' => $product->website,
+                  'user_id' => $product->user_id,
+                  'company_name' => $product->company_name,
+                  'company_email' => $product->company_email,
+                  'company_contact' => $product->company_contact,
+               ];
+               
+              array_push($finalArray,$tempArray);
+                }        
+               return response()->json($finalArray); 
 
     } 
 
@@ -528,39 +751,94 @@ class ProductController extends Controller
                         array_push($imageArray,$imagetempArray);
                     }
            
-             $tempArray = [
-      
-                'product_id' => $product->product_id,
-                'product_date' => $product->product_date,
-                'product_name' => $product->product_name,
-                'product_status' => $product->product_status,
-                'product_material' => $product->product_material,
-                'product_category' => $product->product_category,
-                'product_target' => $product->product_target,
-                'product_continuity' => $product->product_continuity,
-                'product_quantity' => $product->product_quantity,
-                'product_price' => $product->product_price,
-                'product_pricemax' => $product->product_pricemax,
-                'product_period' => $product->product_period,
-                'product_package' =>$product->product_package,
-                'product_location' => $product->product_location,
-                'latitud' => $product->latitud,
-                'longitud' => $product->longitud,
-                'product_state' => $product->product_state,
-                'product_transport' =>$product->product_transport,
-                'product_description' => $product->product_description,
-                'product_image' => $imageArray,
-                'mainstatus' => $product->mainstatus,
-                'website' => $product->website,
-                'user_id' => $product->user_id,
-                'company_name' => $product->company_name,
-                'company_email' => $product->company_email,
-                'company_contact' => $product->company_contact,
-             ];
-             
-            array_push($finalArray,$tempArray);
-              }        
-             return response()->json($finalArray); 
+                    $json_arrays = json_decode($product->product_location, true);
+                    $locationArray = array();
+        
+                            foreach ($json_arrays as $locate)
+                            {
+                                $locationtempArray = [
+                                      'location' => $locate,
+                                ];
+        
+                                array_push($locationArray,$locationtempArray);
+        
+                            }
+        
+                    
+        
+                    $json_longitud = json_decode($product->longitud, true);
+                    $longitudArray = array();
+                
+                                foreach ($json_longitud as $longitude)
+                                {
+                                    $longitudtempArray = [
+                                          'longitud' => $longitude,
+                                    ];
+                
+                                        array_push($longitudArray,$longitudtempArray);
+                
+                                    }
+        
+                    $json_latitud = json_decode($product->latitud, true);
+                    $latitudArray = array();
+                                
+                                foreach ($json_latitud as $latitude)
+                                 {
+                                     $latitudtempArray = [
+                                            'latitud' => $latitude,
+                                     ];
+                                
+                                        array_push($latitudArray,$latitudtempArray);
+                                
+                                    }
+        
+                    $json_state = json_decode($product->product_state, true);
+                    $stateArray = array();
+                                                
+                                foreach ($json_state as $states)
+                                {
+                                    $statetempArray = [
+                                        'state' => $states,
+                                    ];
+                                                
+                                         array_push($stateArray,$statetempArray);
+                                                
+                                    }
+                    
+                   
+                     $tempArray = [
+              
+                        'product_id' => $product->product_id,
+                        'product_date' => $product->product_date,
+                        'product_name' => $product->product_name,
+                        'product_status' => $product->product_status,
+                        'product_material' => $product->product_material,
+                        'product_category' => $product->product_category,
+                        'product_target' => $product->product_target,
+                        'product_continuity' => $product->product_continuity,
+                        'product_quantity' => $product->product_quantity,
+                        'product_price' => $product->product_price,
+                        'product_pricemax' => $product->product_pricemax,
+                        'product_period' => $product->product_period,
+                        'product_package' =>$product->product_package,
+                        'product_location' =>$locationArray,
+                        'latitud' => $latitudArray,
+                        'longitud' => $longitudArray,
+                        'product_state' => $stateArray,
+                        'product_transport' =>$product->product_transport,
+                        'product_description' => $product->product_description,
+                        'product_image' => $imageArray,
+                        'mainstatus' => $product->mainstatus,
+                        'website' => $product->website,
+                        'user_id' => $product->user_id,
+                        'company_name' => $product->company_name,
+                        'company_email' => $product->company_email,
+                        'company_contact' => $product->company_contact,
+                     ];
+                     
+                    array_push($finalArray,$tempArray);
+                      }        
+                     return response()->json($finalArray); 
       
 
     }
@@ -590,40 +868,94 @@ class ProductController extends Controller
                         array_push($imageArray,$imagetempArray);
                     }
            
-             $tempArray = [
-      
-                'product_id' => $product->product_id,
-                'product_date' => $product->product_date,
-                'product_name' => $product->product_name,
-                'product_status' => $product->product_status,
-                'product_material' => $product->product_material,
-                'product_category' => $product->product_category,
-                'product_target' => $product->product_target,
-                'product_continuity' => $product->product_continuity,
-                'product_quantity' => $product->product_quantity,
-                'product_price' => $product->product_price,
-                'product_pricemax' => $product->product_pricemax,
-                'product_period' => $product->product_period,
-                'product_package' =>$product->product_package,
-                'product_location' => $product->product_location,
-                'latitud' => $product->latitud,
-                'longitud' => $product->longitud,
-                'product_state' => $product->product_state,
-                'product_transport' =>$product->product_transport,
-                'product_description' => $product->product_description,
-                'product_image' => $imageArray,
-                'mainstatus' => $product->mainstatus,
-                'website' => $product->website,
-                'user_id' => $product->user_id,
-                'company_name' => $product->company_name,
-                'company_email' => $product->company_email,
-                'company_contact' => $product->company_contact,
-             ];
-             
-            array_push($finalArray,$tempArray);
-              }        
-             
-              return response()->json($finalArray); 
+                    $json_arrays = json_decode($product->product_location, true);
+                    $locationArray = array();
+        
+                            foreach ($json_arrays as $locate)
+                            {
+                                $locationtempArray = [
+                                      'location' => $locate,
+                                ];
+        
+                                array_push($locationArray,$locationtempArray);
+        
+                            }
+        
+                    
+        
+                    $json_longitud = json_decode($product->longitud, true);
+                    $longitudArray = array();
+                
+                                foreach ($json_longitud as $longitude)
+                                {
+                                    $longitudtempArray = [
+                                          'longitud' => $longitude,
+                                    ];
+                
+                                        array_push($longitudArray,$longitudtempArray);
+                
+                                    }
+        
+                    $json_latitud = json_decode($product->latitud, true);
+                    $latitudArray = array();
+                                
+                                foreach ($json_latitud as $latitude)
+                                 {
+                                     $latitudtempArray = [
+                                            'latitud' => $latitude,
+                                     ];
+                                
+                                        array_push($latitudArray,$latitudtempArray);
+                                
+                                    }
+        
+                    $json_state = json_decode($product->product_state, true);
+                    $stateArray = array();
+                                                
+                                foreach ($json_state as $states)
+                                {
+                                    $statetempArray = [
+                                        'state' => $states,
+                                    ];
+                                                
+                                         array_push($stateArray,$statetempArray);
+                                                
+                                    }
+                    
+                   
+                     $tempArray = [
+              
+                        'product_id' => $product->product_id,
+                        'product_date' => $product->product_date,
+                        'product_name' => $product->product_name,
+                        'product_status' => $product->product_status,
+                        'product_material' => $product->product_material,
+                        'product_category' => $product->product_category,
+                        'product_target' => $product->product_target,
+                        'product_continuity' => $product->product_continuity,
+                        'product_quantity' => $product->product_quantity,
+                        'product_price' => $product->product_price,
+                        'product_pricemax' => $product->product_pricemax,
+                        'product_period' => $product->product_period,
+                        'product_package' =>$product->product_package,
+                        'product_location' =>$locationArray,
+                        'latitud' => $latitudArray,
+                        'longitud' => $longitudArray,
+                        'product_state' => $stateArray,
+                        'product_transport' =>$product->product_transport,
+                        'product_description' => $product->product_description,
+                        'product_image' => $imageArray,
+                        'mainstatus' => $product->mainstatus,
+                        'website' => $product->website,
+                        'user_id' => $product->user_id,
+                        'company_name' => $product->company_name,
+                        'company_email' => $product->company_email,
+                        'company_contact' => $product->company_contact,
+                     ];
+                     
+                    array_push($finalArray,$tempArray);
+                      }        
+                     return response()->json($finalArray); 
 
 
 
@@ -655,6 +987,61 @@ class ProductController extends Controller
                         array_push($imageArray,$imagetempArray);
                     }
            
+              $json_arrays = json_decode($product->product_location, true);
+            $locationArray = array();
+
+                    foreach ($json_arrays as $locate)
+                    {
+                        $locationtempArray = [
+                              'location' => $locate,
+                        ];
+
+                        array_push($locationArray,$locationtempArray);
+
+                    }
+
+            
+
+            $json_longitud = json_decode($product->longitud, true);
+            $longitudArray = array();
+        
+                        foreach ($json_longitud as $longitude)
+                        {
+                            $longitudtempArray = [
+                                  'longitud' => $longitude,
+                            ];
+        
+                                array_push($longitudArray,$longitudtempArray);
+        
+                            }
+
+            $json_latitud = json_decode($product->latitud, true);
+            $latitudArray = array();
+                        
+                        foreach ($json_latitud as $latitude)
+                         {
+                             $latitudtempArray = [
+                                    'latitud' => $latitude,
+                             ];
+                        
+                                array_push($latitudArray,$latitudtempArray);
+                        
+                            }
+
+            $json_state = json_decode($product->product_state, true);
+            $stateArray = array();
+                                        
+                        foreach ($json_state as $states)
+                        {
+                            $statetempArray = [
+                                'state' => $states,
+                            ];
+                                        
+                                 array_push($stateArray,$statetempArray);
+                                        
+                            }
+            
+           
              $tempArray = [
       
                 'product_id' => $product->product_id,
@@ -670,10 +1057,10 @@ class ProductController extends Controller
                 'product_pricemax' => $product->product_pricemax,
                 'product_period' => $product->product_period,
                 'product_package' =>$product->product_package,
-                'product_location' => $product->product_location,
-                'latitud' => $product->latitud,
-                'longitud' => $product->longitud,
-                'product_state' => $product->product_state,
+                'product_location' =>$locationArray,
+                'latitud' => $latitudArray,
+                'longitud' => $longitudArray,
+                'product_state' => $stateArray,
                 'product_transport' =>$product->product_transport,
                 'product_description' => $product->product_description,
                 'product_image' => $imageArray,
@@ -687,8 +1074,10 @@ class ProductController extends Controller
              
             array_push($finalArray,$tempArray);
               }        
-             
-              return response()->json($finalArray); 
+             return response()->json($finalArray); 
+
+
+    
 
 
 
@@ -724,6 +1113,60 @@ class ProductController extends Controller
           
                             array_push($imageArray,$imagetempArray);
                         }
+
+                        $json_arrays = json_decode($product->product_location, true);
+            $locationArray = array();
+
+                    foreach ($json_arrays as $locate)
+                    {
+                        $locationtempArray = [
+                              'location' => $locate,
+                        ];
+
+                        array_push($locationArray,$locationtempArray);
+
+                    }
+
+            
+
+            $json_longitud = json_decode($product->longitud, true);
+            $longitudArray = array();
+        
+                        foreach ($json_longitud as $longitude)
+                        {
+                            $longitudtempArray = [
+                                  'longitud' => $longitude,
+                            ];
+        
+                                array_push($longitudArray,$longitudtempArray);
+        
+                            }
+
+            $json_latitud = json_decode($product->latitud, true);
+            $latitudArray = array();
+                        
+                        foreach ($json_latitud as $latitude)
+                         {
+                             $latitudtempArray = [
+                                    'latitud' => $latitude,
+                             ];
+                        
+                                array_push($latitudArray,$latitudtempArray);
+                        
+                            }
+
+            $json_state = json_decode($product->product_state, true);
+            $stateArray = array();
+                                        
+                        foreach ($json_state as $states)
+                        {
+                            $statetempArray = [
+                                'state' => $states,
+                            ];
+                                        
+                                 array_push($stateArray,$statetempArray);
+                                        
+                            }
                
                  $tempArray = [
           
@@ -740,10 +1183,10 @@ class ProductController extends Controller
                     'product_pricemax' => $product->product_pricemax,
                     'product_period' => $product->product_period,
                     'product_package' =>$product->product_package,
-                    'product_location' => $product->product_location,
-                    'latitud' => $product->latitud,
-                    'longitud' => $product->longitud,
-                    'product_state' => $product->product_state,
+                    'product_location' =>$locationArray,
+                    'latitud' => $latitudArray,
+                    'longitud' => $longitudArray,
+                    'product_state' => $stateArray,
                     'product_transport' =>$product->product_transport,
                     'product_description' => $product->product_description,
                     'product_image' => $imageArray,
