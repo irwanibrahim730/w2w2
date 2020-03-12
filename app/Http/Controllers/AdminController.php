@@ -15,7 +15,7 @@ class AdminController extends Controller
     public function listapproval() 
     {
 
-        $products = Product::where('approved_at',null)->get();
+        $products = Product::where('product_status',null)->get();
         
         return response()-> json($products);
 
@@ -28,10 +28,10 @@ class AdminController extends Controller
     {
 
         $product_id = $request->input('product_id');
-        $product_status = $request->input('product_status');
+
         $products = Product::where('product_id',$product_id)->first(); 
 
-        if($product_status == 'success'){
+    
 
         $curtime = Carbon::now()->toDateString();
        
@@ -48,13 +48,9 @@ class AdminController extends Controller
          $user->save();
 
 
-
-            //save status
-            //save start
-            //save end
-
-        $products->product_status = $product_status;
+        $products->product_status = 'success';
         $products->approved_at = $curtime;
+        $products->premiumlist = $package->premiumlist;
         $products->save(); 
 
 
@@ -67,26 +63,28 @@ class AdminController extends Controller
          $products->save(); 
        
 
-         return response()->json('successs approve');
-
-        } else {
-
-            $products->product_status = $product_status;
-       
-         return response()->json('successs update');
+         return response()->json('product approved');
 
         }
 
         
+
+        
         
     
+    
+
+    public function reject(Request $request)
+    {
+        $id = $request->input('product_id');
+
+        $product = Product::where('product_id',$id)->first();
+
+        $product->product_status = 'rejected';
+        $product->save();
+
     }
 
-        
-       
-
-/* 
-        return response()->json('product approved');      */
         
     }
 

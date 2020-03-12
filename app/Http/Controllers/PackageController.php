@@ -11,11 +11,13 @@ class PackageController extends Controller
     public function index(){
         $data = Package::all();
 
-        return response()->json($data);
+       return response()->json($data);
 
     }
 
-    public function show($package_id){
+    public function show(Request $request){
+
+        $package_id = $request->input('package_id');
         $data = Package::where('package_id',$package_id)->get();
         return response()->json($data);
     }
@@ -40,6 +42,7 @@ class PackageController extends Controller
         $data->package_limit = $request->input('package_limit');
         $data->package_duration = $request->input('package_duration');
         $data->package_price = $request->input('package_price');
+        $data->premiumlist = $request->input('premiumlist');
         $data->save();
 
 
@@ -58,6 +61,7 @@ class PackageController extends Controller
         $package_limit = $request->input('package_limit');
         $package_duration = $request->input('package_duration');
         $package_price = $request->input('package_price');
+        $premiumlist = $request->input('premiumlist');
         
         if($package_name == null){
            
@@ -80,10 +84,16 @@ class PackageController extends Controller
             $package_price = $data->package_price;
         }
 
+        if($premiumlist == null){
+
+            $premiumlist = $data->premiumlist;
+        }
+
         $data->package_name = $package_name;
         $data->package_limit = $package_limit;
         $data->package_duration = $package_duration;
         $data->package_price = $package_price;
+        $data->premiumlist = $premiumlist;
         $data->save();
 
 

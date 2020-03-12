@@ -8,7 +8,7 @@ use App\Comment;
 class CommentController extends Controller
 
 {
-    public function addcategory(Request $request)
+    public function addcomment(Request $request)
     {
         
         $product_id = $request->input('product_id');
@@ -19,6 +19,7 @@ class CommentController extends Controller
         $data = new Comment;
         $data->title = $title;
         $data->description = $description;
+        $data->status = 'visible';
         $data->product_id = $product_id;
         $data->save(); 
 
@@ -30,13 +31,16 @@ class CommentController extends Controller
     public function listcomment(Request $request)
     {
         
-          $product_id = $request->input('product_id');
+           $product_id = $request->input('product_id');
+           
 
-          $comment = Comment::where('product_id',$product_id)->get(); 
+           $comment = Comment::where('product_id',$product_id)->first();
+           $commented = Comment::where('product_id',$product_id)->get();
            $finalArray = array();  
         
+     if($comment->status == 'visible'){
 
-           foreach ($comment as $comments){
+           foreach ($commented as $comments){
           
             $tempArray = [
               'product_id' =>$comments->product_id,
@@ -45,12 +49,44 @@ class CommentController extends Controller
               'description'=>$comments->description,
           ];
 
-          array_push($finalArray,$tempArray);
+           array_push($finalArray,$tempArray);
+         }
+
         }
+      
     
-          return response()->json($finalArray); 
+           return response()->json($finalArray); 
+    
+
 
      
+}
+
+public function hidecomment(Request $request){
+
+      $id = $request->input('id');
+
+      $comment = Comment::where('id',$id);
+
+
+
+      $comment->status ='hidden';
+      $comment->save();
+      
+      return response()->json('comment hidden');
+}
+
+
+public function unhide(Request $request)
+{
+  $id = $request->input('id');
+
+  $comment = Comment::where('id',$id);
+
+  $comment->status = 'visible';
+  $comment->save();
+
+  return response()->json('comment unhide');
 }
 
 

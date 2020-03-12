@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCommentTable extends Migration
+class CreateReservesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateCommentTable extends Migration
      */
     public function up()
     {
-        Schema::create('comments', function (Blueprint $table) {
+        Schema::create('reserves', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title');
-            $table->string('description');
-            $table->string('status');  
-            $table->string('product_id');
+            $table->string('user_id')->nullable();
+            $table->string('product_id')->nullable();
+            $table->string('buyer_id')->nullable();
+            $table->string('offeredprice')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreateCommentTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comments');
+        Schema::dropIfExists('reserves');
     }
 }

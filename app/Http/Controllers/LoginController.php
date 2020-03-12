@@ -43,18 +43,19 @@ class LoginController extends Controller
                  
             
                         $tempArray = [
-                            'id' => $data->user_id,
-                            'firstname' => $data->user_fname,
-                            'lastname' => $data->user_lname,
+                            'user_id' => $data->user_id,
+                            'user_fname' => $data->user_fname,
+                            'user_lname' => $data->user_lname,
                             'companyname' => $data->companyname,
                             'password' => $data->password,
-                            'contactnumber' => $data->user_contact,
-                            'email' => $data->user_email,
+                            'user_contact' => $data->user_contact,
+                            'user_email' => $data->user_email,
                             'companyregisternumber' => $data->companyregisternumber,
                             'companydesc' => $data->companydesc,
-                            'type' => $data->user_type,
+                            'user_type' => $data->user_type,
                             'profilepicture' => $dirfile,
-                            'role' => $data->user_role,
+                            'user_role' => $data->user_role,
+
             
                         ];
                     
@@ -89,13 +90,19 @@ class LoginController extends Controller
 
                           
                           $finalArray = [
-                              'id' => $user->user_id,
-                             'firstname'=>$user->user_fname,
-                             'lastname'=>$user->user_lastname,
+                             'user_id' => $user->user_id,
+                             'user_fname'=>$user->user_fname,
+                             'user_lname'=>$user->user_lname,
                              'password'=>$user->password,
                              'contactnumber'=>$user->user_contact,
                              'email'=>$user->user_email,
                              'profilepicture'=>$dirfile,
+                             'user_type' =>$user->user_type,
+                             'personincharge' => $user->personincharge,
+                             'phonenumber' => $user->phonenumber,
+                             'user_type' => $user->user_type,
+                             'created_at' => $user->created_at,
+                             'user_role' => $user->user_role,
 
 
                            ];
@@ -119,14 +126,20 @@ class LoginController extends Controller
                         $dirfile = $public.'/' . $imagename;
 
                         $compArray = [
-                              'id' => $user->user_id,
-                              'company name'=>$user->companyname,
+                              'user_id' => $user->user_id,
+                              'companyname'=>$user->companyname,
                               'password'=>$user->password,
-                              'contactnumber'=>$user->user_contact,
-                              'email'=>$user->user_email,
+                              'user_contact'=>$user->user_contact,
+                              'user_email'=>$user->user_email,
                               'companyregisternumber'=>$user->companyregisternumber,
-                              'description'=>$user->companydesc,
+                              'companydesc'=>$user->companydesc,
                               'profilepicture'=>$dirfile,
+                              'user_type' =>$user->usertype,
+                              'personincharge' => $user->personincharge,
+                              'phonenumber' => $user->phonenumber,
+                              'user_type' => $user->user_type,
+                              'created_at' => $user->created_at,
+                              'user_role' => $user->user_role,
                           ];
 
                           return response()->json($compArray);

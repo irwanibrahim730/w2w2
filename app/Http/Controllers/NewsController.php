@@ -24,9 +24,10 @@ class NewsController extends Controller
 
 			$tempArray = [
 
-                'title' => $data->news_title,
-                'description' => $data->news_desc,
-                'photo' => $dirfile,
+                'news_title' => $data->news_title,
+                'news_desc' => $data->news_desc,
+                'news_photo' => $dirfile,
+                'published_at' =>$data->published_at,
 
 
 			];
@@ -37,8 +38,12 @@ class NewsController extends Controller
         
             return response()->json($finalArray); 
     }
-    public function show($news_id){
-        $data = News::find($news_id);
+    
+    public function show(Request $request){
+
+        $news_id = $request->input('news_id');
+
+        $data = News::where('news_id',$news_id)->first();
 
         if ($data == null) {
 
@@ -54,6 +59,7 @@ class NewsController extends Controller
             'news_title' => $data->news_title,
             'news_desc' => $data->news_desc,
             'news_photo' => $dirfile,
+            'published_at' =>$data->published_at,
             ];
 
             return response()->json($tempArray);
@@ -85,7 +91,8 @@ class NewsController extends Controller
 
             $news_title = $request->input('news_title');
 			$news_desc = $request->input('news_desc');
-			$news_photo = $request->file('news_photo');
+            $news_photo = $request->file('news_photo');
+            $published_at = $request->input('published_at');
 
         }
 
@@ -100,6 +107,7 @@ class NewsController extends Controller
         $data->news_title = $news_title;
         $data->news_desc = $news_desc;
         $data->news_photo = $imagename;
+        $data->published_at = $published_at;
         $data->save();
         
 
@@ -107,13 +115,15 @@ class NewsController extends Controller
 
          }
 
-        public function update(Request $request, $news_id)
+        public function update(Request $request)
         {
+            $news_id = $request->input('news_id');
 
             $data = News::where('news_id',$news_id)->first();
             $news_title = $request->input('news_title');
             $news_desc = $request->input('news_desc');
             $news_photo = $request->file('news_photo');
+            $published_at = $request->input('published_at');
 
             $extention = $news_photo->getClientOriginalExtension();
             $imagename = rand(11111, 99999) . '.' . $extention;
@@ -129,20 +139,26 @@ class NewsController extends Controller
             }
             if ($news_photo == null) {
                 $news_photo = $data->news_photo;
-        }
+             }
+
+            if ($published_at == null) {
+              $published_at = $data->published_at;
+             }
 
 
         $data->news_title = $news_title;
 		$data->news_desc = $news_desc;
-		$data->news_photo = $imagename;
-
+        $data->news_photo = $imagename;
+        $data->published_at = $published_at;
 		$data->save();
 
 		return response()->json('news  successfull updated');
     }
     
         
-        public function destroy($news_id){
+        public function destroy(Request $request){
+            
+            $news_id = $request->input('news_id');
             $data = News::where('news_id',$news_id)->first();
             $data->delete();
         

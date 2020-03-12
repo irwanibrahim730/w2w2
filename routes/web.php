@@ -25,17 +25,17 @@ Route::post('/user/addpackage', 'UserController@addpackage');
 
 //package
 Route::get('/packages', 'PackageController@index');
-Route::get('/packages/{id}', 'PackageController@show');
+Route::get('/packages/detail', 'PackageController@show');
 Route::post('/packages/add', 'PackageController@store');
-Route::post('/packages/update/{id}', 'PackageController@update');
-Route::delete('/packages/delete/{id}', 'PackageController@destroy');
+Route::post('/packages/update', 'PackageController@update');
+Route::delete('/packages/delete', 'PackageController@destroy');
 
 //news
 Route::get('/news', 'NewsController@index');
-Route::get('/news/{id}', 'NewsController@show');
+Route::get('/news/detail', 'NewsController@show');
 Route::post('/news/add', 'NewsController@store');
-Route::post('/news/update/{id}', 'NewsController@update');
-Route::delete('/news/delete/{id}', 'NewsController@destroy');
+Route::post('/news/update', 'NewsController@update');
+Route::delete('/news/delete', 'NewsController@destroy');
 
 //login
 Route::post('/login', 'LoginController@signin');
@@ -53,10 +53,14 @@ Route::delete('/product/delete','ProductController@destroy');
 Route::get('/product/detail','ProductController@show');
 Route::get('/product/type','ProductController@mainstatus');
 Route::get('/product/usertype','ProductController@usertype');
+Route::get('/listing','ProductController@premiumlist');
 
 //admin
 Route::post('/admin/approve','AdminController@approve');
+Route::post('/admin/reject','AdminController@reject');
 Route::get('/admin/list','AdminController@listapproval');
+Route::post('/admin/block','UserController@block');
+Route::post('/admin/unblock','UserController@unblock');
 
 
 
@@ -67,9 +71,44 @@ Route::get('/category/sub','CategoryController@listsubcategory');
 Route::delete('/category/delete','CategoryController@delete');
 
 //comment
-Route::post('/comment','CommentController@addcategory');
+Route::post('/comment','CommentController@addcomment');
 Route::get('/comment/list','CommentController@listcomment');
 Route::delete('/comment/delete','CommentController@delete');
+Route::post('/comment/hide','CommentController@hidecomment');
+Route::post('/comment/unhide','CommentController@unhide');
+
+//enquiry
+Route::post('/enquiry','EnquiryController@store');
+Route::get('/enquiry/list','EnquiryController@list');
+Route::delete('/enquiry/delete','EnquiryController@delete');
+
+//banner
+Route::post('/banner','BannerController@store');
+Route::get('/banner/list','BannerController@list');
+Route::delete('/banner/delete','BannerController@delete');
+
+//notification
+Route::get('/notification','ProductController@listapproved');
+Route::get('/notification/expired','ProductController@listexpired');
+
+
+
+
+
+//reservation
+Route::post('/reserve','ReserveController@reserve');
+Route::get('/reserve/list','ReserveController@listreserved');
+Route::post('reserve/approve','ReserveController@approve');
+Route::get('/reserve/listapprove','ReserveController@listapproved');
+Route::post('reserve/reject','ReserveController@reject');
+Route::get('/reserve/listrejected','ReserveController@listrejected');
+Route::post('reserve/confirm','ReserveController@confirm');
+Route::post('reserve/cancel','ReserveController@cancel');
+Route::get('/reserve/listconfirmed','ReserveController@listconfirmed');
+Route::get('/reserve/listconfirmed','ReserveController@listcanceled');
+Route::post('reserve/cancel','ReserveController@complete');
+Route::get('/reserve/listconfirmed','ReserveController@listcompleted');
+
 
 
 

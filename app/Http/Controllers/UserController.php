@@ -40,6 +40,9 @@ class UserController extends Controller
                 'user_type' => $data->user_type,
                 'profilepicture' => $dirfile,
                 'user_role' => $data->user_role,
+                'personincharge' => $data->personincharge,
+                'phonenumber' => $data->phonenumber,
+                'created_at' =>$data->created_at,
 
 			];
         
@@ -86,6 +89,10 @@ class UserController extends Controller
                 'user_type' => $data->user_type,
                 'profilepicture' => $dirfile,
                 'user_role' => $data->user_role,
+                'personincharge' => $data->personincharge,
+                'phonenumber' => $data->phonenumber,
+                'created_at' =>$data->created_at,
+                'status' => $data->status,
 
              ];
             
@@ -126,6 +133,8 @@ class UserController extends Controller
             $job_title = $request->input('job_title'); 
             $user_type = $request->input('user_type');     
             $profilepicture = $request->file('profilepicture');
+            $personincharge = $request->input('personincharge');
+            $phonenumber = $request->input('phonenumber');
 
             if($request->hasfile('profilepicture')){
             $extention = $profilepicture->getClientOriginalExtension();
@@ -164,6 +173,9 @@ class UserController extends Controller
         $data->user_type = $user_type;
         $data->profilepicture=$imagename;
         $data->user_role = 'user';
+        $data->personincharge = $personincharge;
+        $data->phonenumber = $phonenumber;
+        $data->status = 'active';
         $data->save();
     
         return response()->json('User has been registered');
@@ -177,6 +189,7 @@ class UserController extends Controller
         $user_id = $request->input('user_id');
 
         $data = User::where('user_id',$user_id)->first();
+        
         $user_fname = $request->input('user_fname');
         $user_lname = $request->input('user_lname');
         $companyname = $request->input('companyname');
@@ -189,6 +202,9 @@ class UserController extends Controller
         $occupation = $request->input('occupation');
         $job_title = $request->input('job_title');
         $profilepicture = $request->file('profilepicture'); 
+        $personincharge = $request->input('personincharge');
+        $phonenumber = $request->input('phonenumber');
+        $status = $request->input('status');
 
 
        
@@ -221,6 +237,17 @@ class UserController extends Controller
         if ($occupation == null) {
                 $occupation = $data->occupation;
                 }
+        if ($personincharge == null) {
+                $personincharge = $data->personincharge;
+                }
+            
+        if ($phonenumber == null) {
+                $phonenumber = $data->phonenumber;
+                }
+
+                if ($status == null) {
+                    $status = $data->status;
+                    }
 
          if ($profilepicture == null) {
             $imagename = $data->profilepicture;
@@ -242,6 +269,9 @@ class UserController extends Controller
         $data->address = $address;
         $data->occupation = $occupation;
         $data->profilepicture = $imagename;
+        $data->personincharge = $personincharge;
+        $data->phonenumber = $phonenumber;
+        $data->status =$status;
         $data->save();
 
         return response()->json('User Updated'); 
@@ -283,6 +313,18 @@ class UserController extends Controller
         $job_title = $data->job_title;
        }
 
+       if ($personincharge == null) {
+        $personincharge = $data->personincharge;
+        }
+    
+if ($phonenumber == null) {
+        $phonenumber = $data->phonenumber;
+        }
+
+        if ($status == null) {
+            $status = $data->status;
+            }
+
       if ($profilepicture == null) {
         $imagename = $data->profilepicture;
     } else {
@@ -304,23 +346,47 @@ class UserController extends Controller
       $data->address = $address;
       $data->job_title = $job_title;
       $data->profilepicture = $imagename;
+      $data->personincharge = $personincharge;
+      $data->phonenumber = $phonenumber;
+      $data->status =$status;
       $data->save();
 
       return response()->json('Company Updated');
     }
-
-
-
-
-
-
-      
-    
        
+       }
+
+
+
+       public function block (Request $request){
+
+        $user_id = $request->input('user_id');
+
+        $data = User::where('user_id',$user_id)->first();
+        $data->status = 'blocked';
+        $data->save();
+
+        return response()->json('user blocked');
+
+
+       }
+
+       public function unblock(Request $request){
+
+        $user_id = $request->input('user_id');
+
+        $data = User::where('user_id',$user_id)->first();
+        $data->status = 'active';
+        $data->save();
+
+        return response()->json('user unblocked');
+
        }
     
 
-    public function destroy($user_id){
+    public function destroy(Request $request){
+
+        $user_id = $request->input('user_id');
         $data = User::where('user_id',$user_id)->first();
         $data->delete();
     
@@ -349,4 +415,5 @@ class UserController extends Controller
     }
 
 
+  
 }
