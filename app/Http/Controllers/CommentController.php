@@ -34,13 +34,14 @@ class CommentController extends Controller
            $product_id = $request->input('product_id');
            
 
-           $comment = Comment::where('product_id',$product_id)->first();
-           $commented = Comment::where('product_id',$product_id)->get();
+           $comment = Comment::where('product_id',$product_id)->get();
            $finalArray = array();  
         
-     if($comment->status == 'visible'){
+           foreach ($comment as $comments){
+           
+            if($comments->status == 'visible'){
 
-           foreach ($commented as $comments){
+
           
             $tempArray = [
               'product_id' =>$comments->product_id,

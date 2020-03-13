@@ -17,10 +17,10 @@ $router->get('/', function () use ($router) {
 
 //user
 Route::get('/user', 'UserController@index');
-Route::get('/user/{id}', 'UserController@show');
+Route::get('/user', 'UserController@show');
 Route::post('/user/add', 'UserController@store');
 Route::post('/user/update', 'UserController@update');
-Route::delete('/user/delete/{id}', 'UserController@destroy');
+Route::delete('/user/delete', 'UserController@destroy');
 Route::post('/user/addpackage', 'UserController@addpackage');
 
 //package
@@ -105,9 +105,9 @@ Route::get('/reserve/listrejected','ReserveController@listrejected');
 Route::post('reserve/confirm','ReserveController@confirm');
 Route::post('reserve/cancel','ReserveController@cancel');
 Route::get('/reserve/listconfirmed','ReserveController@listconfirmed');
-Route::get('/reserve/listconfirmed','ReserveController@listcanceled');
-Route::post('reserve/cancel','ReserveController@complete');
-Route::get('/reserve/listconfirmed','ReserveController@listcompleted');
+Route::get('/reserve/listcanceled','ReserveController@listcanceled');
+Route::post('reserve/complete','ReserveController@complete');
+Route::get('/reserve/listcompleted','ReserveController@listcompleted');
 
 
 
