@@ -27,8 +27,15 @@ class LoginController extends Controller
                 return response()->json('User wasnt existed' );
             }
 
+            if ($user->status == 'blocked' ) {
+                return response()->json('User blocked' );
+            }
+
             else 
-              {  if($user->user_role == 'admin'){
+              {
+                if($user->status == 'active') {
+                
+                if($user->user_role == 'admin'){
                        
 
                        $finalArray = array();  
@@ -68,7 +75,7 @@ class LoginController extends Controller
                        
 
                 }
-            }
+            
         
     
 
@@ -149,6 +156,10 @@ class LoginController extends Controller
 
                     }
                 }
+            }
+        }
+
+                
 
                 
              

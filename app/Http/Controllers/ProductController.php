@@ -1832,7 +1832,7 @@ public function premiumlist(Request $request)
             'product_continuity' => $products->product_continuity,
             'product_quantity' => $products->product_quantity,
             'unit' => $products->unit,
-            'availability' => $product->availability,
+            'availability' => $products->availability,
             'premiumlist' =>$products->premiumlist,
             'product_price' => $products->product_price,
             'product_pricemax' => $products->product_pricemax,
@@ -1957,7 +1957,7 @@ public function premiumlist(Request $request)
             'product_continuity' => $products->product_continuity,
             'product_quantity' => $products->product_quantity,
             'unit' => $products->unit,
-            'availability' => $product->availability,
+            'availability' => $products->availability,
             'premiumlist' =>$products->premiumlist,
             'product_price' => $products->product_price,
             'product_pricemax' => $products->product_pricemax,
@@ -1999,11 +1999,6 @@ public function premiumlist(Request $request)
 
     return response()->json($finalArray);
 }
-
-
-
-    
-
 
 
 

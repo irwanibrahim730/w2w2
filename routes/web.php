@@ -17,7 +17,7 @@ $router->get('/', function () use ($router) {
 
 //user
 Route::get('/user', 'UserController@index');
-Route::get('/user', 'UserController@show');
+Route::get('/user/detail', 'UserController@show');
 Route::post('/user/add', 'UserController@store');
 Route::post('/user/update', 'UserController@update');
 Route::delete('/user/delete', 'UserController@destroy');
@@ -108,6 +108,11 @@ Route::get('/reserve/listconfirmed','ReserveController@listconfirmed');
 Route::get('/reserve/listcanceled','ReserveController@listcanceled');
 Route::post('reserve/complete','ReserveController@complete');
 Route::get('/reserve/listcompleted','ReserveController@listcompleted');
+
+//review
+Route::post('/review','ReviewController@store');
+Route::delete('/review/delete','ReviewController@delete');
+Route::get('/review/list','ReviewController@list');
 
 
 

@@ -12,17 +12,6 @@ class AdminController extends Controller
 
 {
 
-    public function listapproval() 
-    {
-
-        $products = Product::where('product_status',null)->get();
-        
-        return response()-> json($products);
-
-    }
-
-
-
 
     public function approve(Request $request)
     {
