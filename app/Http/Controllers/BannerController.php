@@ -46,6 +46,7 @@ class BannerController extends Controller
             $imagepath = $public.'/'.$banners->image;
 
             $tempArray = [
+              'id' => $banners->id,
               'title' =>$banners->title,
               'image' => $imagepath,
               'url'=>$banners->url,

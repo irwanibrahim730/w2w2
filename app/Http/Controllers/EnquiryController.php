@@ -38,10 +38,11 @@ class EnquiryController extends Controller
            foreach ($enquiry as $enquiries){
           
             $tempArray = [
-              'name' =>$enquiries->name,
+              'id' => $enquiries->id,
+              'name' => $enquiries->name,
               'email' => $enquiries->email,
-              'category'=>$enquiries->category,
-              'description'=>$enquiries->description,
+              'category'=> $enquiries->category,
+              'description'=> $enquiries->description,
           ];
 
            array_push($finalArray,$tempArray);

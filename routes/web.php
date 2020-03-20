@@ -114,6 +114,9 @@ Route::post('/review','ReviewController@store');
 Route::delete('/review/delete','ReviewController@delete');
 Route::get('/review/list','ReviewController@list');
 
+//mailing
+Route::post('/email','EmailController@mail');
+
 
 
 
