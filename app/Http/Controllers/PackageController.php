@@ -24,25 +24,14 @@ class PackageController extends Controller
 
     public function store (Request $request){
 
-        $validator = \validator::make($request->all(), 
-            [
-                'package_name' => 'required',
-                'package_limit' => 'required',
-                'package_duration' => 'required',
-                'package_price' => 'required',
-            ]);
-
-        if ($validator->fails()){
-
-            return response()->json($validator->errors(), 422);
-        } else {
-    
+ 
         $data = new Package();
         $data->package_name = $request->input('package_name');
         $data->package_limit = $request->input('package_limit');
         $data->package_duration = $request->input('package_duration');
         $data->package_price = $request->input('package_price');
         $data->premiumlist = $request->input('premiumlist');
+        $data->description = $request->input('description');
         $data->save();
 
 
@@ -51,17 +40,21 @@ class PackageController extends Controller
 
         }
     
-    }
+    
 
 
-    public function update(Request $request, $package_id)
+    public function update(Request $request)
     {
+
+        $package_id = $request->input('package_id');
+
         $data = Package::where('package_id',$package_id)->first();
         $package_name = $request->input('package_name');
         $package_limit = $request->input('package_limit');
         $package_duration = $request->input('package_duration');
         $package_price = $request->input('package_price');
         $premiumlist = $request->input('premiumlist');
+        $description = $request->input('description');
         
         if($package_name == null){
            
@@ -89,11 +82,17 @@ class PackageController extends Controller
             $premiumlist = $data->premiumlist;
         }
 
+        if($description == null){
+
+            $description = $data->description;
+        }
+
         $data->package_name = $package_name;
         $data->package_limit = $package_limit;
         $data->package_duration = $package_duration;
         $data->package_price = $package_price;
         $data->premiumlist = $premiumlist;
+        $data->description = $description;
         $data->save();
 
 
@@ -101,7 +100,10 @@ class PackageController extends Controller
         return response()->json('package updated');
     }
     
-    public function destroy($package_id){
+    public function destroy(Request $request){
+
+        $package_id = $request->input('package_id');
+
         $data = Package::where('package_id',$package_id)->first();
         $data->delete();
     

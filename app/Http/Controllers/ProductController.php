@@ -138,6 +138,12 @@ class ProductController extends Controller
                                             'company_email' => $product->company_email,
                                             'company_contact' => $product->company_contact,
                                             'tagging' => $tagArray,
+                                            'name' => $product->name,
+                                            'contact' => $product->contact,
+                                            'publishstatus' => $product->publishstatus,
+                                            'expired_at' => $product->expired_at,
+                                            'created_at' => $product->created_at->format('d M Y - H:i:s'),
+                                            'updated_at' => $product->updated_at->format('d M Y - H:i:s'),
                                          ];
                          
                         array_push($finalArray,$tempArray);
@@ -273,6 +279,10 @@ class ProductController extends Controller
                 'company_email' => $product->company_email,
                 'company_contact' => $product->company_contact,
                 'tagging' => $tagArray,
+                'name' => $product->name,
+                'contact' => $product->contact,
+                'publishstatus' => $product->publishstatus,
+                'expired_at' => $product->expired_at,
              ];
              
             array_push($finalArray,$tempArray);
@@ -285,28 +295,7 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        {
-
-           $validator = \validator::make($request->all(),
-        [
-            'product_name' => 'required',
-             'product_package' => 'required',
-             'product_category' => 'required',
-           
-            
-
-        ]);
-
-        if ($validator->fails()) {
-
-			return response()->json($validator->errors(), 422);
-
-        }
-
-        else
-        {
-
-
+        
             $product_date = $request->input('product_date');
             $product_name = $request->input('product_name');
             $product_material = $request->input ('product_material');
@@ -337,6 +326,9 @@ class ProductController extends Controller
             $company_name = $request->input('company_name');
             $company_email = $request->input('company_email');
             $company_contact = $request->input('company_contact');
+            $name = $request->input('name');
+            $contact = $request->input('contact');
+            $publishstatus = $request->input('publishstatus');
 
              $locations=array();  
           
@@ -418,17 +410,20 @@ class ProductController extends Controller
         $file->company_email = $company_email;
         $file->company_contact = $company_contact;
         $file->tagging = json_encode($tag);
+        $file->name = $name;
+        $file->contact = $contact;
+        $file->publishstatus = $publishstatus;
         $file->save(); 
 
         return response()->json('product added');
  
                 
     
-    }
+    
 
              
 }
-    }
+    
 
 
 
@@ -469,6 +464,9 @@ class ProductController extends Controller
     $company_email = $request->input('company_email');
     $company_contact = $request->input('company_contact');
     $tagging = $request->input('tagging');
+    $name = $request->input('name');
+    $contact = $request->input('contact');
+    $publishstatus = $request->input('publishstatus');
 
 
     if ($product_date == null) {
@@ -692,6 +690,21 @@ class ProductController extends Controller
         }
     }
 
+    if($name == null){
+
+        $name = $data->name;
+    }
+
+    if($contact == null){
+
+        $contact = $data->contact;
+    }
+
+    if($publishstatus == null){
+
+        $publishstatus = $data->publishstatus;
+    }
+
     $data->product_date = $product_date;
     $data->product_name = $product_name;
     $data->product_status = $product_status;
@@ -719,6 +732,9 @@ class ProductController extends Controller
     $data->company_email = $company_email;
     $data->company_contact = $company_contact;
     $data->tagging = json_encode($taggings);
+    $data->name = $name;
+    $data->contact = $contact;
+    $data->publishstatus = $publishstatus;
     $data->save();
 
     return response()->json('product updated');
@@ -865,6 +881,12 @@ class ProductController extends Controller
                                   'company_email' => $product->company_email,
                                   'company_contact' => $product->company_contact,
                                   'tagging' => $tagArray,
+                                  'name' => $product->name,
+                                  'contact' => $product->contact,
+                                  'publishstatus' => $product->publishstatus,
+                                  'expired_at' => $product->expired_at,
+                                  'created_at' => $product->created_at->format('d M Y - H:i:s'),
+                                  'updated_at' => $product->updated_at->format('d M Y - H:i:s'),
                                ];
                
               array_push($finalArray,$tempArray);
@@ -1000,6 +1022,12 @@ class ProductController extends Controller
                                         'company_email' => $product->company_email,
                                         'company_contact' => $product->company_contact,
                                         'tagging' => $tagArray,
+                                        'name' => $product->name,
+                                        'contact' => $product->contact,
+                                        'publishstatus' => $product->publishstatus,
+                                        'expired_at' => $product->expired_at,
+                                        'created_at' => $product->created_at->format('d M Y - H:i:s'),
+                                        'updated_at' => $product->updated_at->format('d M Y - H:i:s'),
                                      ];
                      
                     array_push($finalArray,$tempArray);
@@ -1135,6 +1163,12 @@ class ProductController extends Controller
                                         'company_email' => $product->company_email,
                                         'company_contact' => $product->company_contact,
                                         'tagging' => $tagArray,
+                                        'name' => $product->name,
+                                        'contact' => $product->contact,
+                                        'publishstatus' => $product->publishstatus,
+                                        'expired_at' => $product->expired_at,
+                                        'created_at' => $product->created_at->format('d M Y - H:i:s'),
+                                        'updated_at' => $product->updated_at->format('d M Y - H:i:s'),
                                      ];
                      
                     array_push($finalArray,$tempArray);
@@ -1272,6 +1306,12 @@ class ProductController extends Controller
                                 'company_email' => $product->company_email,
                                 'company_contact' => $product->company_contact,
                                 'tagging' => $tagArray,
+                                'name' => $product->name,
+                                'contact' => $product->contact,
+                                'publishstatus' => $product->publishstatus,
+                                'expired_at' => $product->expired_at,
+                                'created_at' => $product->created_at->format('d M Y - H:i:s'),
+                                'updated_at' => $product->updated_at->format('d M Y - H:i:s'),
                              ];
              
             array_push($finalArray,$tempArray);
@@ -1416,6 +1456,12 @@ class ProductController extends Controller
                                 'company_email' => $product->company_email,
                                 'company_contact' => $product->company_contact,
                                 'tagging' => $tagArray,
+                                'name' => $product->name,
+                                'contact' => $product->contact,
+                                'publishstatus' => $product->publishstatus,
+                                'expired_at' => $product->expired_at,
+                                'created_at' => $product->created_at->format('d M Y - H:i:s'),
+                                'updated_at' => $product->updated_at->format('d M Y - H:i:s'),
                              ];
              
                  array_push($finalArray,$tempArray);
@@ -1430,148 +1476,7 @@ class ProductController extends Controller
 
     }
 
-    public function listapproved(Request $request){
-
-        $user_id = $request->input('user_id');
-        $products = Product::where('user_id',$user_id)->get();
-        $finalArray = array();
-
-
-      
-        
-            foreach($products as $product){
-
-                if($product->product_status == 'success'){
-
-                    $json_array = json_decode($product->product_image, true);
-                    $imageArray = array();
-                    
-                            foreach ($json_array as $pic)
-                            {
-                                $public = rtrim(app()->basePath('public/image'), '/');
-                                $imagepath = $public.'/'.$pic;
-                                
-              
-                                $imagetempArray = [
-                                    'image' => $imagepath,
-                                ];
-              
-                                array_push($imageArray,$imagetempArray);
-                            }
     
-                            $json_arrays = json_decode($product->product_location, true);
-                $locationArray = array();
-    
-                        foreach ($json_arrays as $locate)
-                        {
-                            $locationtempArray = [
-                                  'location' => $locate,
-                            ];
-    
-                            array_push($locationArray,$locationtempArray);
-    
-                        }
-    
-                
-    
-                $json_longitud = json_decode($product->longitud, true);
-                $longitudArray = array();
-            
-                            foreach ($json_longitud as $longitude)
-                            {
-                                $longitudtempArray = [
-                                      'longitud' => $longitude,
-                                ];
-            
-                                    array_push($longitudArray,$longitudtempArray);
-            
-                                }
-    
-                $json_latitud = json_decode($product->latitud, true);
-                $latitudArray = array();
-                            
-                            foreach ($json_latitud as $latitude)
-                             {
-                                 $latitudtempArray = [
-                                        'latitud' => $latitude,
-                                 ];
-                            
-                                    array_push($latitudArray,$latitudtempArray);
-                            
-                                }
-    
-                $json_state = json_decode($product->product_state, true);
-                $stateArray = array();
-                                            
-                            foreach ($json_state as $states)
-                            {
-                                $statetempArray = [
-                                    'state' => $states,
-                                ];
-                                            
-                                     array_push($stateArray,$statetempArray);
-                                            
-                                }
-                   
-                                $json_tag = json_decode($product->tagging, true);
-                                $tagArray = array();
-                                                                            
-                                    foreach ($json_tag as $tags)
-                                    {
-                                     $tagtempArray = [
-                                        'tagging' => $tags,
-                                    ];
-                                                                            
-                                  array_push($tagArray,$tagtempArray);
-                                                                            
-                                    }
-                                
-                               
-                                 $tempArray = [
-                          
-                                    'product_id' => $product->product_id,
-                                    'product_date' => $product->product_date,
-                                    'product_name' => $product->product_name,
-                                    'product_status' => $product->product_status,
-                                    'product_material' => $product->product_material,
-                                    'maincategory' => $product->maincategory,
-                                    'product_category' => $product->product_category,
-                                    'product_target' => $product->product_target,
-                                    'product_continuity' => $product->product_continuity,
-                                    'product_quantity' => $product->product_quantity,
-                                    'unit' => $product->unit,
-                                    'availability' => $product->availability,
-                                    'product_price' => $product->product_price,
-                                    'product_pricemax' => $product->product_pricemax,
-                                    'product_period' => $product->product_period,
-                                    'product_package' =>$product->product_package,
-                                    'product_location' =>$locationArray,
-                                    'latitud' => $latitudArray,
-                                    'longitud' => $longitudArray,
-                                    'product_state' => $stateArray,
-                                    'product_transport' =>$product->product_transport,
-                                    'product_description' => $product->product_description,
-                                    'product_image' => $imageArray,
-                                    'mainstatus' => $product->mainstatus,
-                                    'website' => $product->website,
-                                    'user_id' => $product->user_id,
-                                    'company_name' => $product->company_name,
-                                    'company_email' => $product->company_email,
-                                    'company_contact' => $product->company_contact,
-                                    'tagging' => $tagArray,
-                                 ];
-                 
-                     array_push($finalArray,$tempArray);
-                    
-        }
-    }
-
-        return response()->json($finalArray);
-    
-
-
-
-}
 
 
 public function listexpired(Request $request)
@@ -1701,6 +1606,11 @@ public function listexpired(Request $request)
                         'company_contact' => $product->company_contact,
                         'tagging' => $tagArray,
                         'expired_at' => $product->expired_at,
+                        'name' => $product->name,
+                        'contact' => $product->contact,
+                        'publishstatus' => $product->publishstatus,
+                        'created_at' => $product->created_at->format('d M Y - H:i:s'),
+                        'updated_at' => $product->updated_at->format('d M Y - H:i:s'),
                      ];
      
          array_push($finalArray,$tempArray);
@@ -1852,7 +1762,12 @@ public function premiumlist(Request $request)
             'company_email' => $products->company_email,
             'company_contact' => $products->company_contact,
             'tagging' => $tagArray,
+            'name' => $products->name,
+            'contact' => $products->contact,
+            'publishstatus' => $products->publishstatus,
             'expired_at' => $products->expired_at,
+            'created_at' => $products->created_at->format('d M Y - H:i:s'),
+            'updated_at' => $products->updated_at->format('d M Y - H:i:s'),
              
           ];
 
@@ -1977,7 +1892,12 @@ public function premiumlist(Request $request)
             'company_email' => $products->company_email,
             'company_contact' => $products->company_contact,
             'tagging' => $tagArray,
+            'name' => $products->name,
+            'contact' => $products->contact,
+            'publishstatus' => $products->publishstatus,
             'expired_at' => $products->expired_at,
+            'created_at' => $products->created_at->format('d M Y - H:i:s'),
+            'updated_at' => $products->updated_at->format('d M Y - H:i:s'),
              
           ];
 

@@ -14,6 +14,7 @@ class CategoryController extends Controller
         $name = $request->input('name');
         $idmaincategory = $request->input('idmaincategory');
         $sub = $request->input('sub');
+        $publishstatus = $request->input('publishstatus');
 
 
         
@@ -22,6 +23,7 @@ class CategoryController extends Controller
         $data->name = $name;
         $data->idmaincategory = $idmaincategory;
         $data->sub = $sub;
+        $data->publishstatus = $publishstatus;
 
         $data->save(); 
 
@@ -46,6 +48,7 @@ class CategoryController extends Controller
           $tempArray = [
               'id' => $categories->id,
               'name'=>$categories->name,
+              'publishstatus' => $categories->publishstatus,
           ];
 
           array_push($finalArray,$tempArray);
@@ -71,6 +74,7 @@ public function listsubcategory(Request $request)
     $tempArray = [
         'id' => $categories->id,
         'name'=>$categories->name,
+        'publishstatus' =>$categories->publishstatus,
     ];
 
     array_push($finalArray,$tempArray);
@@ -80,6 +84,76 @@ public function listsubcategory(Request $request)
 
 
 }
+
+
+  public function mainstatus(Request $request)
+  {
+    {
+        
+        $idmaincategory = $request->input('idmaincategory');
+        $publishstatus = $request->input('publishstatus');
+
+        $category = Category::where('idmaincategory',$idmaincategory)->get(); 
+         $finalArray = array();  
+      
+
+         foreach ($category as $categories){
+             if($categories->publishstatus == $publishstatus){
+
+          if($categories->sub == null){
+
+        $tempArray = [
+            'id' => $categories->id,
+            'name'=>$categories->name,
+            'publishstatus' => $categories->publishstatus,
+        ];
+
+        array_push($finalArray,$tempArray);
+      }
+    }
+  }
+        return response()->json($finalArray); 
+
+   
+}
+
+  }
+
+
+
+  public function substatus(Request $request)
+
+    {
+        $id = $request->input('id');
+        $publishstatus = $request->input('publishstatus');
+    
+        $category = Category::where('sub',$id)->get(); 
+         $finalArray = array();  
+      
+    
+         foreach ($category as $categories){
+           if($categories->publishstatus == $publishstatus){
+          if($categories->sub != null ){
+    
+        $tempArray = [
+            'id' => $categories->id,
+            'name'=>$categories->name,
+            'publishstatus' =>$categories->publishstatus,
+        ];
+    
+        array_push($finalArray,$tempArray);
+      }
+    }
+    }
+        return response()->json($finalArray); 
+    
+    
+    }
+  
+
+
+
+
 
 public function delete(Request $request)
 {

@@ -15,6 +15,7 @@ class BannerController extends Controller
         $title = $request->input('title');
         $image = $request->file('image');
         $url = $request->input('url');
+        $publishstatus = $request->input('publishstatus');
 
 
         $extention = $image->getClientOriginalExtension();
@@ -27,6 +28,7 @@ class BannerController extends Controller
         $data->title = $title;
         $data->image = $imagename;
         $data->url = $url;
+        $data->publishstatus = $publishstatus;
         $data->save(); 
 
         return response()->json('Banner Submitted');
@@ -50,6 +52,9 @@ class BannerController extends Controller
               'title' =>$banners->title,
               'image' => $imagepath,
               'url'=>$banners->url,
+              'publishstatus' => $banners->publishstatus,
+              'created_at' => $banners->created_at->format('d M Y - H:i:s'),
+              'updated_at' => $banners->updated_at->format('d M Y - H:i:s'),
    
           ];
 
@@ -60,6 +65,40 @@ class BannerController extends Controller
     
 
         }
+
+
+        public function status(Request $request){
+
+            $publishstatus = $request->input('publishstatus');
+    
+            $datas = Banner::where('publishstatus',$publishstatus)->get();
+            $statusArray = array();
+          
+    
+    
+    
+                foreach($datas as $data ) {
+    
+                    $public = rtrim(app()->basePath('public/image'), '/');
+                    $imagename = $data->news_photo;
+                    $dirfile = $public.'/'.$imagename;
+                
+                    $tempArray = [
+                        'id' => $data->id,
+                        'title' =>$data->title,
+                        'image' => $dirfile,
+                        'url'=>$data->url,
+                        'publishstatus' => $data->publishstatus,
+                        'created_at' => $data->created_at->format('d M Y - H:i:s'),
+                        'updated_at' => $data->updated_at->format('d M Y - H:i:s'),
+             
+                    ];
+                     array_push($statusArray,$tempArray);
+            }
+    
+                return response()->json($statusArray);
+    
+             }
       
     
 

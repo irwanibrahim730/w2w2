@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Laravel\Lumen\Routing\Controller;
 use Illuminate\Http\Request;
 use App\Comment;
+use App\User;
 
 class CommentController extends Controller
 
@@ -14,6 +15,9 @@ class CommentController extends Controller
         $product_id = $request->input('product_id');
         $title = $request->input('title');
         $description = $request->input('description');
+        $user_id = $request->input('user_id');
+
+ 
 
 
         $data = new Comment;
@@ -21,6 +25,7 @@ class CommentController extends Controller
         $data->description = $description;
         $data->status = 'visible';
         $data->product_id = $product_id;
+        $data->user_id = $user_id;
         $data->save(); 
 
         return response()->json('Comment Added');
@@ -30,29 +35,40 @@ class CommentController extends Controller
 
     public function listcomment(Request $request)
     {
-        
+            
            $product_id = $request->input('product_id');
+           $status = $request->input('status');
            
 
            $comment = Comment::where('product_id',$product_id)->get();
+ 
            $finalArray = array();  
         
            foreach ($comment as $comments){
+
+            $user_id = $comments->user_id;
+            $user = User::where('user_id',$user_id)->get();
            
-            if($comments->status == 'visible'){
+            if($comments->status == $status){
 
 
+                  foreach($user as $users){
           
             $tempArray = [
-              'product_id' =>$comments->product_id,
               'id' => $comments->id,
+              'product_id' =>$comments->product_id,
+              'user_fname' =>$users->user_fname,
+              'user_lname' => $users->user_lname,
               'title'=>$comments->title,
               'description'=>$comments->description,
+              'status' => $comments->status,
+              'created_at' => $comments->created_at->format('d M Y - H:i:s'),
+              'updated_at' => $comments->updated_at->format('d M Y - H:i:s'),
           ];
 
            array_push($finalArray,$tempArray);
          }
-
+        }
         }
       
     
@@ -62,6 +78,13 @@ class CommentController extends Controller
 
      
 }
+
+
+  
+
+
+
+
 
 public function hidecomment(Request $request){
 

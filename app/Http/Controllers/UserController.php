@@ -42,9 +42,15 @@ class UserController extends Controller
                 'user_type' => $data->user_type,
                 'profilepicture' => $dirfile,
                 'user_role' => $data->user_role,
+                'package_id' => $data->package_id,
+                'package_limit' => $data->package_limit,
                 'personincharge' => $data->personincharge,
                 'phonenumber' => $data->phonenumber,
                 'created_at' =>$data->created_at,
+                'updated_at' =>$data->updated_at,
+                'status' => $data->status,
+                'balancetoken' => $data->balancetoken,
+                'activitylog' => $data->activitylog,
 
 			];
         
@@ -91,10 +97,15 @@ class UserController extends Controller
                 'user_type' => $data->user_type,
                 'profilepicture' => $dirfile,
                 'user_role' => $data->user_role,
+                'package_id' => $data->package_id,
+                'package_limit' => $data->package_limit,
                 'personincharge' => $data->personincharge,
                 'phonenumber' => $data->phonenumber,
                 'created_at' =>$data->created_at,
+                'updated_at' =>$data->updated_at,
                 'status' => $data->status,
+                'balancetoken' => $data->balancetoken,
+                'activitylog' => $data->activitylog,
 
              ];
             

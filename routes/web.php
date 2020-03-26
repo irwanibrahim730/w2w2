@@ -30,9 +30,27 @@ Route::post('/packages/add', 'PackageController@store');
 Route::post('/packages/update', 'PackageController@update');
 Route::delete('/packages/delete', 'PackageController@destroy');
 
+//token
+Route::get('/token', 'PackageController@index');
+Route::get('/token/detail', 'PackageController@show');
+Route::post('/token/add', 'PackageController@store');
+Route::post('/token/update', 'PackageController@edit');
+Route::delete('/token/delete', 'PackageController@destroy');
+Route::post('/token/addtoken', 'PackageController@addtoken');
+Route::post('/token/give', 'PackageController@givetoken');
+
+
+//inbox
+Route::get('/inbox', 'InboxController@index');
+Route::get('/inbox/detail', 'InboxController@show');
+Route::post('/inbox/add', 'InboxController@store');
+Route::post('/inbox/update', 'InboxController@edit');
+Route::delete('/inbox/delete', 'InboxController@destroy');
+
 //news
 Route::get('/news', 'NewsController@index');
 Route::get('/news/detail', 'NewsController@show');
+Route::get('/news/status', 'NewsController@status');
 Route::post('/news/add', 'NewsController@store');
 Route::post('/news/update', 'NewsController@update');
 Route::delete('/news/delete', 'NewsController@destroy');
@@ -69,6 +87,8 @@ Route::post('/category/add','CategoryController@addcategory');
 Route::get('/category','CategoryController@listcategory');
 Route::get('/category/sub','CategoryController@listsubcategory');
 Route::delete('/category/delete','CategoryController@delete');
+Route::get('/category/mainstatus','CategoryController@mainstatus');
+Route::get('/category/substatus','CategoryController@substatus');
 
 //comment
 Route::post('/comment','CommentController@addcomment');
@@ -85,6 +105,7 @@ Route::delete('/enquiry/delete','EnquiryController@delete');
 //banner
 Route::post('/banner','BannerController@store');
 Route::get('/banner/list','BannerController@list');
+Route::get('/banner/status','BannerController@status');
 Route::delete('/banner/delete','BannerController@delete');
 
 //notification
