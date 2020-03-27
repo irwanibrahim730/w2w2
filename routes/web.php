@@ -31,13 +31,13 @@ Route::post('/packages/update', 'PackageController@update');
 Route::delete('/packages/delete', 'PackageController@destroy');
 
 //token
-Route::get('/token', 'PackageController@index');
-Route::get('/token/detail', 'PackageController@show');
-Route::post('/token/add', 'PackageController@store');
-Route::post('/token/update', 'PackageController@edit');
-Route::delete('/token/delete', 'PackageController@destroy');
-Route::post('/token/addtoken', 'PackageController@addtoken');
-Route::post('/token/give', 'PackageController@givetoken');
+Route::get('/token', 'TokenController@index');
+Route::get('/token/detail', 'TokenController@show');
+Route::post('/token/add', 'TokenController@store');
+Route::post('/token/update', 'TokenController@edit');
+Route::delete('/token/delete', 'TokenController@destroy');
+Route::post('/token/addtoken', 'TokenController@addtoken');
+Route::post('/token/give', 'TokenController@givetoken');
 
 
 //inbox

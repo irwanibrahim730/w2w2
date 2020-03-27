@@ -13,8 +13,8 @@ class InboxController extends Controller
 
  
         $data = new Inbox();
-        $data->type = $request->input('email');
-        $data->quantity = $request->input('message');
+        $data->email = $request->input('email');
+        $data->message = $request->input('message');
         $data->save();
 
 

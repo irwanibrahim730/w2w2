@@ -91,11 +91,10 @@ class TokenController extends Controller
                 $description = $data->description;
             }
     
-            $data->package_name = $package_name;
-            $data->package_limit = $package_limit;
-            $data->package_duration = $package_duration;
-            $data->package_price = $package_price;
-            $data->premiumlist = $premiumlist;
+            $data->type = $type;
+            $data->quantity = $quantity;
+            $data->price = $price;
+            $data->discount = $discount;
             $data->description = $description;
             $data->save();
     
@@ -114,8 +113,13 @@ class TokenController extends Controller
         $token = Token::where('id',$id)->first();
         $user = User::where('user_id',$user_id)->first();
 
+        $balance = $user->balancetoken;
+        $newtoken = $token->quantity;
+        
+        $total = $balance + $newtoken;
 
-        $user->balancetoken = $token->quantity;
+
+        $user->balancetoken = $total;
         $user->save();
 
 
@@ -133,7 +137,9 @@ class TokenController extends Controller
           $user = User::where('user_id',$user_id)->first();
 
 
-          $total = $user->balancetoken + $amount;
+          $balance = $user->balancetoken;
+          
+          $total = $balance + $amount;;
 
           $user->balancetoken = $total;
           $user->save();
