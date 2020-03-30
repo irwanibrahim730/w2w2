@@ -24,7 +24,7 @@ class NewsController extends Controller
 
 			$tempArray = [
 
-                'id' => $data->news_id,
+                'news_id' => $data->news_id,
                 'news_title' => $data->news_title,
                 'news_desc' => $data->news_desc,
                 'shortdesc' => $data->shortdesc,
@@ -61,7 +61,7 @@ class NewsController extends Controller
             $dirfile = $public.'/'.$imagename;
 
             $tempArray = [
-                'id' => $data->news_id,
+                'news_id' => $data->news_id,
                 'news_title' => $data->news_title,
                 'news_desc' => $data->news_desc,
                 'shortdesc' => $data->shortdesc,
@@ -98,7 +98,7 @@ class NewsController extends Controller
                 $dirfile = $public.'/'.$imagename;
             
                 $tempArray = [
-                'id' => $data->news_id,
+                'news_id' => $data->news_id,
                 'news_title' => $data->news_title,
                 'news_desc' => $data->news_desc,
                 'shortdesc' => $data->shortdesc,

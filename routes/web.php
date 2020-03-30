@@ -107,6 +107,7 @@ Route::post('/banner','BannerController@store');
 Route::get('/banner/list','BannerController@list');
 Route::get('/banner/status','BannerController@status');
 Route::delete('/banner/delete','BannerController@delete');
+Route::get('/banner/detail', 'BannerController@detail');
 
 //notification
 Route::get('/notification','ProductController@listapproved');

@@ -117,4 +117,17 @@ public function delete(Request $request)
 }
 
 
+   public function detail(Request $request)
+   {
+
+     $id = $request->input('id');
+
+     $banners = Banner::where('id',$id)->get();
+
+     return response()->json($banners);
+
+
+   }
+
+
 }
