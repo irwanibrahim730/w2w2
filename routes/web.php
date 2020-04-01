@@ -101,6 +101,7 @@ Route::post('/comment/unhide','CommentController@unhide');
 Route::post('/enquiry','EnquiryController@store');
 Route::get('/enquiry/list','EnquiryController@list');
 Route::delete('/enquiry/delete','EnquiryController@delete');
+Route::get('/enquiry/detail','EnquiryController@detail');
 
 //banner
 Route::post('/banner','BannerController@store');
@@ -108,6 +109,7 @@ Route::get('/banner/list','BannerController@list');
 Route::get('/banner/status','BannerController@status');
 Route::delete('/banner/delete','BannerController@delete');
 Route::get('/banner/detail', 'BannerController@detail');
+Route::post('/banner/edit','BannerController@edit');
 
 //notification
 Route::get('/notification','ProductController@listapproved');
@@ -138,6 +140,12 @@ Route::get('/review/list','ReviewController@list');
 
 //mailing
 Route::post('/email','EmailController@mail');
+
+//log
+Route::get('/log','LogController@list');
+Route::get('/log/detail','LogController@detail');
+Route::delete('/log/delete','LogController@delete');
+Route::get('/log/type','LogController@type');
 
 
 

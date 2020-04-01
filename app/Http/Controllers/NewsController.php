@@ -131,12 +131,17 @@ class NewsController extends Controller
             $publishstatus = $request->input('publishstatus');
 
 
-
+            if($request->hasfile('news_photo')){
           $extention = $news_photo->getClientOriginalExtension();
           $imagename = rand(11111, 99999) . '.' . $extention;
           $destinationPath = 'image';
           $news_photo->move($destinationPath, $imagename);
+            }
 
+            else if ($news_photo == null) {
+                $imagename = null;
+
+            }
 
         $data = new News;
         $data->news_title = $news_title;
@@ -164,11 +169,7 @@ class NewsController extends Controller
             $shortdesc = $request->input('shortdesc');
             $publishstatus = $request->input('publishstatus');
 
-            $extention = $news_photo->getClientOriginalExtension();
-            $imagename = rand(11111, 99999) . '.' . $extention;
-            $destinationPath = 'image';
 
-            $news_photo->move($destinationPath, $imagename);
 
             if ($news_title == null) {
                 $news_title = $data->news_title;
@@ -177,7 +178,17 @@ class NewsController extends Controller
                 $news_desc = $data->news_desc;
             }
             if ($news_photo == null) {
-                $news_photo = $data->news_photo;
+                $imagename = $data->news_photo;
+             }
+             
+             else{
+                $extention = $news_photo->getClientOriginalExtension();
+                $imagename = rand(11111, 99999) . '.' . $extention;
+                $destinationPath = 'image';
+    
+                $news_photo->move($destinationPath, $imagename);
+
+
              }
 
             if ($published_at == null) {

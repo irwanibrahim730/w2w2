@@ -43,6 +43,8 @@ class EnquiryController extends Controller
               'email' => $enquiries->email,
               'category'=> $enquiries->category,
               'description'=> $enquiries->description,
+              'created_at' => $enquiries->created_at->format('d M Y - H:i:s'),
+              'updated_at' => $enquiries->updated_at->format('d M Y - H:i:s'),
           ];
 
            array_push($finalArray,$tempArray);
@@ -52,6 +54,15 @@ class EnquiryController extends Controller
     
 
         }
+
+     public function detail(Request $request)
+     {
+         $id = $request->input('id');
+
+         $enquiry = Enquiry::where('id',$id)->first();
+
+         return response()->json($enquiry);
+     }
       
     
 

@@ -148,6 +148,7 @@ class UserController extends Controller
             $profilepicture = $request->file('profilepicture');
             $personincharge = $request->input('personincharge');
             $phonenumber = $request->input('phonenumber');
+            $user_role = $request->input('user_role');
 
             if($request->hasfile('profilepicture')){
             $extention = $profilepicture->getClientOriginalExtension();
@@ -185,7 +186,7 @@ class UserController extends Controller
         $data->job_title = $job_title;
         $data->user_type = $user_type;
         $data->profilepicture=$imagename;
-        $data->user_role = 'user';
+        $data->user_role = $user_role;
         $data->personincharge = $personincharge;
         $data->phonenumber = $phonenumber;
         $data->status = 'active';

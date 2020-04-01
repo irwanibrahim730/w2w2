@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Reserve;
 use App\Product;
 use App\User;
+use App\log;
 
 class ReserveController extends Controller
 
@@ -45,7 +46,7 @@ class ReserveController extends Controller
            foreach($product as $products){
               if($products->status=='reserved'){
 
-                // $json_array = json_decode($products->product_image, true);
+                // $json_array = json_decode($products->image, true);
                 // $imageArray = array();
 
               
@@ -121,7 +122,7 @@ class ReserveController extends Controller
             foreach($product as $products){
                if($products->status=='approved'){
  
-                 // $json_array = json_decode($products->product_image, true);
+                 // $json_array = json_decode($products->image, true);
                  // $imageArray = array();
  
                
@@ -166,7 +167,7 @@ class ReserveController extends Controller
             foreach($product as $products){
                if($products->status=='rejected'){
  
-                 // $json_array = json_decode($products->product_image, true);
+                 // $json_array = json_decode($products->image, true);
                  // $imageArray = array();
  
                
@@ -302,9 +303,25 @@ class ReserveController extends Controller
         $reserve_id = $request->input('id');
 
         $product = Reserve::where('id',$reserve_id)->first();
+        $user_id = $product->user_id;
+        $user = User::where('user_id',$user_id)->first();
+        $buyer_id = $product->buyer_id;
+        $buyer = User::where('user_id',$buyer_id)->first();
 
         $product->status = 'completed';
         $product->save();
+
+        $sellerlog = new Log;
+        $sellerlog->username = $user->user_fname;
+        $sellerlog->type = 'seller';
+        $sellerlog->save();
+
+        $buyerlog = new Log;
+        $buyerlog->username = $buyer->user_fname;
+        $buyerlog->type = 'buyer'; 
+        $buyerlog->save();
+        
+
 
         return response()->json('offer completed');
 

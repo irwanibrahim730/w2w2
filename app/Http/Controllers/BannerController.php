@@ -17,11 +17,17 @@ class BannerController extends Controller
         $url = $request->input('url');
         $publishstatus = $request->input('publishstatus');
 
-
+        if($request->hasfile('image')){
         $extention = $image->getClientOriginalExtension();
         $imagename = rand(11111, 99999) . '.' . $extention;
         $destinationPath = 'image';
         $image->move($destinationPath, $imagename);
+        }
+        
+        
+            else if ($image == null) {
+                $imagename = null;
+        }
 
 
         $data = new Banner;
@@ -125,6 +131,56 @@ public function delete(Request $request)
      $banners = Banner::where('id',$id)->get();
 
      return response()->json($banners);
+
+
+   }
+
+
+   public function edit(Request $request)
+   {
+    $id = $request->input('id');
+
+    
+    $title = $request->input('title');
+    $image = $request->file('image');
+    $url = $request->input('url');
+    $publishstatus = $request->input('publishstatus');
+
+    $data = Banner::where('id',$id)->first();
+
+    if ($title == null) {
+        $title = $data->title;
+    }
+    if($request->hasfile('image')){
+        $extention = $image->getClientOriginalExtension();
+        $imagename = rand(11111, 99999) . '.' . $extention;
+        $destinationPath = 'image';
+        $image->move($destinationPath, $imagename);
+        }
+        
+        
+            else if ($image == null) {
+                $imagename = $data->image;
+        }
+
+        
+
+    if ($url == null) {
+        $url = $data->url;
+     }
+
+    if ($publishstatus == null) {
+      $publishstatus = $data->publishstatus;
+     }
+
+     $data->title = $title;
+     $data->image = $imagename;
+     $data->url = $url;
+     $data->publishstatus = $publishstatus;
+     $data->save();
+
+     return response()->json('news  successfull updated');
+
 
 
    }
