@@ -146,7 +146,7 @@ Route::get('/log','LogController@list');
 Route::get('/log/detail','LogController@detail');
 Route::delete('/log/delete','LogController@delete');
 Route::get('/log/type','LogController@type');
-
+    
 
 
 

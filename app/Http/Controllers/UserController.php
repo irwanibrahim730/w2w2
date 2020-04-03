@@ -219,6 +219,7 @@ class UserController extends Controller
         $personincharge = $request->input('personincharge');
         $phonenumber = $request->input('phonenumber');
         $status = $request->input('status');
+        $user_role = $request->input('user_role');
 
 
        
@@ -228,6 +229,11 @@ class UserController extends Controller
         if ($user_fname == null) {
             $user_fname = $data->user_fname;
         }
+
+        if ($user_role == null) {
+            $user_role = $data->user_role;
+        }
+
         if ($user_lname == null) {
             $user_lname= $data->user_lname;
         }
@@ -286,6 +292,7 @@ class UserController extends Controller
         $data->personincharge = $personincharge;
         $data->phonenumber = $phonenumber;
         $data->status =$status;
+        $data->user_role = $user_role;
         $data->save();
 
         return response()->json('User Updated'); 
