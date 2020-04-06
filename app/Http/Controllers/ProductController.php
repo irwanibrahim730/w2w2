@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Product;
 use App\Package;
 use App\User;
+use App\Notification;
 use Carbon\Carbon;
 
 
@@ -295,6 +296,10 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+
+            $user_id = $request->input('user_id');
+            
+            $user = User::where('user_id',$user_id)->first();
         
             $product_date = $request->input('product_date');
             $product_name = $request->input('product_name');
@@ -320,7 +325,6 @@ class ProductController extends Controller
             $product_image = $request->file('product_image');
             $mainstatus = $request->input('mainstatus');
             $website = $request->input('website');
-            $user_id = $request->input('user_id');  
             $package_id = $request->input('package_id');    
             $product_status = 'processed';
             $company_name = $request->input('company_name');
@@ -404,7 +408,7 @@ class ProductController extends Controller
         $file->product_image = json_encode($images);
         $file->mainstatus = $mainstatus;
         $file->website = $website;
-        $file->user_id = $user_id;
+        $file->user_id = $user->user_id;
         $file->package_id = $package_id;   
         $file->company_name = $company_name;
         $file->company_email = $company_email;
@@ -414,6 +418,14 @@ class ProductController extends Controller
         $file->contact = $contact;
         $file->publishstatus = $publishstatus;
         $file->save(); 
+
+
+
+        $notify = new Notification;
+        $notify->email = $user->user_email;
+        $notify->item  = $product_name;
+        $notify->save();
+
 
         return response()->json('product added');
  

@@ -39,29 +39,27 @@ class LoginController extends Controller
                        
 
                        $finalArray = array();  
-                       $data = user::all();
-                      
-                       foreach ($data as $data) {
+                  
 
                         $public = rtrim(app()->basePath('public/image'), '/');
-                        $imagename = $data->profilepicture;
+                        $imagename = $user->profilepicture;
                         $dirfile = $public.'/' . $imagename;
                         
                  
             
                         $tempArray = [
-                            'user_id' => $data->user_id,
-                            'user_fname' => $data->user_fname,
-                            'user_lname' => $data->user_lname,
-                            'companyname' => $data->companyname,
-                            'password' => $data->password,
-                            'user_contact' => $data->user_contact,
-                            'user_email' => $data->user_email,
-                            'companyregisternumber' => $data->companyregisternumber,
-                            'companydesc' => $data->companydesc,
-                            'user_type' => $data->user_type,
+                            'user_id' => $user->user_id,
+                            'user_fname' => $user->user_fname,
+                            'user_lname' => $user->user_lname,
+                            'companyname' => $user->companyname,
+                            'password' => $user->password,
+                            'user_contact' => $user->user_contact,
+                            'user_email' => $user->user_email,
+                            'companyregisternumber' => $user->companyregisternumber,
+                            'companydesc' => $user->companydesc,
+                            'user_type' => $user->user_type,
                             'profilepicture' => $dirfile,
-                            'user_role' => $data->user_role,
+                            'user_role' => $user->user_role,
 
             
                         ];
@@ -157,7 +155,7 @@ class LoginController extends Controller
                     }
                 }
             }
-        }
+        
 
                 
 

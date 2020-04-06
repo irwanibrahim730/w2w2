@@ -168,5 +168,47 @@ public function delete(Request $request)
 
 }
 
+public function edit(Request $request)
+{
+
+    $id = $request->input('id');
+
+    $category = Category::where('id',$id)->first();
+
+    $idmaincategory = $request->input('idmaincategory');
+    $name = $request->input('name');
+    $sub = $request->input('sub');
+    $publishstatus = $request->input('publishstatus');
+
+    if($idmaincategory == null){
+      $idmaincategory = $category->idmaincategory;
+    }
+
+    if($name == null)
+    {
+      $name = $category->name;
+    }
+
+    if($sub == null)
+    {
+      $sub = $category->sub;
+    }
+
+    if($publishstatus == null)
+    {
+      $publishstatus = $category->publishstatus;
+    }
+
+    $category->idmaincategory = $idmaincategory;
+    $category->name = $name;
+    $category->sub = $sub;
+    $category->publishstatus = $publishstatus;
+    $category->save();
+    
+   return response()->json('category updated');
+
+
+}
+
 
 }

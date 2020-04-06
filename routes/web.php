@@ -89,6 +89,7 @@ Route::get('/category/sub','CategoryController@listsubcategory');
 Route::delete('/category/delete','CategoryController@delete');
 Route::get('/category/mainstatus','CategoryController@mainstatus');
 Route::get('/category/substatus','CategoryController@substatus');
+Route::post('/category/edit','CategoryController@edit');
 
 //comment
 Route::post('/comment','CommentController@addcomment');
@@ -146,6 +147,10 @@ Route::get('/log','LogController@list');
 Route::get('/log/detail','LogController@detail');
 Route::delete('/log/delete','LogController@delete');
 Route::get('/log/type','LogController@type');
+
+//notification
+Route::get('/notification','NotificationController@list');
+Route::delete('/notification/delete','NotificationController@delete');
     
 
 

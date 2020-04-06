@@ -222,6 +222,82 @@ class UserController extends Controller
         $user_role = $request->input('user_role');
 
 
+        if($data->user_role == 'admin'){
+        
+            if ($user_fname == null) {
+                $user_fname = $data->user_fname;
+            }
+    
+            if ($user_role == null) {
+                $user_role = $data->user_role;
+            }
+    
+            if ($user_lname == null) {
+                $user_lname= $data->user_lname;
+            }
+    
+            if ($password == null) {
+            $password = $data->password;
+            }
+    
+            if ($user_contact == null) {
+            $user_contact= $data->user_contact;
+            }
+    
+            if ($user_email == null) {
+            $user_email = $data->user_email;
+            }
+    
+            if ($address == null) {
+                $address = $data->address;
+                }
+    
+            if ($occupation == null) {
+                    $occupation = $data->occupation;
+                    }
+            if ($personincharge == null) {
+                    $personincharge = $data->personincharge;
+                    }
+                
+            if ($phonenumber == null) {
+                    $phonenumber = $data->phonenumber;
+                    }
+    
+                    if ($status == null) {
+                        $status = $data->status;
+                        }
+    
+             if ($profilepicture == null) {
+                $imagename = $data->profilepicture;
+            } else {
+    
+                $extention = $profilepicture->getClientOriginalExtension();
+                $imagename = rand(11111, 99999) . '.' . $extention;
+                $destinationPath = 'image';
+        
+                $profilepicture->move($destinationPath, $imagename); 
+    
+            }
+         
+            $data->user_fname = $user_fname;
+            $data->user_lname = $user_lname;
+            $data->password = $password;
+            $data->user_contact = $user_contact;
+            $data->user_email = $user_email;
+            $data->address = $address;
+            $data->occupation = $occupation;
+            $data->profilepicture = $imagename;
+            $data->personincharge = $personincharge;
+            $data->phonenumber = $phonenumber;
+            $data->status =$status;
+            $data->user_role = $user_role;
+            $data->save();
+    
+            return response()->json('Admin Updated'); 
+    
+          }
+
+
        
 
       if($data->user_type == 'individual'){
