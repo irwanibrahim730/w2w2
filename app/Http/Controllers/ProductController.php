@@ -52,7 +52,31 @@ class ProductController extends Controller
                                     array_push($locationArray,$locationtempArray);
             
                                 }
-            
+
+                        $json_arrays = json_decode($product->city, true);
+                        $cityArray = array();
+                    
+                                foreach ($json_arrays as $citys)
+                                {
+                                    $tempArray = [
+                                            'city' => $citys,
+                                            ];
+                    
+                                    array_push($cityArray,$tempArray);
+                    
+                                        }
+                        $json_arrays = json_decode($product->postalcode, true);
+                        $postcodeArray = array();
+                    
+                                foreach ($json_arrays as $postcodes)
+                                {
+                                    $tempArray = [
+                                            'postalcode' => $postcodes,
+                                            ];
+                    
+                                    array_push($postcodeArray,$tempArray);
+                    
+                                        }           
                         
             
                         $json_longitud = json_decode($product->longitud, true);
@@ -126,6 +150,8 @@ class ProductController extends Controller
                                             'product_period' => $product->product_period,
                                             'product_package' =>$product->product_package,
                                             'product_location' =>$locationArray,
+                                            'city' => $cityArray,
+                                            'postalcode' => $postcodeArray,
                                             'latitud' => $latitudArray,
                                             'longitud' => $longitudArray,
                                             'product_state' => $stateArray,
@@ -135,6 +161,7 @@ class ProductController extends Controller
                                             'mainstatus' => $product->mainstatus,
                                             'website' => $product->website,
                                             'user_id' => $product->user_id,
+                                            'package_id' => $product->package_id,
                                             'company_name' => $product->company_name,
                                             'company_email' => $product->company_email,
                                             'company_contact' => $product->company_contact,
@@ -181,6 +208,31 @@ class ProductController extends Controller
       
                         array_push($imageArray,$imagetempArray);
                     }
+
+                    $json_arrays = json_decode($product->city, true);
+                    $cityArray = array();
+                
+                            foreach ($json_arrays as $citys)
+                            {
+                                $tempArray = [
+                                        'city' => $citys,
+                                        ];
+                
+                                array_push($cityArray,$tempArray);
+                
+                                    }
+                    $json_arrays = json_decode($product->postalcode, true);
+                    $postcodeArray = array();
+                
+                            foreach ($json_arrays as $postcodes)
+                            {
+                                $tempArray = [
+                                        'postalcode' => $postcodes,
+                                        ];
+                
+                                array_push($postcodeArray,$tempArray);
+                
+                                    }  
 
             $json_arrays = json_decode($product->product_location, true);
             $locationArray = array();
@@ -267,6 +319,8 @@ class ProductController extends Controller
                 'product_period' => $product->product_period,
                 'product_package' =>$product->product_package,
                 'product_location' =>$locationArray,
+                'city' => $cityArray,
+                'postalcode' =>$postcodeArray,
                 'latitud' => $latitudArray,
                 'longitud' => $longitudArray,
                 'product_state' => $stateArray,
@@ -276,6 +330,7 @@ class ProductController extends Controller
                 'mainstatus' => $product->mainstatus,
                 'website' => $product->website,
                 'user_id' => $product->user_id,
+                'package_id' => $product->package_id,
                 'company_name' => $product->company_name,
                 'company_email' => $product->company_email,
                 'company_contact' => $product->company_contact,
@@ -320,6 +375,8 @@ class ProductController extends Controller
             $latitud = $request->input('latitud');
             $tagging = $request->input('tagging');
             $product_state = $request->input('product_state');
+            $city = $request->input('city');
+            $postalcode = $request->input('postalcode');
             $product_transport = $request->input('product_transport');
             $product_description = $request->input('product_description');  
             $product_image = $request->file('product_image');
@@ -333,6 +390,21 @@ class ProductController extends Controller
             $name = $request->input('name');
             $contact = $request->input('contact');
             $publishstatus = $request->input('publishstatus');
+
+
+            $cities = array();
+
+            foreach($city as $cits)
+            {
+                $cities[] = $cits;
+            }
+
+            $postcode = array();
+
+            foreach($postalcode as $postcodes)
+            {
+                $postcode[] = $postcodes;
+            }
 
              $locations=array();  
           
@@ -403,6 +475,8 @@ class ProductController extends Controller
         $file->latitud = json_encode($latituds);
         $file->longitud = json_encode($longituds);
         $file->product_state = json_encode($states);
+        $file->city = json_encode($cities);
+        $file->postalcode = json_encode($postcode);
         $file->product_transport = $product_transport;
         $file->product_description = $product_description;
         $file->product_image = json_encode($images);
@@ -461,6 +535,8 @@ class ProductController extends Controller
     $product_period = $request->input('product_period');
     $product_package = $request->input('product_package');
     $product_location = $request->input('product_location');
+    $city = $request->input('city');
+    $postalcode = $request->input('postalcode');
     $longitud = $request->input('longitud');
     $latitud = $request->input('latitud');
     $product_state = $request->input('product_state');
@@ -479,6 +555,51 @@ class ProductController extends Controller
     $name = $request->input('name');
     $contact = $request->input('contact');
     $publishstatus = $request->input('publishstatus');
+
+    if ($city == null) {
+        $json_arrays = json_decode($data->city, true);
+        $cities = array();
+
+                foreach ($json_arrays as $cits)
+                {
+                  $cities[] = $cits;
+
+                }
+
+    }
+
+    else
+    {
+        $cities=array();
+        foreach($city as $cits)
+        {
+           $cities[] = $cits;
+
+        }
+    }
+
+    if ($postalcode == null) {
+        $json_arrays = json_decode($data->postalcode, true);
+        $postcode = array();
+
+                foreach ($json_arrays as $postcodes)
+                {
+                  $postcode[] = $postcodes;
+
+                }
+
+    }
+
+    else
+    {
+        $postcode=array();
+        foreach($postalcode as $postcodes)
+        {
+           $postcode[] = $postcodes;
+
+        }
+    }
+
 
 
     if ($product_date == null) {
@@ -732,6 +853,8 @@ class ProductController extends Controller
     $data->product_period = $product_period;
     $data->product_package = $product_package;
     $data->product_location = json_encode($locations);
+    $data->city = json_encode($cities);
+    $data->postalcode = json_encode($postcode);
     $data->latitud = json_encode($latituds);
     $data->longitud = json_encode($longituds);
     $data->product_state = json_encode($states);
@@ -775,6 +898,31 @@ class ProductController extends Controller
       $products = Product::where('product_category',$product_category)->get();
 
       foreach ($products as $product){
+
+        $json_arrays = json_decode($product->city, true);
+        $cityArray = array();
+    
+                foreach ($json_arrays as $citys)
+                {
+                    $tempArray = [
+                            'city' => $citys,
+                            ];
+    
+                    array_push($cityArray,$tempArray);
+    
+                        }
+        $json_arrays = json_decode($product->postalcode, true);
+        $postcodeArray = array();
+    
+                foreach ($json_arrays as $postcodes)
+                {
+                    $tempArray = [
+                            'postalcode' => $postcodes,
+                            ];
+    
+                    array_push($postcodeArray,$tempArray);
+    
+                        }  
 
       $json_array = json_decode($product->product_image, true);
       $imageArray = array();
@@ -880,6 +1028,8 @@ class ProductController extends Controller
                                   'product_period' => $product->product_period,
                                   'product_package' =>$product->product_package,
                                   'product_location' =>$locationArray,
+                                  'city' => $cityArray,
+                                  'postalcode' => $postcodeArray,
                                   'latitud' => $latitudArray,
                                   'longitud' => $longitudArray,
                                   'product_state' => $stateArray,
@@ -889,6 +1039,7 @@ class ProductController extends Controller
                                   'mainstatus' => $product->mainstatus,
                                   'website' => $product->website,
                                   'user_id' => $product->user_id,
+                                  'package_id' => $product->package_id,
                                   'company_name' => $product->company_name,
                                   'company_email' => $product->company_email,
                                   'company_contact' => $product->company_contact,
@@ -917,6 +1068,31 @@ class ProductController extends Controller
 
         foreach ($products as $product){
 
+            $json_arrays = json_decode($product->city, true);
+            $cityArray = array();
+        
+                    foreach ($json_arrays as $citys)
+                    {
+                        $tempArray = [
+                                'city' => $citys,
+                                ];
+        
+                        array_push($cityArray,$tempArray);
+        
+                            }
+            $json_arrays = json_decode($product->postalcode, true);
+            $postcodeArray = array();
+        
+                    foreach ($json_arrays as $postcodes)
+                    {
+                        $tempArray = [
+                                'postalcode' => $postcodes,
+                                ];
+        
+                        array_push($postcodeArray,$tempArray);
+        
+                            }  
+
             $json_array = json_decode($product->product_image, true);
             $imageArray = array();
             
@@ -1021,6 +1197,8 @@ class ProductController extends Controller
                                         'product_period' => $product->product_period,
                                         'product_package' =>$product->product_package,
                                         'product_location' =>$locationArray,
+                                        'city' => $cityArray,
+                                        'postalcode' => $postcodeArray,
                                         'latitud' => $latitudArray,
                                         'longitud' => $longitudArray,
                                         'product_state' => $stateArray,
@@ -1030,6 +1208,7 @@ class ProductController extends Controller
                                         'mainstatus' => $product->mainstatus,
                                         'website' => $product->website,
                                         'user_id' => $product->user_id,
+                                        'package_id' => $product->package_id,
                                         'company_name' => $product->company_name,
                                         'company_email' => $product->company_email,
                                         'company_contact' => $product->company_contact,
@@ -1058,6 +1237,31 @@ class ProductController extends Controller
 
         foreach ($products as $product){
 
+            $json_arrays = json_decode($product->city, true);
+            $cityArray = array();
+        
+                    foreach ($json_arrays as $citys)
+                    {
+                        $tempArray = [
+                                'city' => $citys,
+                                ];
+        
+                        array_push($cityArray,$tempArray);
+        
+                            }
+            $json_arrays = json_decode($product->postalcode, true);
+            $postcodeArray = array();
+        
+                    foreach ($json_arrays as $postcodes)
+                    {
+                        $tempArray = [
+                                'postalcode' => $postcodes,
+                                ];
+        
+                        array_push($postcodeArray,$tempArray);
+        
+                            }  
+
             $json_array = json_decode($product->product_image, true);
             $imageArray = array();
             
@@ -1162,6 +1366,8 @@ class ProductController extends Controller
                                         'product_period' => $product->product_period,
                                         'product_package' =>$product->product_package,
                                         'product_location' =>$locationArray,
+                                        'city'=> $cityArray,
+                                        'postalcode' => $postcodeArray,
                                         'latitud' => $latitudArray,
                                         'longitud' => $longitudArray,
                                         'product_state' => $stateArray,
@@ -1171,6 +1377,7 @@ class ProductController extends Controller
                                         'mainstatus' => $product->mainstatus,
                                         'website' => $product->website,
                                         'user_id' => $product->user_id,
+                                        'package_id' => $product->package_id,
                                         'company_name' => $product->company_name,
                                         'company_email' => $product->company_email,
                                         'company_contact' => $product->company_contact,
@@ -1200,6 +1407,31 @@ class ProductController extends Controller
 
 
         foreach ($products as $product){
+
+            $json_arrays = json_decode($product->city, true);
+            $cityArray = array();
+        
+                    foreach ($json_arrays as $citys)
+                    {
+                        $tempArray = [
+                                'city' => $citys,
+                                ];
+        
+                        array_push($cityArray,$tempArray);
+        
+                            }
+            $json_arrays = json_decode($product->postalcode, true);
+            $postcodeArray = array();
+        
+                    foreach ($json_arrays as $postcodes)
+                    {
+                        $tempArray = [
+                                'postalcode' => $postcodes,
+                                ];
+        
+                        array_push($postcodeArray,$tempArray);
+        
+                            }  
 
             $json_array = json_decode($product->product_image, true);
             $imageArray = array();
@@ -1305,6 +1537,8 @@ class ProductController extends Controller
                                 'product_period' => $product->product_period,
                                 'product_package' =>$product->product_package,
                                 'product_location' =>$locationArray,
+                                'city' => $cityArray,
+                                'postalcode' => $postcodeArray,
                                 'latitud' => $latitudArray,
                                 'longitud' => $longitudArray,
                                 'product_state' => $stateArray,
@@ -1314,6 +1548,7 @@ class ProductController extends Controller
                                 'mainstatus' => $product->mainstatus,
                                 'website' => $product->website,
                                 'user_id' => $product->user_id,
+                                'package_id' => $product->package_id,
                                 'company_name' => $product->company_name,
                                 'company_email' => $product->company_email,
                                 'company_contact' => $product->company_contact,
@@ -1351,6 +1586,31 @@ class ProductController extends Controller
             $data = User::where('user_id',$product->user_id)->first();
             
             if($data->user_type == $user_type){
+
+                $json_arrays = json_decode($product->city, true);
+                $cityArray = array();
+            
+                        foreach ($json_arrays as $citys)
+                        {
+                            $tempArray = [
+                                    'city' => $citys,
+                                    ];
+            
+                            array_push($cityArray,$tempArray);
+            
+                                }
+                $json_arrays = json_decode($product->postalcode, true);
+                $postcodeArray = array();
+            
+                        foreach ($json_arrays as $postcodes)
+                        {
+                            $tempArray = [
+                                    'postalcode' => $postcodes,
+                                    ];
+            
+                            array_push($postcodeArray,$tempArray);
+            
+                                }  
 
                 $json_array = json_decode($product->product_image, true);
                 $imageArray = array();
@@ -1455,6 +1715,8 @@ class ProductController extends Controller
                                 'product_period' => $product->product_period,
                                 'product_package' =>$product->product_package,
                                 'product_location' =>$locationArray,
+                                'city' => $cityArray,
+                                'postalcode' => $postcodeArray,
                                 'latitud' => $latitudArray,
                                 'longitud' => $longitudArray,
                                 'product_state' => $stateArray,
@@ -1464,6 +1726,7 @@ class ProductController extends Controller
                                 'mainstatus' => $product->mainstatus,
                                 'website' => $product->website,
                                 'user_id' => $product->user_id,
+                                'package_id' => $product->package_id,
                                 'company_name' => $product->company_name,
                                 'company_email' => $product->company_email,
                                 'company_contact' => $product->company_contact,
@@ -1501,6 +1764,31 @@ public function listexpired(Request $request)
    foreach($products as $product){
  
      if ($product->expired_at >= $today){
+
+        $json_arrays = json_decode($product->city, true);
+        $cityArray = array();
+    
+                foreach ($json_arrays as $citys)
+                {
+                    $tempArray = [
+                            'city' => $citys,
+                            ];
+    
+                    array_push($cityArray,$tempArray);
+    
+                        }
+        $json_arrays = json_decode($product->postalcode, true);
+        $postcodeArray = array();
+    
+                foreach ($json_arrays as $postcodes)
+                {
+                    $tempArray = [
+                            'postalcode' => $postcodes,
+                            ];
+    
+                    array_push($postcodeArray,$tempArray);
+    
+                        }  
         $json_array = json_decode($product->product_image, true);
         $imageArray = array();
         
@@ -1604,6 +1892,8 @@ public function listexpired(Request $request)
                         'product_period' => $product->product_period,
                         'product_package' =>$product->product_package,
                         'product_location' =>$locationArray,
+                        'city' => $cityArray,
+                        'postalcode' => $postcodeArray,
                         'latitud' => $latitudArray,
                         'longitud' => $longitudArray,
                         'product_state' => $stateArray,
@@ -1613,6 +1903,7 @@ public function listexpired(Request $request)
                         'mainstatus' => $product->mainstatus,
                         'website' => $product->website,
                         'user_id' => $product->user_id,
+                        'package_id' => $product->package_id,
                         'company_name' => $product->company_name,
                         'company_email' => $product->company_email,
                         'company_contact' => $product->company_contact,
@@ -1659,6 +1950,30 @@ public function premiumlist(Request $request)
     {
         if($products->premiumlist == $yes)
         {
+            $json_arrays = json_decode($products->city, true);
+            $cityArray = array();
+        
+                    foreach ($json_arrays as $citys)
+                    {
+                        $tempArray = [
+                                'city' => $citys,
+                                ];
+        
+                        array_push($cityArray,$tempArray);
+        
+                            }
+            $json_arrays = json_decode($products->postalcode, true);
+            $postcodeArray = array();
+        
+                    foreach ($json_arrays as $postcodes)
+                    {
+                        $tempArray = [
+                                'postalcode' => $postcodes,
+                                ];
+        
+                        array_push($postcodeArray,$tempArray);
+        
+                            }  
             $json_array = json_decode($products->product_image, true);
             $imageArray = array();
             
@@ -1761,6 +2076,8 @@ public function premiumlist(Request $request)
             'product_period' => $products->product_period,
             'product_package' =>$products->product_package,
             'product_location' =>$locationArray,
+            'city'=> $cityArray,
+            'postalcode' => $postcodeArray,
             'latitud' => $latitudArray,
             'longitud' => $longitudArray,
             'product_state' => $stateArray,
@@ -1770,6 +2087,7 @@ public function premiumlist(Request $request)
             'mainstatus' => $products->mainstatus,
             'website' => $products->website,
             'user_id' => $products->user_id,
+            'package_id' => $products->package_id,
             'company_name' => $products->company_name,
             'company_email' => $products->company_email,
             'company_contact' => $products->company_contact,
@@ -1789,6 +2107,31 @@ public function premiumlist(Request $request)
 
         if($products->premiumlist != $yes)
         {
+            $json_arrays = json_decode($products->city, true);
+            $cityArray = array();
+        
+                    foreach ($json_arrays as $citys)
+                    {
+                        $tempArray = [
+                                'city' => $citys,
+                                ];
+        
+                        array_push($cityArray,$tempArray);
+        
+                            }
+            $json_arrays = json_decode($products->postalcode, true);
+            $postcodeArray = array();
+        
+                    foreach ($json_arrays as $postcodes)
+                    {
+                        $tempArray = [
+                                'postalcode' => $postcodes,
+                                ];
+        
+                        array_push($postcodeArray,$tempArray);
+        
+                            }  
+
             $json_array = json_decode($products->product_image, true);
             $imageArray = array();
             
@@ -1891,6 +2234,8 @@ public function premiumlist(Request $request)
             'product_period' => $products->product_period,
             'product_package' =>$products->product_package,
             'product_location' =>$locationArray,
+            'city' => $cityArray,
+            'postalcode' => $postcodeArray,
             'latitud' => $latitudArray,
             'longitud' => $longitudArray,
             'product_state' => $stateArray,
@@ -1900,6 +2245,7 @@ public function premiumlist(Request $request)
             'mainstatus' => $products->mainstatus,
             'website' => $products->website,
             'user_id' => $products->user_id,
+            'package_id' => $products->package_id,
             'company_name' => $products->company_name,
             'company_email' => $products->company_email,
             'company_contact' => $products->company_contact,

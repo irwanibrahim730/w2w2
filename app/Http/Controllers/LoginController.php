@@ -65,14 +65,16 @@ class LoginController extends Controller
                         ];
                     
                         array_push($finalArray, $tempArray);
+
+                        return response()->json($finalArray); 
             
                     }
                     
-                        return response()->json($finalArray); 
+                        
 
                        
 
-                }
+                
             
         
     
@@ -94,7 +96,7 @@ class LoginController extends Controller
                           
 
                           
-                          $finalArray = [
+                          $tempArray = [
                              'user_id' => $user->user_id,
                              'user_fname'=>$user->user_fname,
                              'user_lname'=>$user->user_lname,
@@ -111,7 +113,7 @@ class LoginController extends Controller
 
 
                            ];
-
+                           array_push($finalArray, $tempArray);
  
 
                            return response()->json($finalArray);
@@ -130,7 +132,7 @@ class LoginController extends Controller
                         $imagename = $user->profilepicture;
                         $dirfile = $public.'/' . $imagename;
 
-                        $compArray = [
+                        $tempArray = [
                               'user_id' => $user->user_id,
                               'companyname'=>$user->companyname,
                               'password'=>$user->password,
@@ -147,12 +149,15 @@ class LoginController extends Controller
                               'user_role' => $user->user_role,
                           ];
 
+                          array_push($finalArray, $tempArray);
+
                           return response()->json($compArray);
                       } 
 
                     }
 
                     }
+                  }
                 }
             }
         

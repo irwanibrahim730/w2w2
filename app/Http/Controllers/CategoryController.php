@@ -211,4 +211,18 @@ public function edit(Request $request)
 }
 
 
+    public function detail( Request $request)
+    {
+  
+      $id = $request->input('id');
+
+      $category = Category::where('id',$id)->first();
+
+      return response()->json($category);
+
+
+
+    } 
+
+
 }

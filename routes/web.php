@@ -90,6 +90,7 @@ Route::delete('/category/delete','CategoryController@delete');
 Route::get('/category/mainstatus','CategoryController@mainstatus');
 Route::get('/category/substatus','CategoryController@substatus');
 Route::post('/category/edit','CategoryController@edit');
+Route::get('/category/detail','CategoryController@detail');
 
 //comment
 Route::post('/comment','CommentController@addcomment');

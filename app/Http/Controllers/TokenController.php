@@ -16,6 +16,8 @@ class TokenController extends Controller
         $data->type = $request->input('type');
         $data->quantity = $request->input('quantity');
         $data->price = $request->input('price');
+        $data->freetoken = $request->input('freetoken');
+        $data->netprice = $request->input('netprice');
         $data->discount = $request->input('discount');
         $data->description = $request->input('description');
         $data->save();
@@ -61,8 +63,22 @@ class TokenController extends Controller
             $type = $request->input('type');
             $quantity = $request->input('quantity');
             $price = $request->input('price');
+            $freetoken = $request->input('freetoken');
+            $netprice = $request->input('netprice');
             $discount = $request->input('discount');
             $description = $request->input('description');
+            
+            
+            
+            if($freetoken == null)
+            {
+                $freetoken = $data->freetoken;
+            }
+
+            if($netprice == null)
+            {
+                $netprice = $data->netprice;
+            }
             
             if($type == null){
                
@@ -94,6 +110,8 @@ class TokenController extends Controller
             $data->type = $type;
             $data->quantity = $quantity;
             $data->price = $price;
+            $data->freetoken = $freetoken;
+            $data->netprice = $netprice;
             $data->discount = $discount;
             $data->description = $description;
             $data->save();
