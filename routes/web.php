@@ -135,6 +135,10 @@ Route::get('/reserve/listcanceled','ReserveController@listcanceled');
 Route::post('reserve/complete','ReserveController@complete');
 Route::get('/reserve/listcompleted','ReserveController@listcompleted');
 Route::get('/reserve/all','ReserveController@listall');
+Route::get('/reserve/seller','ReserveController@liststatusseller');
+Route::get('/reserve/buyer','ReserveController@liststatusbuyer');
+Route::get('/reserve/detail','ReserveController@detail');
+Route::delete('/reserve/delete','ReserveController@delete');
 
 //review
 Route::post('/review','ReviewController@store');

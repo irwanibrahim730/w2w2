@@ -19,13 +19,21 @@ class ReserveController extends Controller
         $products = Product::where('product_id',$product_id)->first();
         $buyer_id = $request->input('buyer_id');
         $offeredprice = $request->input('offeredprice');
+
+        $json_array = json_decode($products->product_image, true);
+        $images = array();
+        
+                foreach ($json_array as $pic)
+                {
+                  $images[] = $pic;
+                }
         
 
 
         $data = new Reserve;
         $data->user_id = $products->user_id;
         $data->product_id = $products->product_id;
-        $data->image = json_encode($products->product_image);
+        $data->image = json_encode($images);
         $data->offeredprice = $offeredprice;
         $data->buyer_id = $buyer_id;
         $data->status = 'reserved';
@@ -39,9 +47,50 @@ class ReserveController extends Controller
 
        $reserve = Reserve::all();
 
-       return response()->json($reserve);
+       foreach($reserve as $products){
+        if($products->status=='reserved'){
+
+          $reservearray = array();
+          $json_array = json_decode($products->image, true);
+
+
+          
+                  foreach ($json_array as $pic)
+                  {
+                      $imageArray = array();
+                      $public = rtrim(app()->basePath('public/image'), '/');
+                      $imagepath = $public.'/'.$pic;
+                      
+    
+                      $imagetempArray = [
+                          'image' => $imagepath,
+                      ];
+    
+                      array_push($imageArray,$imagetempArray);
+                  }
+
+            $tempArray = [
+
+                'id' => $products->id,
+                'user_id' => $products->user_id,
+                'product_id' => $products->product_id,
+                'image' => $imageArray,
+                'offeredprice' => $products->offeredprice,
+                'buyer_id' => $products->buyer_id,
+                'status' => $products->status,
+                 
+            ];
+           array_push($reservearray,$tempArray);
+
+        }
+     }
+
+     return response()->json($reservearray); 
+
+
 
     }
+
 
     public function listreserved (Request $request)
 
@@ -54,30 +103,30 @@ class ReserveController extends Controller
            foreach($product as $products){
               if($products->status=='reserved'){
 
-                // $json_array = json_decode($products->image, true);
-                // $imageArray = array();
+                $json_array = json_decode($products->image, true);
+                $imageArray = array();
 
               
                 
-                //         foreach ($json_array as $pic)
-                //         {
-                //             $public = rtrim(app()->basePath('public/image'), '/');
-                //             $imagepath = $public.'/'.$pic;
+                        foreach ($json_array as $pic)
+                        {
+                            $public = rtrim(app()->basePath('public/image'), '/');
+                            $imagepath = $public.'/'.$pic;
                             
           
-                //             $imagetempArray = [
-                //                 'image' => $imagepath,
-                //             ];
+                            $imagetempArray = [
+                                'image' => $imagepath,
+                            ];
           
-                //             array_push($imageArray,$imagetempArray);
-                //         }
+                            array_push($imageArray,$imagetempArray);
+                        }
 
                   $tempArray = [
 
                       'id' => $products->id,
                       'user_id' => $products->user_id,
                       'product_id' => $products->product_id,
-                    //   'image' => $imageArray,
+                      'image' => $imageArray,
                       'offeredprice' => $products->offeredprice,
                       'buyer_id' => $products->buyer_id,
                       'status' => $products->status,
@@ -132,29 +181,29 @@ class ReserveController extends Controller
             foreach($product as $products){
                if($products->status=='approved'){
  
-                 // $json_array = json_decode($products->image, true);
-                 // $imageArray = array();
+                 $json_array = json_decode($products->image, true);
+                 $imageArray = array();
  
                
                  
-                 //         foreach ($json_array as $pic)
-                 //         {
-                 //             $public = rtrim(app()->basePath('public/image'), '/');
-                 //             $imagepath = $public.'/'.$pic;
+                         foreach ($json_array as $pic)
+                         {
+                             $public = rtrim(app()->basePath('public/image'), '/');
+                             $imagepath = $public.'/'.$pic;
                              
            
-                 //             $imagetempArray = [
-                 //                 'image' => $imagepath,
-                 //             ];
+                             $imagetempArray = [
+                                 'image' => $imagepath,
+                             ];
            
-                 //             array_push($imageArray,$imagetempArray);
-                 //         }
+                             array_push($imageArray,$imagetempArray);
+                         }
  
                    $tempArray = [
                        'id' => $products->id,
                        'user_id' => $products->user_id,
                        'product_id' => $products->product_id,
-                     //   'image' => $imageArray,
+                       'image' => $imageArray,
                        'offeredprice' => $products->offeredprice,
                        'buyer_id' => $products->buyer_id,
                        'status' => $products->status,
@@ -178,30 +227,30 @@ class ReserveController extends Controller
             foreach($product as $products){
                if($products->status=='rejected'){
  
-                 // $json_array = json_decode($products->image, true);
-                 // $imageArray = array();
+                 $json_array = json_decode($products->image, true);
+                 $imageArray = array();
  
                
                  
-                 //         foreach ($json_array as $pic)
-                 //         {
-                 //             $public = rtrim(app()->basePath('public/image'), '/');
-                 //             $imagepath = $public.'/'.$pic;
+                         foreach ($json_array as $pic)
+                         {
+                             $public = rtrim(app()->basePath('public/image'), '/');
+                             $imagepath = $public.'/'.$pic;
                              
            
-                 //             $imagetempArray = [
-                 //                 'image' => $imagepath,
-                 //             ];
+                             $imagetempArray = [
+                                 'image' => $imagepath,
+                             ];
            
-                 //             array_push($imageArray,$imagetempArray);
-                 //         }
+                             array_push($imageArray,$imagetempArray);
+                         }
  
                    $tempArray = [
                       
                        'id' => $products->id,
                        'user_id' => $products->user_id,
                        'product_id' => $products->product_id,
-                     //   'image' => $imageArray,
+                       'image' => $imageArray,
                        'offeredprice' => $products->offeredprice,
                        'buyer_id' => $products->buyer_id,
                        'status' => $products->status,
@@ -372,6 +421,196 @@ class ReserveController extends Controller
             return response()->json($reservearray); 
 
     }
+
+
+    public function liststatusseller(Request $request)
+    {
+  
+        $reservearray = array();
+        $imageArray = array();
+         $status = $request->input('status');
+         $user_id = $request->input('user_id');
+
+         $reserve = Reserve::where('user_id',$user_id)->get();
+
+         foreach($reserve as $products)
+         {
+
+    
+             if($products->status == $status)
+
+             {
+
+              
+
+                    $json_array = json_decode($products->image, true);
+                    
+                  
+                    
+                    foreach ($json_array as $pic)
+                    {
+                        $public = rtrim(app()->basePath('public/image'), '/');
+                        $imagepath = $public.'/'.$pic;
+                                
+              
+                         $imagetempArray = [
+                            'image' => $imagepath,
+                        ];
+              
+                        array_push($imageArray,$imagetempArray);
+                      
+                            }
+
+                      
+
+                
+    
+                      $tempArray = [
+                         
+                          'id' => $products->id,
+                          'user_id' => $products->user_id,
+                          'product_id' => $products->product_id,
+                          'image' => $imageArray,
+                          'offeredprice' => $products->offeredprice,
+                          'buyer_id' => $products->buyer_id,
+                          'status' => $products->status,
+                           
+                      ];
+                     array_push($reservearray,$tempArray);
+
+                 
+
+
+
+
+
+             }
+
+  
+         }
+         return response()->json ($reservearray);
+ 
+        }
+
+
+        public function liststatusbuyer(Request $request)
+        {
+            $reservearray = array();
+            $imageArray = array();
+             $status = $request->input('status');
+             $buyer_id = $request->input('buyer_id');
+    
+             $reserve = Reserve::where('buyer_id',$buyer_id)->get();
+    
+             foreach($reserve as $products)
+             {
+                   
+                 if($products->status == $status)
+                 {
+    
+                        $json_array = json_decode($products->image, true);
+                     
+        
+                        foreach ($json_array as $pic)
+                        {
+                            $public = rtrim(app()->basePath('public/image'), '/');
+                            $imagepath = $public.'/'.$pic;
+                                    
+                  
+                             $imagetempArray = [
+                                'image' => $imagepath,
+                            ];
+                  
+                            array_push($imageArray,$imagetempArray);
+                                }
+        
+                          $tempArray = [
+                             
+                              'id' => $products->id,
+                              'user_id' => $products->user_id,
+                              'product_id' => $products->product_id,
+                              'image' => $imageArray,
+                              'offeredprice' => $products->offeredprice,
+                              'buyer_id' => $products->buyer_id,
+                              'status' => $products->status,
+                               
+                          ];
+                        
+    
+                     
+    
+    
+    
+    
+                          array_push($reservearray,$tempArray);
+                 }
+               
+             }
+             return response()->json($reservearray);
+            }
+
+
+    public function detail(Request $request)
+    {
+        $id = $request->input('id');
+        $products = Reserve::where('id',$id)->first();
+
+        $reservearray = array();
+        $json_array = json_decode($products->image, true);
+        $imageArray = array();
+
+      
+        
+                foreach ($json_array as $pic)
+                {
+                    $public = rtrim(app()->basePath('public/image'), '/');
+                    $imagepath = $public.'/'.$pic;
+                    
+  
+                    $imagetempArray = [
+                        'image' => $imagepath,
+                    ];
+  
+                    array_push($imageArray,$imagetempArray);
+                }
+
+          $tempArray = [
+              'id' => $products->id,
+              'user_id' => $products->user_id,
+              'product_id' => $products->product_id,
+              'image' => $imageArray,
+              'offeredprice' => $products->offeredprice,
+              'buyer_id' => $products->buyer_id,
+              'status' => $products->status,
+               
+          ];
+         array_push($reservearray,$tempArray);
+
+       
+        return response()->json($reservearray);
+
+    }        
+
+
+    public function delete (Request $request)
+    {
+ 
+     $id = $request->input('id');
+
+     $reserve = Reserve::where('id',$id)->first();
+     $reserve->delete();
+
+     return response()->json('Reservation deleted');
+
+    }
+
+
+    
+
+          
+
+
+
 
 
 
