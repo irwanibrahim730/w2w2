@@ -35,6 +35,14 @@ class ReserveController extends Controller
 
     }
 
+    public function listall(){
+
+       $reserve = Reserve::all();
+
+       return response()->json($reserve);
+
+    }
+
     public function listreserved (Request $request)
 
     {
@@ -66,6 +74,8 @@ class ReserveController extends Controller
 
                   $tempArray = [
 
+                      'id' => $products->id,
+                      'user_id' => $products->user_id,
                       'product_id' => $products->product_id,
                     //   'image' => $imageArray,
                       'offeredprice' => $products->offeredprice,
@@ -141,7 +151,8 @@ class ReserveController extends Controller
                  //         }
  
                    $tempArray = [
- 
+                       'id' => $products->id,
+                       'user_id' => $products->user_id,
                        'product_id' => $products->product_id,
                      //   'image' => $imageArray,
                        'offeredprice' => $products->offeredprice,
@@ -186,7 +197,9 @@ class ReserveController extends Controller
                  //         }
  
                    $tempArray = [
- 
+                      
+                       'id' => $products->id,
+                       'user_id' => $products->user_id,
                        'product_id' => $products->product_id,
                      //   'image' => $imageArray,
                        'offeredprice' => $products->offeredprice,
@@ -251,7 +264,8 @@ class ReserveController extends Controller
 
  
                    $tempArray = [
- 
+  
+                       'id' => $reserves->id,
                        'product_id' => $reserves->product_id,
                        'offeredprice' => $reserves->offeredprice,
                        'user_email' => $sellers->user_email,
@@ -283,6 +297,8 @@ class ReserveController extends Controller
 
                    $tempArray = [
  
+                       'id' => $products->id,
+                       'user_id' => $products->user_id,
                        'product_id' => $products->product_id,
                        'offeredprice' => $products->offeredprice,
                        'buyer_id' => $products->buyer_id,
@@ -340,6 +356,8 @@ class ReserveController extends Controller
 
                    $tempArray = [
  
+                       'id' => $products->id,
+                       'user_id' => $products->user_id,
                        'product_id' => $products->product_id,
                        'offeredprice' => $products->offeredprice,
                        'buyer_id' => $products->buyer_id,

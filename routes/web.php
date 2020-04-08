@@ -134,6 +134,7 @@ Route::get('/reserve/listconfirmed','ReserveController@listconfirmed');
 Route::get('/reserve/listcanceled','ReserveController@listcanceled');
 Route::post('reserve/complete','ReserveController@complete');
 Route::get('/reserve/listcompleted','ReserveController@listcompleted');
+Route::get('/reserve/all','ReserveController@listall');
 
 //review
 Route::post('/review','ReviewController@store');
