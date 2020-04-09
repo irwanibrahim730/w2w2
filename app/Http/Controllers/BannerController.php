@@ -50,13 +50,14 @@ class BannerController extends Controller
 
            foreach ($banner as $banners){
             
-            $public = rtrim(app()->basePath('public/image'), '/');
-            $imagepath = $public.'/'.$banners->image;
+            $url = 'https://codeviable.com/w2w2/public/image';
+            $imagename = $banners->image;
+            $public =  $url .'/'. $imagename;
 
             $tempArray = [
               'id' => $banners->id,
               'title' =>$banners->title,
-              'image' => $imagepath,
+              'image' => $public,
               'url'=>$banners->url,
               'publishstatus' => $banners->publishstatus,
               'created_at' => $banners->created_at->format('d M Y - H:i:s'),
@@ -85,14 +86,14 @@ class BannerController extends Controller
     
                 foreach($datas as $data ) {
     
-                    $public = rtrim(app()->basePath('public/image'), '/');
-                    $imagename = $data->news_photo;
-                    $dirfile = $public.'/'.$imagename;
+                    $url = 'https://codeviable.com/w2w2/public/image';
+                    $imagename = $data->image;
+                    $public =  $url .'/'. $imagename;
                 
                     $tempArray = [
                         'id' => $data->id,
                         'title' =>$data->title,
-                        'image' => $dirfile,
+                        'image' => $public,
                         'url'=>$data->url,
                         'publishstatus' => $data->publishstatus,
                         'created_at' => $data->created_at->format('d M Y - H:i:s'),
@@ -128,7 +129,30 @@ public function delete(Request $request)
 
      $id = $request->input('id');
 
-     $banners = Banner::where('id',$id)->get();
+     $banner = Banner::where('id',$id)->get();
+     $finalArray = array();  
+
+     foreach ($banner as $banners){
+      
+      $url = 'https://codeviable.com/w2w2/public/image';
+      $imagename = $banners->image;
+      $public =  $url .'/'. $imagename;
+
+      $tempArray = [
+        'id' => $banners->id,
+        'title' =>$banners->title,
+        'image' => $public,
+        'url'=>$banners->url,
+        'publishstatus' => $banners->publishstatus,
+        'created_at' => $banners->created_at->format('d M Y - H:i:s'),
+        'updated_at' => $banners->updated_at->format('d M Y - H:i:s'),
+
+    ];
+
+     array_push($finalArray,$tempArray);
+   }
+
+   return response()->json($finalArray); 
 
      return response()->json($banners);
 

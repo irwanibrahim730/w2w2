@@ -41,9 +41,9 @@ class LoginController extends Controller
                        $finalArray = array();  
                   
 
-                        $public = rtrim(app()->basePath('public/image'), '/');
-                        $imagename = $user->profilepicture;
-                        $dirfile = $public.'/' . $imagename;
+                       $url = 'https://codeviable.com/w2w2/public/image';
+                       $imagename = $user->profilepicture;
+                       $public =  $url .'/'. $imagename;
                         
                  
             
@@ -58,7 +58,7 @@ class LoginController extends Controller
                             'companyregisternumber' => $user->companyregisternumber,
                             'companydesc' => $user->companydesc,
                             'user_type' => $user->user_type,
-                            'profilepicture' => $dirfile,
+                            'profilepicture' => $public,
                             'user_role' => $user->user_role,
 
             
@@ -90,9 +90,9 @@ class LoginController extends Controller
                       
 
   
-                          $public = rtrim(app()->basePath('public/image'), '/');
-                          $imagename = $user->profilepicture;
-                          $dirfile = $public.'/' . $imagename;
+                        $url = 'https://codeviable.com/w2w2/public/image';
+                        $imagename = $user->profilepicture;
+                        $public =  $url .'/'. $imagename;
                           
 
                           
@@ -103,7 +103,7 @@ class LoginController extends Controller
                              'password'=>$user->password,
                              'contactnumber'=>$user->user_contact,
                              'email'=>$user->user_email,
-                             'profilepicture'=>$dirfile,
+                             'profilepicture'=>$public,
                              'user_type' =>$user->user_type,
                              'personincharge' => $user->personincharge,
                              'phonenumber' => $user->phonenumber,
@@ -128,9 +128,9 @@ class LoginController extends Controller
                       
                         $compArray = array();
 
-                        $public = rtrim(app()->basePath('public/image'), '/');
+                        $url = 'https://codeviable.com/w2w2/public/image';
                         $imagename = $user->profilepicture;
-                        $dirfile = $public.'/' . $imagename;
+                        $public =  $url .'/'. $imagename;
 
                         $tempArray = [
                               'user_id' => $user->user_id,
@@ -140,7 +140,7 @@ class LoginController extends Controller
                               'user_email'=>$user->user_email,
                               'companyregisternumber'=>$user->companyregisternumber,
                               'companydesc'=>$user->companydesc,
-                              'profilepicture'=>$dirfile,
+                              'profilepicture'=>$public,
                               'user_type' =>$user->usertype,
                               'personincharge' => $user->personincharge,
                               'phonenumber' => $user->phonenumber,

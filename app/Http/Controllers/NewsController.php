@@ -16,9 +16,9 @@ class NewsController extends Controller
 
         foreach ($news as $data) {
 
-            $public = rtrim(app()->basePath('public/image'), '/');
+            $url = 'https://codeviable.com/w2w2/public/image';
             $imagename = $data->news_photo;
-            $dirfile = $public.'/'. $imagename;
+            $public =  $url .'/'. $imagename;
    
      
 
@@ -28,7 +28,7 @@ class NewsController extends Controller
                 'news_title' => $data->news_title,
                 'news_desc' => $data->news_desc,
                 'shortdesc' => $data->shortdesc,
-                'news_photo' => $dirfile,
+                'news_photo' => $public,
                 'published_at' =>$data->published_at,
                 'publishstatus' => $data->publishstatus,
                 'created_at' => $data->created_at->format('d M Y - H:i:s'),
@@ -56,16 +56,16 @@ class NewsController extends Controller
         
          } else {
       
-            $public = rtrim(app()->basePath('public/image'), '/');
+            $url = 'https://codeviable.com/w2w2/public/image';
             $imagename = $data->news_photo;
-            $dirfile = $public.'/'.$imagename;
+            $public =  $url .'/'. $imagename;
 
             $tempArray = [
                 'news_id' => $data->news_id,
                 'news_title' => $data->news_title,
                 'news_desc' => $data->news_desc,
                 'shortdesc' => $data->shortdesc,
-                'news_photo' => $dirfile,
+                'news_photo' => $public,
                 'published_at' =>$data->published_at,
                 'publishstatus' => $data->publishstatus,
                 'created_at' => $data->created_at->format('d M Y - H:i:s'),
@@ -93,16 +93,16 @@ class NewsController extends Controller
 
             foreach($datas as $data ) {
 
-                $public = rtrim(app()->basePath('public/image'), '/');
+                $url = 'https://codeviable.com/w2w2/public/image';
                 $imagename = $data->news_photo;
-                $dirfile = $public.'/'.$imagename;
+                $public =  $url .'/'. $imagename;
             
                 $tempArray = [
                 'news_id' => $data->news_id,
                 'news_title' => $data->news_title,
                 'news_desc' => $data->news_desc,
                 'shortdesc' => $data->shortdesc,
-                'news_photo' => $dirfile,
+                'news_photo' => $public,
                 'published_at' =>$data->published_at,
                 'publishstatus' => $data->publishstatus,
                 'created_at' => $data->created_at->format('d M Y - H:i:s'),

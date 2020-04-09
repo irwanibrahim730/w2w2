@@ -28,13 +28,14 @@ class ProductController extends Controller
                 $imageArray = array();
                 
                         foreach ($json_array as $pic)
+
                         {
-                            $public = rtrim(app()->basePath('public/image'), '/');
-                            $imagepath = $public.'/'.$pic;
+                            $url = 'https://codeviable.com/w2w2/public/image';
+                            $public =  $url .'/'. $pic;
                             
           
                             $imagetempArray = [
-                                'image' => $imagepath,
+                                'image' => $public,
                             ];
           
                             array_push($imageArray,$imagetempArray);
@@ -198,12 +199,12 @@ class ProductController extends Controller
             
                     foreach ($json_array as $pic)
                     {
-                        $public = rtrim(app()->basePath('public/image'), '/');
-                        $imagepath = $public.'/'.$pic;
+                        $url = 'https://codeviable.com/w2w2/public/image';
+                        $public =  $url .'/'. $pic;
                         
       
                         $imagetempArray = [
-                            'image' => $imagepath,
+                            'image' => $public,
                         ];
       
                         array_push($imageArray,$imagetempArray);
@@ -929,12 +930,12 @@ class ProductController extends Controller
       
               foreach ($json_array as $pic)
               {
-                  $public = rtrim(app()->basePath('public/image'), '/');
-                  $imagepath = $public.'/'.$pic;
+                $url = 'https://codeviable.com/w2w2/public/image';
+                $public =  $url .'/'. $pic;
                   
 
                   $imagetempArray = [
-                      'image' => $imagepath,
+                      'image' => $public,
                   ];
 
                   array_push($imageArray,$imagetempArray);
@@ -1098,12 +1099,12 @@ class ProductController extends Controller
             
                     foreach ($json_array as $pic)
                     {
-                        $public = rtrim(app()->basePath('public/image'), '/');
-                        $imagepath = $public.'/'.$pic;
+                        $url = 'https://codeviable.com/w2w2/public/image';
+                        $public =  $url .'/'. $pic;
                         
       
                         $imagetempArray = [
-                            'image' => $imagepath,
+                            'image' => $public,
                         ];
       
                         array_push($imageArray,$imagetempArray);
@@ -1267,12 +1268,12 @@ class ProductController extends Controller
             
                     foreach ($json_array as $pic)
                     {
-                        $public = rtrim(app()->basePath('public/image'), '/');
-                        $imagepath = $public.'/'.$pic;
+                        $url = 'https://codeviable.com/w2w2/public/image';
+                        $public =  $url .'/'. $pic;
                         
       
                         $imagetempArray = [
-                            'image' => $imagepath,
+                            'image' => $public,
                         ];
       
                         array_push($imageArray,$imagetempArray);
@@ -1438,12 +1439,11 @@ class ProductController extends Controller
             
                     foreach ($json_array as $pic)
                     {
-                        $public = rtrim(app()->basePath('public/image'), '/');
-                        $imagepath = $public.'/'.$pic;
-                        
+                        $url = 'https://codeviable.com/w2w2/public/image';
+                        $public =  $url .'/'. $pic;
       
                         $imagetempArray = [
-                            'image' => $imagepath,
+                            'image' => $public,
                         ];
       
                         array_push($imageArray,$imagetempArray);
@@ -1617,12 +1617,12 @@ class ProductController extends Controller
                 
                         foreach ($json_array as $pic)
                         {
-                            $public = rtrim(app()->basePath('public/image'), '/');
-                            $imagepath = $public.'/'.$pic;
+                            $url = 'https://codeviable.com/w2w2/public/image';
+                            $public =  $url .'/'. $pic;
                             
           
                             $imagetempArray = [
-                                'image' => $imagepath,
+                                'image' => $public,
                             ];
           
                             array_push($imageArray,$imagetempArray);
@@ -1794,12 +1794,12 @@ public function listexpired(Request $request)
         
                 foreach ($json_array as $pic)
                 {
-                    $public = rtrim(app()->basePath('public/image'), '/');
-                    $imagepath = $public.'/'.$pic;
+                    $url = 'https://codeviable.com/w2w2/public/image';
+                    $public =  $url .'/'. $pic;
                     
   
                     $imagetempArray = [
-                        'image' => $imagepath,
+                        'image' => $public,
                     ];
   
                     array_push($imageArray,$imagetempArray);
@@ -1979,12 +1979,12 @@ public function premiumlist(Request $request)
             
                     foreach ($json_array as $pic)
                     {
-                        $public = rtrim(app()->basePath('public/image'), '/');
-                        $imagepath = $public.'/'.$pic;
+                        $url = 'https://codeviable.com/w2w2/public/image';
+                        $public =  $url .'/'. $pic;
                         
       
                         $imagetempArray = [
-                            'image' => $imagepath,
+                            'image' => $public,
                         ];
       
                         array_push($imageArray,$imagetempArray);
@@ -2137,12 +2137,12 @@ public function premiumlist(Request $request)
             
                     foreach ($json_array as $pic)
                     {
-                        $public = rtrim(app()->basePath('public/image'), '/');
-                        $imagepath = $public.'/'.$pic;
+                        $url = 'https://codeviable.com/w2w2/public/image';
+                        $public =  $url .'/'. $pic;
                         
       
                         $imagetempArray = [
-                            'image' => $imagepath,
+                            'image' => $public,
                         ];
       
                         array_push($imageArray,$imagetempArray);

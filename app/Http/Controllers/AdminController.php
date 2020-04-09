@@ -58,17 +58,7 @@ class AdminController extends Controller
          $products->expired_at = $expirationdate; 
          $products->save(); 
 
-         
-         $messages = 'your product, '.$products->product_name.'  has been approved';
 
-         Mail::raw( $messages ,function ($message) use($user)
-           {
-            $message->to($user->user_email);
-            $message->from('testemaillumen123@gmail.com', 'Admin of W2W');
-            $message->subject('Product Approval');
-
-
-            }); 
     
          return response()->json('product approved');
 
@@ -83,21 +73,12 @@ class AdminController extends Controller
 
             $products = Product::where('product_id',$product_id)->first(); 
 
-            $user = User::where('user_id',$products->user_id)->first();
+
 
             $products->product_status = 'rejected';
             $products->save();
 
-            $messages = 'your product, '.$products->product_name.'  has been rejected';
 
-            Mail::raw( $messages ,function ($message) use($user)
-              {
-               $message->to($user->user_email);
-               $message->from('testemaillumen123@gmail.com', 'Admin of W2W');
-               $message->subject('Product Approval');
-   
-   
-               }); 
 
             return response()->json('product rejected');
  

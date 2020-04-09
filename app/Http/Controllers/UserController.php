@@ -20,11 +20,11 @@ class UserController extends Controller
 
         foreach ($user as $data) {
 
-            $public = rtrim(app()->basePath('public/image'), '/');
+            $url = 'https://codeviable.com/w2w2/public/image';
             $imagename = $data->profilepicture;
-            $dirfile = $public.'/' . $imagename;
-            
-     
+            $public =  $url .'/'. $imagename;
+
+                 
 
 			$tempArray = [
                 'user_id' =>$data->user_id,
@@ -40,7 +40,7 @@ class UserController extends Controller
                 'occupation' => $data->occupation,
                 'job_title' => $data->job_title,
                 'user_type' => $data->user_type,
-                'profilepicture' => $dirfile,
+                'profilepicture' => $public,
                 'user_role' => $data->user_role,
                 'package_id' => $data->package_id,
                 'package_limit' => $data->package_limit,
@@ -74,9 +74,9 @@ class UserController extends Controller
         
          } else {
       
-            $public = rtrim(app()->basePath('public/image'), '/');
+            $url = 'https://codeviable.com/w2w2/public/image';
             $imagename = $data->profilepicture;
-             $dirfile = $public.'/'.$imagename;
+            $public =  $url .'/'. $imagename;
 
              
             
@@ -95,7 +95,7 @@ class UserController extends Controller
                 'occupation' => $data->occupation,
                 'job_title' => $data->job_title,
                 'user_type' => $data->user_type,
-                'profilepicture' => $dirfile,
+                'profilepicture' => $public,
                 'user_role' => $data->user_role,
                 'package_id' => $data->package_id,
                 'package_limit' => $data->package_limit,
@@ -463,17 +463,6 @@ if ($phonenumber == null) {
         $data->status = 'blocked';
         $data->save();
 
- 
-        $messages = 'Dear '. $data->user_fname. ', your account has been blocked due to inappropiate behaviour';
-        Mail::raw( $messages ,function ($message) use($data)
-          {
-           $message->to($data->user_email);
-           $message->from('testemaillumen123@gmail.com', 'Admin of W2W');
-           $message->subject('Account Management');
-
-
-           }); 
-
 
         return response()->json('user blocked');
 
@@ -487,16 +476,6 @@ if ($phonenumber == null) {
         $data = User::where('user_id',$user_id)->first();
         $data->status = 'active';
         $data->save();
-
-        $messages = 'Dear '. $data->user_fname. ', your account has been unblocked';
-        Mail::raw( $messages ,function ($message) use($data)
-          {
-           $message->to($data->user_email);
-           $message->from('testemaillumen123@gmail.com', 'Admin of W2W');
-           $message->subject('Account Management');
-
-
-           }); 
 
 
         return response()->json('user unblocked');
@@ -517,11 +496,11 @@ if ($phonenumber == null) {
     public function addpackage(Request $request)
     {
         $user_id = $request->input('user_id');
-        $package_name = $request->input('package_name'); 
+        $package_id = $request->input('package_id'); 
 
 
         $data = User::where('user_id',$user_id)->first();
-        $package = Package::where('package_name',$package_name)->first();
+        $package = Package::where('package_id',$package_id)->first();
 
 
         $data->package_id = $package->package_id;
