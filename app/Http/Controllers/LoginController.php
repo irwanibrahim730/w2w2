@@ -149,7 +149,7 @@ class LoginController extends Controller
                               'user_role' => $user->user_role,
                           ];
 
-                          array_push($finalArray, $tempArray);
+                          array_push($compArray, $tempArray);
 
                           return response()->json($compArray);
                       } 
