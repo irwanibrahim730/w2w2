@@ -19,10 +19,15 @@ class ProductController extends Controller
        
         $finalArray = array();
         $products = Product::all();
+ 
                     
 
             
             foreach ($products as $product){
+                $user_id = $product->user_id;
+                $user = User::where('user_id',$user_id)->get();
+                foreach ($user as $users)
+                {
 
                 $json_array = json_decode($product->product_image, true);
                 $imageArray = array();
@@ -162,6 +167,7 @@ class ProductController extends Controller
                                             'mainstatus' => $product->mainstatus,
                                             'website' => $product->website,
                                             'user_id' => $product->user_id,
+                                            'user_type' => $users->user_type,
                                             'package_id' => $product->package_id,
                                             'company_name' => $product->company_name,
                                             'company_email' => $product->company_email,
@@ -176,7 +182,8 @@ class ProductController extends Controller
                                          ];
                          
                         array_push($finalArray,$tempArray);
-                          }        
+                          } 
+                        }       
                          return response()->json($finalArray); 
             }
  
@@ -193,6 +200,11 @@ class ProductController extends Controller
         $products = Product::where('product_id',$product_id)->get();
 
         foreach ($products as $product){
+           
+            $user_id = $product->user_id;
+            $user = User::where('user_id',$user_id)->get();
+            foreach ($user as $users)
+            {
 
             $json_array = json_decode($product->product_image, true);
             $imageArray = array();
@@ -331,6 +343,7 @@ class ProductController extends Controller
                 'mainstatus' => $product->mainstatus,
                 'website' => $product->website,
                 'user_id' => $product->user_id,
+                'user_type' => $users->user_type,
                 'package_id' => $product->package_id,
                 'company_name' => $product->company_name,
                 'company_email' => $product->company_email,
@@ -344,9 +357,10 @@ class ProductController extends Controller
              
             array_push($finalArray,$tempArray);
               }        
-             return response()->json($finalArray); 
 
+            }
 
+            return response()->json($finalArray); 
     
 }
 
@@ -894,11 +908,16 @@ class ProductController extends Controller
   public function listcategory(Request $request)
   {
     
-      $product_category = $request->input('product_category');
+      $maincategory = $request->input('maincategory');
       $finalArray = array();
-      $products = Product::where('product_category',$product_category)->get();
+      $products = Product::where('maincategory',$maincategory)->get();
 
       foreach ($products as $product){
+
+        $user_id = $product->user_id;
+        $user = User::where('user_id',$user_id)->get();
+        foreach ($user as $users)
+        {
 
         $json_arrays = json_decode($product->city, true);
         $cityArray = array();
@@ -1040,6 +1059,7 @@ class ProductController extends Controller
                                   'mainstatus' => $product->mainstatus,
                                   'website' => $product->website,
                                   'user_id' => $product->user_id,
+                                  'user_type' => $users->user_type,
                                   'package_id' => $product->package_id,
                                   'company_name' => $product->company_name,
                                   'company_email' => $product->company_email,
@@ -1054,7 +1074,8 @@ class ProductController extends Controller
                                ];
                
               array_push($finalArray,$tempArray);
-                }        
+                }      
+            }  
                return response()->json($finalArray); 
 
     } 
@@ -1068,6 +1089,11 @@ class ProductController extends Controller
         $products = Product::where('user_id',$user_id)->get();
 
         foreach ($products as $product){
+
+            $user_id = $product->user_id;
+            $user = User::where('user_id',$user_id)->get();
+            foreach ($user as $users)
+            {
 
             $json_arrays = json_decode($product->city, true);
             $cityArray = array();
@@ -1209,6 +1235,7 @@ class ProductController extends Controller
                                         'mainstatus' => $product->mainstatus,
                                         'website' => $product->website,
                                         'user_id' => $product->user_id,
+                                        'user_type' => $users->user_type,
                                         'package_id' => $product->package_id,
                                         'company_name' => $product->company_name,
                                         'company_email' => $product->company_email,
@@ -1223,7 +1250,8 @@ class ProductController extends Controller
                                      ];
                      
                     array_push($finalArray,$tempArray);
-                      }        
+                      }   
+                    }     
                      return response()->json($finalArray); 
       
 
@@ -1237,6 +1265,11 @@ class ProductController extends Controller
 
 
         foreach ($products as $product){
+
+            $user_id = $product->user_id;
+            $user = User::where('user_id',$user_id)->get();
+            foreach ($user as $users)
+            {
 
             $json_arrays = json_decode($product->city, true);
             $cityArray = array();
@@ -1378,6 +1411,7 @@ class ProductController extends Controller
                                         'mainstatus' => $product->mainstatus,
                                         'website' => $product->website,
                                         'user_id' => $product->user_id,
+                                        'user_type' => $users->user_type,
                                         'package_id' => $product->package_id,
                                         'company_name' => $product->company_name,
                                         'company_email' => $product->company_email,
@@ -1392,7 +1426,8 @@ class ProductController extends Controller
                                      ];
                      
                     array_push($finalArray,$tempArray);
-                      }        
+                      }      
+                    }  
                      return response()->json($finalArray); 
 
 
@@ -1408,6 +1443,11 @@ class ProductController extends Controller
 
 
         foreach ($products as $product){
+
+            $user_id = $product->user_id;
+            $user = User::where('user_id',$user_id)->get();
+            foreach ($user as $users)
+            {
 
             $json_arrays = json_decode($product->city, true);
             $cityArray = array();
@@ -1548,6 +1588,7 @@ class ProductController extends Controller
                                 'mainstatus' => $product->mainstatus,
                                 'website' => $product->website,
                                 'user_id' => $product->user_id,
+                                'user_type' => $users->user_type,
                                 'package_id' => $product->package_id,
                                 'company_name' => $product->company_name,
                                 'company_email' => $product->company_email,
@@ -1563,6 +1604,7 @@ class ProductController extends Controller
              
             array_push($finalArray,$tempArray);
               }        
+            }
              return response()->json($finalArray); 
 
 
@@ -1582,6 +1624,7 @@ class ProductController extends Controller
         $products = Product::all();
 
         foreach($products as $product){
+
 
             $data = User::where('user_id',$product->user_id)->first();
             
@@ -1726,6 +1769,7 @@ class ProductController extends Controller
                                 'mainstatus' => $product->mainstatus,
                                 'website' => $product->website,
                                 'user_id' => $product->user_id,
+                                'user_type' => $data->user_type,
                                 'package_id' => $product->package_id,
                                 'company_name' => $product->company_name,
                                 'company_email' => $product->company_email,
@@ -1763,6 +1807,11 @@ public function listexpired(Request $request)
 
    foreach($products as $product){
  
+    $user_id = $product->user_id;
+    $user = User::where('user_id',$user_id)->get();
+    foreach ($user as $users)
+    {
+
      if ($product->expired_at >= $today){
 
         $json_arrays = json_decode($product->city, true);
@@ -1903,6 +1952,7 @@ public function listexpired(Request $request)
                         'mainstatus' => $product->mainstatus,
                         'website' => $product->website,
                         'user_id' => $product->user_id,
+                        'user_type' => $users->user_type,
                         'package_id' => $product->package_id,
                         'company_name' => $product->company_name,
                         'company_email' => $product->company_email,
@@ -1919,6 +1969,7 @@ public function listexpired(Request $request)
          array_push($finalArray,$tempArray);
              
      }
+    }
 
 
     }
@@ -1948,8 +1999,14 @@ public function premiumlist(Request $request)
 
     foreach( $product as $products)
     {
+
+
         if($products->premiumlist == $yes)
         {
+            $user_id = $products->user_id;
+            $user = User::where('user_id',$user_id)->get();
+            foreach ($user as $users)
+            {
             $json_arrays = json_decode($products->city, true);
             $cityArray = array();
         
@@ -2087,6 +2144,7 @@ public function premiumlist(Request $request)
             'mainstatus' => $products->mainstatus,
             'website' => $products->website,
             'user_id' => $products->user_id,
+            'user_type' => $users->user_type,
             'package_id' => $products->package_id,
             'company_name' => $products->company_name,
             'company_email' => $products->company_email,
@@ -2104,9 +2162,14 @@ public function premiumlist(Request $request)
 
           array_push($premiumArray,$tempArray);
         }
+        }
 
         if($products->premiumlist != $yes)
         {
+            $user_id = $products->user_id;
+            $user = User::where('user_id',$user_id)->get();
+            foreach ($user as $users)
+            {
             $json_arrays = json_decode($products->city, true);
             $cityArray = array();
         
@@ -2245,6 +2308,7 @@ public function premiumlist(Request $request)
             'mainstatus' => $products->mainstatus,
             'website' => $products->website,
             'user_id' => $products->user_id,
+            'user_type' => $users->user_type,
             'package_id' => $products->package_id,
             'company_name' => $products->company_name,
             'company_email' => $products->company_email,
@@ -2261,6 +2325,7 @@ public function premiumlist(Request $request)
 
             array_push($nonpremium,$tempArray);
         }
+    }
 
     }
 
@@ -2277,6 +2342,7 @@ public function premiumlist(Request $request)
 
     return response()->json($finalArray);
 }
+
 
 
 
