@@ -19,8 +19,19 @@ class AdminController extends Controller
     {
 
         $product_id = $request->input('product_id');
+        $suggestcustomer = $request->input('suggestcustomer');
+        $tagging = $request->input('tagging');
+
+        $tag=array();
+        foreach($tagging as $taggings)
+        {
+            $tag[] = $taggings;
+        }
+
+
 
         $products = Product::where('product_id',$product_id)->first(); 
+       
 
     
 
@@ -44,7 +55,12 @@ class AdminController extends Controller
          $user->save();
 
 
+ 
+
+
         $products->product_status = 'success';
+        $products->suggestcustomer = $suggestcustomer;
+        $products->tagging = json_encode($tag);
         $products->approved_at = $curtime;
         $products->premiumlist = $package->premiumlist;
         $products->save(); 
@@ -69,6 +85,7 @@ class AdminController extends Controller
          {
   
             $product_id = $request->input('product_id');
+            $rejectremark = $request->input('rejectremark');
 
 
             $products = Product::where('product_id',$product_id)->first(); 
@@ -76,6 +93,7 @@ class AdminController extends Controller
 
 
             $products->product_status = 'rejected';
+            $products->rejectremark = $rejectremark;
             $products->save();
 
 
