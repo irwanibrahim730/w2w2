@@ -164,6 +164,8 @@ Route::get('/log/type','LogController@type');
 //notification
 Route::get('/notification','NotificationController@list');
 Route::delete('/notification/delete','NotificationController@delete');
+Route::get('/notification/status','NotificationController@liststatus');
+Route::get('/notification/detail','NotificationController@detail');
     
 
 

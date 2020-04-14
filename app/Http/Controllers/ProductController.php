@@ -516,6 +516,8 @@ class ProductController extends Controller
 
 
         $notify = new Notification;
+        $notify->user_id = $user->user_id;
+        $notify->product_id = $file->product_id;
         $notify->email = $user->user_email;
         $notify->item  = $product_name;
         $notify->save();

@@ -8,6 +8,7 @@ use Illuminate\Mail\Mailer;
 use App\Product;
 use Carbon\Carbon;
 use App\User;
+use App\Notification;
 use App\Package;
 
 class AdminController extends Controller
@@ -74,6 +75,13 @@ class AdminController extends Controller
          $products->expired_at = $expirationdate; 
          $products->save(); 
 
+         $approved = 'approved';
+
+         $notify = Notification::where('product_id',$product_id)->first();
+         $notify->status = $approved;
+         $notify->save();
+
+
 
     
          return response()->json('product approved');
@@ -95,6 +103,12 @@ class AdminController extends Controller
             $products->product_status = 'rejected';
             $products->rejectremark = $rejectremark;
             $products->save();
+
+            $rejected = 'rejected';
+
+            $notify = Notification::where('product_id',$product_id)->first();
+            $notify->status = $rejected;
+            $notify->save();
 
 
 
