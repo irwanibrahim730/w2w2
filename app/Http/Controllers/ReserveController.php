@@ -51,23 +51,24 @@ class ReserveController extends Controller
         if($products->status=='reserved'){
 
           $reservearray = array();
+          $imageArray = array();
           $json_array = json_decode($products->image, true);
 
 
           
-                  foreach ($json_array as $pic)
-                  {
-                      $imageArray = array();
-                      $public = rtrim(app()->basePath('public/image'), '/');
-                      $imagepath = $public.'/'.$pic;
-                      
-    
-                      $imagetempArray = [
-                          'image' => $imagepath,
-                      ];
-    
-                      array_push($imageArray,$imagetempArray);
-                  }
+          foreach ($json_array as $pic)
+
+          {
+              $url = 'https://codeviable.com/w2w2/public/image';
+              $public =  $url .'/'. $pic;
+              
+
+              $imagetempArray = [
+                  'image' => $public,
+              ];
+
+              array_push($imageArray,$imagetempArray);
+          }
 
             $tempArray = [
 
@@ -108,18 +109,19 @@ class ReserveController extends Controller
 
               
                 
-                        foreach ($json_array as $pic)
-                        {
-                            $public = rtrim(app()->basePath('public/image'), '/');
-                            $imagepath = $public.'/'.$pic;
-                            
-          
-                            $imagetempArray = [
-                                'image' => $imagepath,
-                            ];
-          
-                            array_push($imageArray,$imagetempArray);
-                        }
+                foreach ($json_array as $pic)
+
+                {
+                    $url = 'https://codeviable.com/w2w2/public/image';
+                    $public =  $url .'/'. $pic;
+                    
+      
+                    $imagetempArray = [
+                        'image' => $public,
+                    ];
+      
+                    array_push($imageArray,$imagetempArray);
+                }
 
                   $tempArray = [
 
@@ -186,18 +188,19 @@ class ReserveController extends Controller
  
                
                  
-                         foreach ($json_array as $pic)
-                         {
-                             $public = rtrim(app()->basePath('public/image'), '/');
-                             $imagepath = $public.'/'.$pic;
-                             
-           
-                             $imagetempArray = [
-                                 'image' => $imagepath,
-                             ];
-           
-                             array_push($imageArray,$imagetempArray);
-                         }
+                 foreach ($json_array as $pic)
+
+                 {
+                     $url = 'https://codeviable.com/w2w2/public/image';
+                     $public =  $url .'/'. $pic;
+                     
+       
+                     $imagetempArray = [
+                         'image' => $public,
+                     ];
+       
+                     array_push($imageArray,$imagetempArray);
+                 }
  
                    $tempArray = [
                        'id' => $products->id,
@@ -232,18 +235,19 @@ class ReserveController extends Controller
  
                
                  
-                         foreach ($json_array as $pic)
-                         {
-                             $public = rtrim(app()->basePath('public/image'), '/');
-                             $imagepath = $public.'/'.$pic;
-                             
-           
-                             $imagetempArray = [
-                                 'image' => $imagepath,
-                             ];
-           
-                             array_push($imageArray,$imagetempArray);
-                         }
+                 foreach ($json_array as $pic)
+
+                 {
+                     $url = 'https://codeviable.com/w2w2/public/image';
+                     $public =  $url .'/'. $pic;
+                     
+       
+                     $imagetempArray = [
+                         'image' => $public,
+                     ];
+       
+                     array_push($imageArray,$imagetempArray);
+                 }
  
                    $tempArray = [
                       
@@ -448,18 +452,19 @@ class ReserveController extends Controller
                   
                     
                     foreach ($json_array as $pic)
+
                     {
-                        $public = rtrim(app()->basePath('public/image'), '/');
-                        $imagepath = $public.'/'.$pic;
-                                
-              
-                         $imagetempArray = [
-                            'image' => $imagepath,
+                        $url = 'https://codeviable.com/w2w2/public/image';
+                        $public =  $url .'/'. $pic;
+                        
+          
+                        $imagetempArray = [
+                            'image' => $public,
                         ];
-              
+          
                         array_push($imageArray,$imagetempArray);
-                      
-                            }
+                    }
+                            
 
                       
 
@@ -512,17 +517,18 @@ class ReserveController extends Controller
                      
         
                         foreach ($json_array as $pic)
+
                         {
-                            $public = rtrim(app()->basePath('public/image'), '/');
-                            $imagepath = $public.'/'.$pic;
-                                    
-                  
-                             $imagetempArray = [
-                                'image' => $imagepath,
+                            $url = 'https://codeviable.com/w2w2/public/image';
+                            $public =  $url .'/'. $pic;
+                            
+              
+                            $imagetempArray = [
+                                'image' => $public,
                             ];
-                  
+              
                             array_push($imageArray,$imagetempArray);
-                                }
+                        }
         
                           $tempArray = [
                              

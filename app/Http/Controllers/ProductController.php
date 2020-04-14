@@ -147,6 +147,7 @@ class ProductController extends Controller
                                             'product_status' => $product->product_status,
                                             'product_material' => $product->product_material,
                                             'product_category' => $product->product_category,
+                                            'maincategory' => $product->maincategory,
                                             'product_target' => $product->product_target,
                                             'product_continuity' => $product->product_continuity,
                                             'product_quantity' => $product->product_quantity,
@@ -325,6 +326,7 @@ class ProductController extends Controller
                 'product_status' => $product->product_status,
                 'product_material' => $product->product_material,
                 'product_category' => $product->product_category,
+                'maincategory' => $product->maincategory,
                 'product_target' => $product->product_target,
                 'product_continuity' => $product->product_continuity,
                 'product_quantity' => $product->product_quantity,
@@ -400,8 +402,7 @@ class ProductController extends Controller
             $product_description = $request->input('product_description');  
             $product_image = $request->file('product_image');
             $mainstatus = $request->input('mainstatus');
-            $website = $request->input('website');
-            $package_id = $request->input('package_id');    
+            $website = $request->input('website');  
             $product_status = 'processed';
             $company_name = $request->input('company_name');
             $company_email = $request->input('company_email');
@@ -502,7 +503,7 @@ class ProductController extends Controller
         $file->mainstatus = $mainstatus;
         $file->website = $website;
         $file->user_id = $user->user_id;
-        $file->package_id = $package_id;   
+        $file->package_id = $user->package_id;   
         $file->company_name = $company_name;
         $file->company_email = $company_email;
         $file->company_contact = $company_contact;
@@ -2363,6 +2364,26 @@ public function premiumlist(Request $request)
     return response()->json($finalArray);
 }
 
+
+public function publishstatus(Request $request)
+
+{
+    $product_id = $request ->input('product_id');
+    $publishstatus = $request->input('publishstatus');
+
+    $product = Product::where('product_id',$product_id)->first();
+
+    $product->publishstatus = $publishstatus;
+    $product->save();
+
+
+    return response()->json('publish status updated');
+
+
+
+
+
+}
 
 
 

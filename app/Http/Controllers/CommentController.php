@@ -127,5 +127,14 @@ public function delete(Request $request)
 
 }
 
+public function list()
+{
+
+   $comment = Comment::all();
+
+   return response()->json($comment);
+
+}
+
 
 }
