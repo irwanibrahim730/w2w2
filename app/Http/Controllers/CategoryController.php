@@ -15,6 +15,9 @@ class CategoryController extends Controller
         $idmaincategory = $request->input('idmaincategory');
         $sub = $request->input('sub');
         $publishstatus = $request->input('publishstatus');
+        $keyword = $request->input('keyword');
+        $description = $request->input('description');
+        $title = $request->input('title');
 
 
         
@@ -24,7 +27,9 @@ class CategoryController extends Controller
         $data->idmaincategory = $idmaincategory;
         $data->sub = $sub;
         $data->publishstatus = $publishstatus;
-
+        $data->keyword = $keyword;
+        $data->description = $description;
+        $data->title = $title;
         $data->save(); 
 
         return response()->json('Category Added');
@@ -49,6 +54,9 @@ class CategoryController extends Controller
               'id' => $categories->id,
               'name'=>$categories->name,
               'publishstatus' => $categories->publishstatus,
+              'keyword' => $categories->keyword,
+              'description' => $categories->description,
+              'title' => $categories->title,
           ];
 
           array_push($finalArray,$tempArray);
@@ -75,6 +83,9 @@ public function listsubcategory(Request $request)
         'id' => $categories->id,
         'name'=>$categories->name,
         'publishstatus' =>$categories->publishstatus,
+        'keyword' => $categories->keyword,
+        'description' => $categories->description,
+        'title' => $categories->title,
     ];
 
     array_push($finalArray,$tempArray);
@@ -106,6 +117,9 @@ public function listsubcategory(Request $request)
             'id' => $categories->id,
             'name'=>$categories->name,
             'publishstatus' => $categories->publishstatus,
+            'keyword' => $categories->keyword,
+            'description' => $categories->description,
+            'title' => $categories->title,
         ];
 
         array_push($finalArray,$tempArray);
@@ -179,6 +193,9 @@ public function edit(Request $request)
     $name = $request->input('name');
     $sub = $request->input('sub');
     $publishstatus = $request->input('publishstatus');
+    $keyword = $request->input('keyword');
+    $description = $request->input('description');
+    $title = $request->input('title');
 
     if($idmaincategory == null){
       $idmaincategory = $category->idmaincategory;
@@ -199,10 +216,25 @@ public function edit(Request $request)
       $publishstatus = $category->publishstatus;
     }
 
+    if($keyword == null){
+      $keyword = $category->keyword;
+    }
+
+    if($description == null){
+      $description = $category->description;
+    }
+
+    if($title == null){
+      $title = $category->title;
+    }
+
     $category->idmaincategory = $idmaincategory;
     $category->name = $name;
     $category->sub = $sub;
     $category->publishstatus = $publishstatus;
+    $data->keyword = $keyword;
+    $data->description = $description;
+    $data->title = $title;
     $category->save();
     
    return response()->json('category updated');

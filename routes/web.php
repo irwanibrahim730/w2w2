@@ -73,6 +73,7 @@ Route::get('/product/type','ProductController@mainstatus');
 Route::get('/product/usertype','ProductController@usertype');
 Route::get('/listing','ProductController@premiumlist');
 Route::post('product/publish','ProductController@publishstatus');
+Route::post('product/availability','ProductController@availability');
 
 //admin
 Route::post('/admin/approve','AdminController@approve');
@@ -97,9 +98,13 @@ Route::get('/category/detail','CategoryController@detail');
 Route::post('/comment','CommentController@addcomment');
 Route::get('/comment/list','CommentController@listcomment');
 Route::delete('/comment/delete','CommentController@delete');
-Route::post('/comment/hide','CommentController@hidecomment');
-Route::post('/comment/unhide','CommentController@unhide');
+Route::post('/comment/status','CommentController@status');
 Route::get('/comment/all','CommentController@list');
+Route::get('/comment/detail','CommentController@detail');
+Route::get('/comment/listing','CommentController@listid');
+
+
+
 
 //enquiry
 Route::post('/enquiry','EnquiryController@store');

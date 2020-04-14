@@ -38,17 +38,15 @@ class CommentController extends Controller
             
            $product_id = $request->input('product_id');
            $status = $request->input('status');
-           
-
            $comment = Comment::where('product_id',$product_id)->get();
- 
-           $finalArray = array();  
+           $finalArray = array(); 
+
         
            foreach ($comment as $comments){
-
+            
             $user_id = $comments->user_id;
-            $user = User::where('user_id',$user_id)->get();
-           
+            $user = User::where('user_id',$user_id)->get(); 
+            
             if($comments->status == $status){
 
 
@@ -66,9 +64,10 @@ class CommentController extends Controller
               'updated_at' => $comments->updated_at->format('d M Y - H:i:s'),
           ];
 
-           array_push($finalArray,$tempArray);
+          array_push($finalArray,$tempArray);
          }
         }
+
         }
       
     
@@ -77,7 +76,7 @@ class CommentController extends Controller
 
 
      
-}
+   }
 
 
   
@@ -86,31 +85,20 @@ class CommentController extends Controller
 
 
 
-public function hidecomment(Request $request){
-
-      $id = $request->input('id');
-
-      $comment = Comment::where('id',$id);
-
-
-
-      $comment->status ='hidden';
-      $comment->save();
-      
-      return response()->json('comment hidden');
-}
-
-
-public function unhide(Request $request)
+ public function status(Request $request)
 {
-  $id = $request->input('id');
+   $id = $request->input('id');
+   $status = $request->input('status');
 
-  $comment = Comment::where('id',$id);
+   $comment = Comment::where('id',$id)->first();
+   $comment->status = $status;
+   $comment->save();
 
-  $comment->status = 'visible';
-  $comment->save();
+   return response()->json('status changed');
 
-  return response()->json('comment unhide');
+
+
+
 }
 
 
@@ -133,6 +121,32 @@ public function list()
    $comment = Comment::all();
 
    return response()->json($comment);
+
+}
+
+public function listid(Request $request)
+{
+  
+    $product_id = $request->input('product_id');
+
+    $comments = Comment::where('product_id',$product_id)->get();
+ 
+    return response()->json($comments);
+
+
+}
+
+public function detail(Request $request)
+
+{
+  
+   $id = $request->input('id');
+
+   $comment = Comment::where('id',$id)->get();
+
+   return response()->json($comment);
+
+
 
 }
 

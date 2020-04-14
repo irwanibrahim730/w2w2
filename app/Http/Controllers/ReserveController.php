@@ -19,6 +19,9 @@ class ReserveController extends Controller
         $products = Product::where('product_id',$product_id)->first();
         $buyer_id = $request->input('buyer_id');
         $offeredprice = $request->input('offeredprice');
+        $quantity = $request->input('quantity');
+        $unit = $request->input('unit');
+        $info = $request->input('info');
 
         $json_array = json_decode($products->product_image, true);
         $images = array();
@@ -37,6 +40,9 @@ class ReserveController extends Controller
         $data->offeredprice = $offeredprice;
         $data->buyer_id = $buyer_id;
         $data->status = 'reserved';
+        $data->quantity = $quantity;
+        $data->unit = $unit;
+        $data->info = $info;
         $data->save(); 
 
         return response()->json('Product reserved');
@@ -79,6 +85,9 @@ class ReserveController extends Controller
                 'offeredprice' => $products->offeredprice,
                 'buyer_id' => $products->buyer_id,
                 'status' => $products->status,
+                'info' => $products->info,
+                'unit' => $products->unit,
+                'quantity' => $products->quantity,
                  
             ];
            array_push($reservearray,$tempArray);
@@ -132,6 +141,9 @@ class ReserveController extends Controller
                       'offeredprice' => $products->offeredprice,
                       'buyer_id' => $products->buyer_id,
                       'status' => $products->status,
+                      'info' => $products->info,
+                      'unit' => $products->unit,
+                      'quantity' => $products->quantity,
                        
                   ];
                  array_push($reservearray,$tempArray);
@@ -210,6 +222,9 @@ class ReserveController extends Controller
                        'offeredprice' => $products->offeredprice,
                        'buyer_id' => $products->buyer_id,
                        'status' => $products->status,
+                       'info' => $products->info,
+                       'unit' => $products->unit,
+                       'quantity' => $products->quantity,
                         
                    ];
                   array_push($reservearray,$tempArray);
@@ -258,6 +273,9 @@ class ReserveController extends Controller
                        'offeredprice' => $products->offeredprice,
                        'buyer_id' => $products->buyer_id,
                        'status' => $products->status,
+                       'info' => $products->info,
+                       'unit' => $products->unit,
+                       'quantity' => $products->quantity,
                         
                    ];
                   array_push($reservearray,$tempArray);
@@ -326,7 +344,9 @@ class ReserveController extends Controller
                         'phonenumber' => $sellers->phonenumber,
                        'buyer_id' => $reserves->buyer_id,
                        'status' => $reserves->status,
-                        
+                       'info' => $reserves->info,
+                       'unit' => $reserves->unit,
+                       'quantity' => $reserves->quantity,
                    ];
                   array_push($reservearray,$tempArray);
  
@@ -356,6 +376,9 @@ class ReserveController extends Controller
                        'offeredprice' => $products->offeredprice,
                        'buyer_id' => $products->buyer_id,
                        'status' => $products->status,
+                       'info' => $products->info,
+                       'unit' => $products->unit,
+                       'quantity' => $products->quantity,
                         
                    ];
                   array_push($reservearray,$tempArray);
@@ -415,6 +438,9 @@ class ReserveController extends Controller
                        'offeredprice' => $products->offeredprice,
                        'buyer_id' => $products->buyer_id,
                        'status' => $products->status,
+                       'info' => $products->info,
+                       'unit' => $products->unit,
+                       'quantity' => $products->quantity,
                         
                    ];
                   array_push($reservearray,$tempArray);
@@ -479,6 +505,9 @@ class ReserveController extends Controller
                           'offeredprice' => $products->offeredprice,
                           'buyer_id' => $products->buyer_id,
                           'status' => $products->status,
+                          'info' => $products->info,
+                          'unit' => $products->unit,
+                          'quantity' => $products->quantity,
                            
                       ];
                      array_push($reservearray,$tempArray);
@@ -539,6 +568,9 @@ class ReserveController extends Controller
                               'offeredprice' => $products->offeredprice,
                               'buyer_id' => $products->buyer_id,
                               'status' => $products->status,
+                              'info' => $products->info,
+                              'unit' => $products->unit,
+                              'quantity' => $products->quantity,
                                
                           ];
                         
@@ -588,6 +620,9 @@ class ReserveController extends Controller
               'offeredprice' => $products->offeredprice,
               'buyer_id' => $products->buyer_id,
               'status' => $products->status,
+              'info' => $products->info,
+              'unit' => $products->unit,
+              'quantity' => $products->quantity,
                
           ];
          array_push($reservearray,$tempArray);

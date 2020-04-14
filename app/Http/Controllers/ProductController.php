@@ -2385,6 +2385,26 @@ public function publishstatus(Request $request)
 
 }
 
+public function availability(Request $request)
+
+{
+    $product_id = $request ->input('product_id');
+    $availability = $request->input('availability');
+
+    $product = Product::where('product_id',$product_id)->first();
+
+    $product->availability = $availability;
+    $product->save();
+
+
+    return response()->json('publish status updated');
+
+
+
+
+
+}
+
 
 
   }
