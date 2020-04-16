@@ -43,6 +43,19 @@ class ReviewController extends Controller
 
    }
 
+
+   public function listuser(Request $request)
+   {
+
+      $user_id = $request->input('user_id');
+
+      $review = Review::where('user_id',$user_id)->get();
+
+       return response()->json($review);
+
+
+   }
+
    public function delete(Request $request)
    {
   

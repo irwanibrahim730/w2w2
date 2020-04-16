@@ -404,6 +404,7 @@ class ProductController extends Controller
             $mainstatus = $request->input('mainstatus');
             $website = $request->input('website');  
             $product_status = 'processed';
+            $package_id = $request->input('package_id');   
             $company_name = $request->input('company_name');
             $company_email = $request->input('company_email');
             $company_contact = $request->input('company_contact');
@@ -503,7 +504,7 @@ class ProductController extends Controller
         $file->mainstatus = $mainstatus;
         $file->website = $website;
         $file->user_id = $user->user_id;
-        $file->package_id = $user->package_id;   
+        $file->package_id = $package_id;   
         $file->company_name = $company_name;
         $file->company_email = $company_email;
         $file->company_contact = $company_contact;

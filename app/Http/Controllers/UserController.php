@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Mail\Mailer;
 use App\User;
 use App\Package;
+use App\Userpack;
 
 
 class UserController extends Controller
@@ -498,14 +499,20 @@ if ($phonenumber == null) {
         $user_id = $request->input('user_id');
         $package_id = $request->input('package_id'); 
 
-
-        $data = User::where('user_id',$user_id)->first();
         $package = Package::where('package_id',$package_id)->first();
+        $user = User::where('user_id',$user_id)->first();
 
-
+        $data = new Userpack;
+        $data->user_id = $user_id;
         $data->package_id = $package->package_id;
-        $data->package_limit = $package->package_limit;
+        $data->limit = $package->package_limit;
         $data->save();
+
+        $token = $user->balancetoken;
+        $price = $package->package_price;
+        $balance = $token - $price;
+        $user->balancetoken = $balance;
+        $user->save();
 
         
         return response()->json('package added');

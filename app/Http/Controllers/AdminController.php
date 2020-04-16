@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\User;
 use App\Notification;
 use App\Package;
+use App\Userpack;
 
 class AdminController extends Controller
 
@@ -38,22 +39,23 @@ class AdminController extends Controller
 
         $curtime = Carbon::now()->toDateString();
        
-        $user_id = $products->user_id;
-        $user = User::where('user_id',$user_id)->first();
-        $package_id = $user->package_id;
+        $id = $products->package_id;
+        $userpack = Userpack::where('id',$id)->first();
+        
+        $package_id = $userpack->package_id;
         $package = Package::where('package_id',$package_id)->first();
          
 
-         $userlimit = $user->package_limit;
+         $userlimit = $userpack->limit;
          $substract = 1;
 
-         $token = $user->balancetoken;
+        //  $token = $user->balancetoken;
 
-         $balance = $token - $substract;
+        //  $balance = $token - $substract;
          $total = $userlimit - $substract;
-         $user->package_limit = $total;
-         $user->balancetoken = $balance;
-         $user->save();
+         $userpack->limit = $total;
+        //  $user->balancetoken = $balance;
+         $userpack->save();
 
 
  

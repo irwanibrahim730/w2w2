@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Laravel\Lumen\Routing\Controller;
 use Illuminate\Http\Request;
 use App\Package;
+use App\Userpack;
 
 class PackageController extends Controller
 
@@ -109,6 +110,90 @@ class PackageController extends Controller
     
         return response()->json('packages success deleted');
     }
+
+    public function paiduser(Request $request)
+
+    {
+  
+        $user_id = $request->input('user_id');
+        $userpack = Userpack::where('user_id',$user_id)->get();
+        $packArray = array();
+
+          foreach($userpack as $userpackage){
+            
+            $package_id = $userpackage->package_id;
+            $package = Package::where('package_id',$package_id)->get();
+              
+
+               foreach($package as $packages){
+                 
+                $tempArray = [
+                    'id' => $userpackage->id,
+                    'user_id' => $userpackage->user_id,
+                    'package_id' => $userpackage->package_id,
+                    'package_name' => $packages->package_name,
+                    'limit' => $userpackage->limit, 
+                ];
+
+                 array_push($packArray,$tempArray);
+
+            }
+
+          }
+
+        return response()->json($packArray);
+
+
+    }
     
+
+    public function paidall(Request $request)
+
+    {
+  
+        $userpack = Userpack::all();
+        $packArray = array();
+
+          foreach($userpack as $userpackage){
+            
+            $package_id = $userpackage->package_id;
+            $package = Package::where('package_id',$package_id)->get();
+              
+
+               foreach($package as $packages){
+                 
+                $tempArray = [
+                    'id' => $userpackage->id,
+                    'user_id' => $userpackage->user_id,
+                    'package_id' => $userpackage->package_id,
+                    'package_name' => $packages->package_name,
+                    'limit' => $userpackage->limit, 
+                ];
+
+                 array_push($packArray,$tempArray);
+
+            }
+
+          }
+
+        return response()->json($packArray);
+
+
+    }
+
+
+    public function deletepaid(Request $request)
+    {
+ 
+          $id = $request->input('id');
+
+          $userpack = Userpack::where('id',$id)->first();
+          $userpack->delete();
+
+          return response ('paid package deleted');
+
+
+
+    }
 
 }

@@ -151,6 +151,7 @@ Route::delete('/reserve/delete','ReserveController@delete');
 Route::post('/review','ReviewController@store');
 Route::delete('/review/delete','ReviewController@delete');
 Route::get('/review/list','ReviewController@list');
+Route::get('/review/listuser','ReviewController@listuser');
 
 //mailing
 Route::post('/email','EmailController@mail');
@@ -166,7 +167,11 @@ Route::get('/notification','NotificationController@list');
 Route::delete('/notification/delete','NotificationController@delete');
 Route::get('/notification/status','NotificationController@liststatus');
 Route::get('/notification/detail','NotificationController@detail');
-    
+
+//paidpackage
+Route::get('/paidpackage/user','PackageController@paiduser');
+Route::get('/paidpackage/all','PackageController@paidall');
+Route::delete('/paidpackage/delete','PackageController@deletepaid');
 
 
 

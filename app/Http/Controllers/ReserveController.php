@@ -465,18 +465,22 @@ class ReserveController extends Controller
 
          foreach($reserve as $products)
          {
+             $product_id = $products->product_id;
+             $data = Product::where('product_id',$product_id)->get();
 
-    
+             foreach($data as $item){
+
+                $user_id = $products->user_id;
+                $user = User::where('user_id',$user_id)->get();
+
+                foreach($user as $users){
+               
              if($products->status == $status)
-
              {
 
-              
-
                     $json_array = json_decode($products->image, true);
-                    
-                  
-                    
+                 
+    
                     foreach ($json_array as $pic)
 
                     {
@@ -490,17 +494,16 @@ class ReserveController extends Controller
           
                         array_push($imageArray,$imagetempArray);
                     }
-                            
-
-                      
-
-                
     
                       $tempArray = [
                          
                           'id' => $products->id,
                           'user_id' => $products->user_id,
+                          'user_fname' => $users->user_fname,
+                          'user_lname' => $users->user_lname,
+                          'user_email' => $users->user_email,
                           'product_id' => $products->product_id,
+                          'product_name' => $item->product_name,
                           'image' => $imageArray,
                           'offeredprice' => $products->offeredprice,
                           'buyer_id' => $products->buyer_id,
@@ -510,19 +513,20 @@ class ReserveController extends Controller
                           'quantity' => $products->quantity,
                            
                       ];
-                     array_push($reservearray,$tempArray);
+                    
 
                  
 
 
 
 
-
+                      array_push($reservearray,$tempArray);
              }
-
-  
+           
          }
-         return response()->json ($reservearray);
+        }
+        }
+         return response()->json($reservearray);
  
         }
 
@@ -538,6 +542,15 @@ class ReserveController extends Controller
     
              foreach($reserve as $products)
              {
+                 $product_id = $products->product_id;
+                 $data = Product::where('product_id',$product_id)->get();
+
+                 foreach($data as $item){
+
+                    $user_id = $products->user_id;
+                    $user = User::where('user_id',$user_id)->get();
+
+                    foreach($user as $users){
                    
                  if($products->status == $status)
                  {
@@ -563,7 +576,11 @@ class ReserveController extends Controller
                              
                               'id' => $products->id,
                               'user_id' => $products->user_id,
+                              'user_fname' => $users->user_fname,
+                              'user_lname' => $users->user_lname,
+                              'user_email' => $users->user_email,
                               'product_id' => $products->product_id,
+                              'product_name' => $item->product_name,
                               'image' => $imageArray,
                               'offeredprice' => $products->offeredprice,
                               'buyer_id' => $products->buyer_id,
@@ -584,6 +601,8 @@ class ReserveController extends Controller
                  }
                
              }
+            }
+            }
              return response()->json($reservearray);
             }
 
