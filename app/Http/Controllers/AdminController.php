@@ -49,12 +49,9 @@ class AdminController extends Controller
          $userlimit = $userpack->limit;
          $substract = 1;
 
-        //  $token = $user->balancetoken;
 
-        //  $balance = $token - $substract;
          $total = $userlimit - $substract;
          $userpack->limit = $total;
-        //  $user->balancetoken = $balance;
          $userpack->save();
 
 
