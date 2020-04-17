@@ -74,6 +74,9 @@ Route::get('/product/usertype','ProductController@usertype');
 Route::get('/listing','ProductController@premiumlist');
 Route::post('product/publish','ProductController@publishstatus');
 Route::post('product/availability','ProductController@availability');
+Route::get('product/premium','ProductController@listpremium');
+
+
 
 //admin
 Route::post('/admin/approve','AdminController@approve');

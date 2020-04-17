@@ -464,6 +464,17 @@ if ($phonenumber == null) {
         $data->status = 'blocked';
         $data->save();
 
+        $messages = 'Dear '.$data->user_fname.', '.' your account has been blocked';
+
+        Mail::raw( $messages ,function ($message) use($data)
+          {
+           $message->to($data->user_email);
+           $message->from('testemaillumen123@gmail.com', 'Admin of W2W');
+           $message->subject('Account Management');
+
+
+           }); 
+
 
         return response()->json('user blocked');
 
@@ -478,6 +489,16 @@ if ($phonenumber == null) {
         $data->status = 'active';
         $data->save();
 
+        $messages = 'Dear '.$data->user_fname.', '.' your account has been unblocked';
+
+        Mail::raw( $messages ,function ($message) use($data)
+          {
+           $message->to($data->user_email);
+           $message->from('testemaillumen123@gmail.com', 'Admin of W2W');
+           $message->subject('Account Management');
+
+
+           }); 
 
         return response()->json('user unblocked');
 

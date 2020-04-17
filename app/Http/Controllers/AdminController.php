@@ -34,8 +34,7 @@ class AdminController extends Controller
 
         $products = Product::where('product_id',$product_id)->first(); 
        
-
-    
+        $user = User::where('user_id',$products->user_id)->first();
 
         $curtime = Carbon::now()->toDateString();
        
@@ -80,6 +79,19 @@ class AdminController extends Controller
          $notify->status = $approved;
          $notify->save();
 
+            
+
+         $messages = 'your product, '.$products->product_name.'  has been approved';
+
+         Mail::raw( $messages ,function ($message) use($user)
+           {
+            $message->to($user->user_email);
+            $message->from('testemaillumen123@gmail.com', 'Admin of W2W');
+            $message->subject('Product Approval');
+
+
+            }); 
+
 
 
     
@@ -108,6 +120,20 @@ class AdminController extends Controller
             $notify = Notification::where('product_id',$product_id)->first();
             $notify->status = $rejected;
             $notify->save();
+
+
+            $user = User::where('user_id',$products->user_id)->first();
+
+            $messages = 'your product, '.$products->product_name.'  has been rejected';
+
+            Mail::raw( $messages ,function ($message) use($user)
+              {
+               $message->to($user->user_email);
+               $message->from('testemaillumen123@gmail.com', 'Admin of W2W');
+               $message->subject('Product Approval');
+   
+   
+               }); 
 
 
 
