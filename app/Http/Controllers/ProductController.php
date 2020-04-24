@@ -2605,9 +2605,12 @@ public function listpremium (Request $request)
           $i = 0;
           $finalArray = array();
 
+
+
           foreach ($products->sortByDesc('created_at') as $product)
           {    
-
+ 
+               $avgStar = Review::where('product_id',$product->product_id)->avg('rating');
                $i++;
 
                if($i <= 5){
@@ -2766,6 +2769,7 @@ public function listpremium (Request $request)
                                           'premiumlist' => $product->premiumlist,
                                           'suggestcustomer' => $product->suggestcustomer,
                                           'rejectremark' => $product->rejectremark,
+                                          'average rating' => $avgStar,
                                           'name' => $product->name,
                                           'contact' => $product->contact,
                                           'publishstatus' => $product->publishstatus,
