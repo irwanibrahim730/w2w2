@@ -7,6 +7,7 @@ use App\Product;
 use App\Package;
 use App\User;
 use App\Notification;
+use App\Review;
 use Carbon\Carbon;
 
 
@@ -521,6 +522,7 @@ class ProductController extends Controller
         $notify->product_id = $file->product_id;
         $notify->email = $user->user_email;
         $notify->item  = $product_name;
+        $notify->type = 'item';
         $notify->save();
 
 
@@ -1456,12 +1458,16 @@ class ProductController extends Controller
         $products = Product::where('mainstatus',$mainstatus)->get();
 
 
-        foreach ($products as $product){
+        foreach ($products->sortByDesc('created_at') as $product){
+
+            $avgStar = Review::where('product_id',$product->product_id)->avg('rating');
 
             $user_id = $product->user_id;
             $user = User::where('user_id',$user_id)->get();
             foreach ($user as $users)
             {
+
+
 
             $json_arrays = json_decode($product->city, true);
             $cityArray = array();
@@ -1613,6 +1619,7 @@ class ProductController extends Controller
                                 'name' => $product->name,
                                 'contact' => $product->contact,
                                 'publishstatus' => $product->publishstatus,
+                                'average rating' => $avgStar,
                                 'expired_at' => $product->expired_at,
                                 'created_at' => $product->created_at->format('d M Y - H:i:s'),
                                 'updated_at' => $product->updated_at->format('d M Y - H:i:s'),
@@ -1830,7 +1837,7 @@ public function listexpired(Request $request)
     foreach ($user as $users)
     {
 
-     if ($product->expired_at >= $today){
+     if ($product->expired_at <= $today){
 
         $json_arrays = json_decode($product->city, true);
         $cityArray = array();
@@ -2588,7 +2595,208 @@ public function listpremium (Request $request)
 
 
 
+       public function latest (Request $request)
+       {
 
+          $maincategory = $request->input('maincategory');
+          
+
+          $products = Product::where('maincategory',$maincategory)->get();
+          $i = 0;
+          $finalArray = array();
+
+          foreach ($products->sortByDesc('created_at') as $product)
+          {    
+
+               $i++;
+
+               if($i <= 5){
+
+                $user_id = $product->user_id;
+                $user = User::where('user_id',$user_id)->get();
+                foreach ($user as $users)
+                {
+          
+                $json_arrays = json_decode($product->city, true);
+                $cityArray = array();
+            
+                        foreach ($json_arrays as $citys)
+                        {
+                            $tempArray = [
+                                    'city' => $citys,
+                                    ];
+            
+                            array_push($cityArray,$tempArray);
+            
+                                }
+                $json_arrays = json_decode($product->postalcode, true);
+                $postcodeArray = array();
+            
+                        foreach ($json_arrays as $postcodes)
+                        {
+                            $tempArray = [
+                                    'postalcode' => $postcodes,
+                                    ];
+            
+                            array_push($postcodeArray,$tempArray);
+            
+                                }  
+          
+              $json_array = json_decode($product->product_image, true);
+              $imageArray = array();
+              
+                      foreach ($json_array as $pic)
+                      {
+                        $url = 'https://codeviable.com/w2w2/public/image';
+                        $public =  $url .'/'. $pic;
+                          
+          
+                          $imagetempArray = [
+                              'image' => $public,
+                          ];
+          
+                          array_push($imageArray,$imagetempArray);
+                      }
+             
+                      $json_arrays = json_decode($product->product_location, true);
+                      $locationArray = array();
+          
+                              foreach ($json_arrays as $locate)
+                              {
+                                  $locationtempArray = [
+                                        'location' => $locate,
+                                  ];
+          
+                                  array_push($locationArray,$locationtempArray);
+          
+                              }
+          
+                      
+          
+                      $json_longitud = json_decode($product->longitud, true);
+                      $longitudArray = array();
+                  
+                                  foreach ($json_longitud as $longitude)
+                                  {
+                                      $longitudtempArray = [
+                                            'longitud' => $longitude,
+                                      ];
+                  
+                                          array_push($longitudArray,$longitudtempArray);
+                  
+                                      }
+          
+                      $json_latitud = json_decode($product->latitud, true);
+                      $latitudArray = array();
+                                  
+                                  foreach ($json_latitud as $latitude)
+                                   {
+                                       $latitudtempArray = [
+                                              'latitud' => $latitude,
+                                       ];
+                                  
+                                          array_push($latitudArray,$latitudtempArray);
+                                  
+                                      }
+          
+                      $json_state = json_decode($product->product_state, true);
+                      $stateArray = array();
+                                                  
+                                  foreach ($json_state as $states)
+                                  {
+                                      $statetempArray = [
+                                          'state' => $states,
+                                      ];
+                                                  
+                                           array_push($stateArray,$statetempArray);
+                                                  
+                                      }
+                      
+                     
+                                      $json_tag = json_decode($product->tagging, true);
+                                      $tagArray = array();
+                                                                                  
+                                          foreach ($json_tag as $tags)
+                                          {
+                                           $tagtempArray = [
+                                              'tagging' => $tags,
+                                          ];
+                                                                                  
+                                        array_push($tagArray,$tagtempArray);
+                                                                                  
+                                          }
+                                      
+                                     
+                                       $tempArray = [
+                                
+                                          'product_id' => $product->product_id,
+                                          'product_date' => $product->product_date,
+                                          'product_name' => $product->product_name,
+                                          'product_status' => $product->product_status,
+                                          'product_material' => $product->product_material,
+                                          'maincategory' => $product->maincategory,
+                                          'product_category' => $product->product_category,
+                                          'product_target' => $product->product_target,
+                                          'product_continuity' => $product->product_continuity,
+                                          'product_quantity' => $product->product_quantity,
+                                          'unit' => $product->unit,
+                                          'availability' => $product->availability,
+                                          'product_price' => $product->product_price,
+                                          'product_pricemax' => $product->product_pricemax,
+                                          'product_period' => $product->product_period,
+                                          'product_package' =>$product->product_package,
+                                          'product_location' =>$locationArray,
+                                          'city' => $cityArray,
+                                          'postalcode' => $postcodeArray,
+                                          'latitud' => $latitudArray,
+                                          'longitud' => $longitudArray,
+                                          'product_state' => $stateArray,
+                                          'product_transport' =>$product->product_transport,
+                                          'product_description' => $product->product_description,
+                                          'product_image' => $imageArray,
+                                          'mainstatus' => $product->mainstatus,
+                                          'website' => $product->website,
+                                          'user_id' => $product->user_id,
+                                          'user_type' => $users->user_type,
+                                          'package_id' => $product->package_id,
+                                          'company_name' => $product->company_name,
+                                          'company_email' => $product->company_email,
+                                          'company_contact' => $product->company_contact,
+                                          'tagging' => $tagArray,
+                                          'premiumlist' => $product->premiumlist,
+                                          'suggestcustomer' => $product->suggestcustomer,
+                                          'rejectremark' => $product->rejectremark,
+                                          'name' => $product->name,
+                                          'contact' => $product->contact,
+                                          'publishstatus' => $product->publishstatus,
+                                          'expired_at' => $product->expired_at,
+                                          'created_at' => $product->created_at->format('d M Y - H:i:s'),
+                                          'updated_at' => $product->updated_at->format('d M Y - H:i:s'),
+                                       ];
+                       
+                      array_push($finalArray,$tempArray);
+
+                 
+                        }     
+ 
+                    }  
+
+               
+
+
+
+            
+
+              }
+
+
+
+              return response()->json($finalArray);   
+
+
+       }
+
+     
 
 
 

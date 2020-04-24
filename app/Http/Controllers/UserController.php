@@ -8,6 +8,7 @@ use Illuminate\Mail\Mailer;
 use App\User;
 use App\Package;
 use App\Userpack;
+use App\History;
 
 
 class UserController extends Controller
@@ -38,6 +39,7 @@ class UserController extends Controller
                 'companyregisternumber' => $data->companyregisternumber,
                 'companydesc' => $data->companydesc,
                 'address' => $data->address,
+                'state' => $data->state,
                 'occupation' => $data->occupation,
                 'job_title' => $data->job_title,
                 'user_type' => $data->user_type,
@@ -93,6 +95,7 @@ class UserController extends Controller
                 'companyregisternumber' => $data->companyregisternumber,
                 'companydesc' => $data->companydesc,
                 'address' => $data->address,
+                'state' => $data->state,
                 'occupation' => $data->occupation,
                 'job_title' => $data->job_title,
                 'user_type' => $data->user_type,
@@ -143,6 +146,7 @@ class UserController extends Controller
             $companyregisternumber = $request->input('companyregisternumber');
             $companydesc = $request->input('companydesc');
             $address = $request->input('address');
+            $state = $request->input('state');
             $occupation = $request->input('occupation');
             $job_title = $request->input('job_title'); 
             $user_type = $request->input('user_type');     
@@ -183,6 +187,7 @@ class UserController extends Controller
         $data->companyregisternumber = $companyregisternumber; 
         $data->companydesc = $companydesc;
         $data->address = $address;
+        $data->state = $state;
         $data->occupation = $occupation;
         $data->job_title = $job_title;
         $data->user_type = $user_type;
@@ -214,6 +219,7 @@ class UserController extends Controller
         $companyregisternumber = $request->input('companyregisternumber');
         $companydesc = $request->input('companydesc');
         $address = $request->input('address');
+        $state = $request->input('state');
         $occupation = $request->input('occupation');
         $job_title = $request->input('job_title');
         $profilepicture = $request->file('profilepicture'); 
@@ -252,6 +258,10 @@ class UserController extends Controller
             if ($address == null) {
                 $address = $data->address;
                 }
+
+             if ($state == null) {
+                    $state = $data->state;
+                    }
     
             if ($occupation == null) {
                     $occupation = $data->occupation;
@@ -286,6 +296,7 @@ class UserController extends Controller
             $data->user_contact = $user_contact;
             $data->user_email = $user_email;
             $data->address = $address;
+            $data->state = $state;
             $data->occupation = $occupation;
             $data->profilepicture = $imagename;
             $data->personincharge = $personincharge;
@@ -331,6 +342,11 @@ class UserController extends Controller
             $address = $data->address;
             }
 
+            if ($state == null) {
+                $state = $data->state;
+                }
+        
+
         if ($occupation == null) {
                 $occupation = $data->occupation;
                 }
@@ -364,6 +380,7 @@ class UserController extends Controller
         $data->user_contact = $user_contact;
         $data->user_email = $user_email;
         $data->address = $address;
+        $data->state = $state;
         $data->occupation = $occupation;
         $data->profilepicture = $imagename;
         $data->personincharge = $personincharge;
@@ -407,6 +424,10 @@ class UserController extends Controller
         $address = $data->address;
        }
 
+       if ($state == null) {
+        $state = $data->state;
+        }
+
        if($job_title == null){
         $job_title = $data->job_title;
        }
@@ -442,6 +463,7 @@ if ($phonenumber == null) {
       $data->companyregisternumber = $companyregisternumber;
       $data->companydesc = $companydesc;
       $data->address = $address;
+      $data->state = $state;
       $data->job_title = $job_title;
       $data->profilepicture = $imagename;
       $data->personincharge = $personincharge;
@@ -534,6 +556,12 @@ if ($phonenumber == null) {
         $balance = $token - $price;
         $user->balancetoken = $balance;
         $user->save();
+
+        $history = new History;
+        $history->user_id = $user_id;
+        $history->type = 'package';
+        $history->name = $package->package_name;
+        $history->save();
 
         
         return response()->json('package added');

@@ -42,7 +42,7 @@ class CommentController extends Controller
            $finalArray = array(); 
 
         
-           foreach ($comment as $comments){
+           foreach ($comment->sortByDesc('created_at') as $comments){
             
             $user_id = $comments->user_id;
             $user = User::where('user_id',$user_id)->get(); 
@@ -55,6 +55,7 @@ class CommentController extends Controller
             $tempArray = [
               'id' => $comments->id,
               'product_id' =>$comments->product_id,
+              'user_id' => $comments->user_id,
               'user_fname' =>$users->user_fname,
               'user_lname' => $users->user_lname,
               'title'=>$comments->title,
@@ -119,8 +120,32 @@ public function list()
 {
 
    $comment = Comment::all();
+   $finalArray = array();
+    
+   foreach ($comment->sortByDesc('created_at') as $comments){
+   $user_id = $comments->user_id;
+   $user = User::where('user_id',$user_id)->get(); 
+   
+         foreach($user as $users){
+ 
+                  $tempArray = [
+                  'id' => $comments->id,
+                  'product_id' => $comments->product_id,
+                  'user_id' => $comments->user_id,
+                  'user_fname' => $users->user_fname,
+                  'user_lname' => $users->user_lname,
+                  'title'=> $comments->title,
+                  'description'=> $comments->description,
+                  'status' => $comments->status,
+                  'created_at' => $comments->created_at->format('d M Y - H:i:s'),
+                  'updated_at' => $comments->updated_at->format('d M Y - H:i:s'),
+ ];
 
-   return response()->json($comment);
+ array_push($finalArray,$tempArray);
+}
+   }
+
+   return response()->json($finalArray);
 
 }
 
@@ -129,9 +154,34 @@ public function listid(Request $request)
   
     $product_id = $request->input('product_id');
 
-    $comments = Comment::where('product_id',$product_id)->get();
+    $comment = Comment::where('product_id',$product_id)->get();
+   
+    $finalArray = array();
+    
+    foreach ($comment->sortByDesc('created_at') as $comments){
+    $user_id = $comments->user_id;
+    $user = User::where('user_id',$user_id)->get(); 
+    
+          foreach($user as $users){
+  
+    $tempArray = [
+      'id' => $comments->id,
+      'product_id' =>$comments->product_id,
+      'user_id' => $comments->user_id,
+      'user_fname' =>$users->user_fname,
+      'user_lname' => $users->user_lname,
+      'title'=>$comments->title,
+      'description'=>$comments->description,
+      'status' => $comments->status,
+      'created_at' => $comments->created_at->format('d M Y - H:i:s'),
+      'updated_at' => $comments->updated_at->format('d M Y - H:i:s'),
+  ];
  
-    return response()->json($comments);
+  array_push($finalArray,$tempArray);
+ }
+    }
+ 
+    return response()->json($finalArray);
 
 
 }
@@ -144,11 +194,38 @@ public function detail(Request $request)
 
    $comment = Comment::where('id',$id)->get();
 
-   return response()->json($comment);
+   $finalArray = array();
+    
+     foreach ($comment as $comments){
+
+      $user_id = $comments->user_id;
+      $user = User::where('user_id',$user_id)->get(); 
+   
+         foreach($user as $users){
+ 
+                   $tempArray = [
+                    
+                    'id' => $comments->id,
+                    'product_id' =>$comments->product_id,
+                    'user_id' => $comments->user_id,
+                    'user_fname' =>$users->user_fname,
+                    'user_lname' => $users->user_lname,
+                    'title'=>$comments->title,
+                    'description'=>$comments->description,
+                    'status' => $comments->status,
+                    'created_at' => $comments->created_at->format('d M Y - H:i:s'),
+                    'updated_at' => $comments->updated_at->format('d M Y - H:i:s'),
+                      ];
+
+                          array_push($finalArray,$tempArray);
+                 }
+             }
+
+             return response()->json($finalArray);
 
 
 
-}
+      }
 
 
 }

@@ -14,7 +14,7 @@ class NewsController extends Controller
         $news = News::all();
         
 
-        foreach ($news as $data) {
+        foreach ($news->sortByDesc('created_at') as $data) {
 
             $url = 'https://codeviable.com/w2w2/public/image';
             $imagename = $data->news_photo;
@@ -91,7 +91,7 @@ class NewsController extends Controller
 
 
 
-            foreach($datas as $data ) {
+            foreach($datas->sortByDesc('created_at')as $data ) {
 
                 $url = 'https://codeviable.com/w2w2/public/image';
                 $imagename = $data->news_photo;

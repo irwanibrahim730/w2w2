@@ -7,6 +7,7 @@ use App\Reserve;
 use App\Product;
 use App\User;
 use App\log;
+use App\Notification;
 
 class ReserveController extends Controller
 
@@ -43,6 +44,7 @@ class ReserveController extends Controller
         $data->quantity = $quantity;
         $data->unit = $unit;
         $data->info = $info;
+        $data->category = $products->maincategory;
         $data->save(); 
 
         return response()->json('Product reserved');
@@ -88,6 +90,7 @@ class ReserveController extends Controller
                 'info' => $products->info,
                 'unit' => $products->unit,
                 'quantity' => $products->quantity,
+                'category' => $products->category,
                  
             ];
            array_push($reservearray,$tempArray);
@@ -144,6 +147,7 @@ class ReserveController extends Controller
                       'info' => $products->info,
                       'unit' => $products->unit,
                       'quantity' => $products->quantity,
+                      'category' => $products->category,
                        
                   ];
                  array_push($reservearray,$tempArray);
@@ -225,6 +229,7 @@ class ReserveController extends Controller
                        'info' => $products->info,
                        'unit' => $products->unit,
                        'quantity' => $products->quantity,
+                       'category' => $products->category,
                         
                    ];
                   array_push($reservearray,$tempArray);
@@ -276,6 +281,7 @@ class ReserveController extends Controller
                        'info' => $products->info,
                        'unit' => $products->unit,
                        'quantity' => $products->quantity,
+                       'category' => $products->category,
                         
                    ];
                   array_push($reservearray,$tempArray);
@@ -347,6 +353,7 @@ class ReserveController extends Controller
                        'info' => $reserves->info,
                        'unit' => $reserves->unit,
                        'quantity' => $reserves->quantity,
+                       'category' => $reserves->category,
                    ];
                   array_push($reservearray,$tempArray);
  
@@ -379,6 +386,7 @@ class ReserveController extends Controller
                        'info' => $products->info,
                        'unit' => $products->unit,
                        'quantity' => $products->quantity,
+                       'category' => $products->category,
                         
                    ];
                   array_push($reservearray,$tempArray);
@@ -399,8 +407,11 @@ class ReserveController extends Controller
         $user = User::where('user_id',$user_id)->first();
         $buyer_id = $product->buyer_id;
         $buyer = User::where('user_id',$buyer_id)->first();
+        $product_id = $product->product_id;
+        $products = Product::where('product_id',$product_id)->first();
 
         $product->status = 'completed';
+        $product->category = $products->maincategory;
         $product->save();
 
         $sellerlog = new Log;
@@ -412,6 +423,15 @@ class ReserveController extends Controller
         $buyerlog->username = $buyer->user_fname;
         $buyerlog->type = 'buyer'; 
         $buyerlog->save();
+
+        $notifybuyer = new notification;
+        $notifybuyer->email = $buyer->user_email;
+        $notifybuyer->item = $products->product_name;
+        $notifybuyer->user_id = $product->buyer_id;
+        $notifybuyer->product_id = $product->product_id;
+        $notifybuyer->status = 'need review';
+        $notifybuyer->type = 'review';
+        $notifybuyer->save();
         
 
 
@@ -441,6 +461,7 @@ class ReserveController extends Controller
                        'info' => $products->info,
                        'unit' => $products->unit,
                        'quantity' => $products->quantity,
+                       'category' => $products->category,
                         
                    ];
                   array_push($reservearray,$tempArray);
@@ -511,6 +532,7 @@ class ReserveController extends Controller
                           'info' => $products->info,
                           'unit' => $products->unit,
                           'quantity' => $products->quantity,
+                          'category' => $products->category,
                            
                       ];
                     
@@ -588,6 +610,7 @@ class ReserveController extends Controller
                               'info' => $products->info,
                               'unit' => $products->unit,
                               'quantity' => $products->quantity,
+                              'category' => $products->category,
                                
                           ];
                         
@@ -642,6 +665,7 @@ class ReserveController extends Controller
               'info' => $products->info,
               'unit' => $products->unit,
               'quantity' => $products->quantity,
+              'category' => $products->category,
                
           ];
          array_push($reservearray,$tempArray);

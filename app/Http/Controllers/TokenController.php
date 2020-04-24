@@ -5,6 +5,7 @@ use Laravel\Lumen\Routing\Controller;
 use Illuminate\Http\Request;
 use App\Token;
 use App\User;
+use App\History;
 
 class TokenController extends Controller
 
@@ -139,6 +140,12 @@ class TokenController extends Controller
 
         $user->balancetoken = $total;
         $user->save();
+
+        $history = new History;
+        $history->user_id = $user_id;
+        $history->type = 'token';
+        $history->name = $token->type;
+        $history->save();
 
 
         return response()->json('token added to user account');

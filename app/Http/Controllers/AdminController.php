@@ -11,6 +11,7 @@ use App\User;
 use App\Notification;
 use App\Package;
 use App\Userpack;
+use App\Reserve;
 
 class AdminController extends Controller
 
@@ -77,6 +78,7 @@ class AdminController extends Controller
 
          $notify = Notification::where('product_id',$product_id)->first();
          $notify->status = $approved;
+         $notify->type = 'approval';
          $notify->save();
 
             
@@ -119,6 +121,7 @@ class AdminController extends Controller
 
             $notify = Notification::where('product_id',$product_id)->first();
             $notify->status = $rejected;
+            $notify->type = 'approval';
             $notify->save();
 
 
@@ -139,6 +142,104 @@ class AdminController extends Controller
 
             return response()->json('product rejected');
  
+
+         }
+
+
+         public function dashboard(Request $request)
+
+         {
+
+          $totalarray = array();
+
+           //user
+
+           $user = User::all();
+           $users = count($user);
+
+           $individual = User::where('user_type','individual')->get();
+           $individuals = count($individual);
+
+           $company = User::where('user_type','company')->get();
+           $companies = count($company);
+
+
+           //sold product
+           $sold = Reserve::where('status','completed')->get();
+           $solds = count ($sold);
+
+           $waste = Reserve::where('status','completed')->where('category','waste')->get();
+           $wasted = count($waste);
+
+           $service = Reserve::where('status','completed')->where('category','service')->get();
+           $services = count($service);
+
+
+
+           $technology = Reserve::where('status','completed')->where('category','technology')->get();
+           $technologies = count($technology);
+
+
+
+           //approved product
+
+           $product = Product::where('product_status','success')->get();
+           $products = count($product);
+
+
+           $productwaste = Product::where('product_status','success')->where('maincategory','waste')->get();
+           $productwasted = count($productwaste);
+           
+           
+           $productservice = Product::where('product_status','success')->where('maincategory','service')->get();
+           $productserviced = count($productservice);
+
+
+           $producttechnology = Product::where('product_status','success')->where('maincategory','technology')->get();
+           $producttechnologies = count($producttechnology);
+
+
+           $temparray = [
+
+             'total user' => $users,
+             'total individual' => $individuals,
+             'total company' => $companies,
+             'total sold product' => $solds,
+             'total sold waste' => $wasted,
+             'total sold technology' => $technologies,
+             'total sold services' => $services,
+             'total approved product' => $products,
+             'total approved waste' => $productwasted,
+             'total approved service' => $productserviced,
+             'total approved technology' => $producttechnologies,
+
+           ];
+
+           array_push($totalarray,$temparray);
+          
+  
+           
+           return response()->json($totalarray);           
+      
+         }
+
+
+
+         public function dashstate(Request $request)
+         {
+
+          $state = $request->input('state');
+          $statearray = array();
+          $states = User::where('state',$state)->get();
+          $stated = count($states);
+
+            $temparray =[
+             'total user in '.$state => $stated,
+            ] ;
+
+            array_push($statearray,$temparray);
+            
+           return response()->json($statearray);
 
          }
 

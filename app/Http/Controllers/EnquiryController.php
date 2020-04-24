@@ -35,7 +35,7 @@ class EnquiryController extends Controller
            $enquiry = Enquiry::all();
            $finalArray = array();  
 
-           foreach ($enquiry as $enquiries){
+           foreach ($enquiry->sortByDesc('created_at') as $enquiries){
           
             $tempArray = [
               'id' => $enquiries->id,
