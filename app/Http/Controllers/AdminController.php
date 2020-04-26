@@ -201,17 +201,17 @@ class AdminController extends Controller
 
            $temparray = [
 
-             'total user' => $users,
-             'total individual' => $individuals,
-             'total company' => $companies,
-             'total sold product' => $solds,
-             'total sold waste' => $wasted,
-             'total sold technology' => $technologies,
-             'total sold services' => $services,
-             'total approved product' => $products,
-             'total approved waste' => $productwasted,
-             'total approved service' => $productserviced,
-             'total approved technology' => $producttechnologies,
+             'total_user' => $users,
+             'total_individual' => $individuals,
+             'total_company' => $companies,
+             'total_sold_product' => $solds,
+             'total_sold_waste' => $wasted,
+             'total_sold_technology' => $technologies,
+             'total_sold_services' => $services,
+             'total_approved_product' => $products,
+             'total_approved_waste' => $productwasted,
+             'total_approved_service' => $productserviced,
+             'total_approved_technology' => $producttechnologies,
 
            ];
 
@@ -234,7 +234,7 @@ class AdminController extends Controller
           $stated = count($states);
 
             $temparray =[
-             'total user in '.$state => $stated,
+             'total_user' => $stated,
             ] ;
 
             array_push($statearray,$temparray);
