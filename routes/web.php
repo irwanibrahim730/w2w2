@@ -181,6 +181,7 @@ Route::delete('/paidpackage/delete','PackageController@deletepaid');
 //dashboard
 Route::get('/admin/dash','AdminController@dashboard');
 Route::get('/admin/statedash','AdminController@dashstate');
+Route::get('/admin/statecategory','AdminController@statecategory');
 
 
 //history
@@ -191,6 +192,8 @@ Route::delete('/history/delete','HistoryController@delete');
 
 
 Route::get('/latest','ProductController@latest');
+
+
 
 
 

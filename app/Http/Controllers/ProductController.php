@@ -514,6 +514,7 @@ class ProductController extends Controller
         $file->tagging = json_encode($tag);
         $file->name = $name;
         $file->contact = $contact;
+        $file->user_state = $user->state;
         $file->publishstatus = $publishstatus;
         $file->save(); 
 

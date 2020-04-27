@@ -245,6 +245,45 @@ class AdminController extends Controller
 
 
 
+         public function statecategory(Request $request)
+         
+         
+         {
+
+
+          $state = $request->input('state');
+
+          $countarray = array();
+
+          $user = User::where('state',$state)->count();
+
+          $waste = Product::where('user_state',$state)->where('maincategory','waste')->count();
+
+          $service = Product::where('user_state',$state)->where('maincategory','service')->count();
+
+          $technology = Product::where('user_state',$state)->where('maincategory','technology')->count();
+
+          $tempArray = [
+
+             'total_user' => $user,
+             'total_waste' => $waste,
+             'total_service' => $service,
+             'total_technology' => $technology,
+
+          ];
+
+          array_push($countarray,$tempArray);
+
+          return response()->json($countarray);
+ 
+
+
+
+
+         }
+
+
+
 
 
     }
