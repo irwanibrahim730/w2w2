@@ -44,7 +44,7 @@ class ReviewController extends Controller
        $notifybuyer->type = 'review';
        $notifybuyer->save();
 
-       return response()->json('Review submitted');
+       return response()->json('Review submitted!');
 
 
    }
