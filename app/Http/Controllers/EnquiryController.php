@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Laravel\Lumen\Routing\Controller;
 use Illuminate\Http\Request;
 use App\Enquiry;
+use App\Notification;
 
 class EnquiryController extends Controller
 
@@ -23,6 +24,13 @@ class EnquiryController extends Controller
         $data->category = $category;
         $data->description = $description;
         $data->save(); 
+
+
+        $notify = new Notification;
+        $notify->email = $email;
+        $notify->status = 'new enquiry';
+        $notify->type = 'enquiry';
+        $notify->save();
 
         return response()->json('Enquiry Submitted');
 

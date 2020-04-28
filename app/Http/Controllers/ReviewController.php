@@ -38,7 +38,7 @@ class ReviewController extends Controller
        $notifybuyer = new notification;
        $notifybuyer->email = $user->user_email;
        $notifybuyer->item = $product->product_name;
-       $notifybuyer->user_id = $user_id;
+       $notifybuyer->user_id = $product->user_id;
        $notifybuyer->product_id = $product_id;
        $notifybuyer->status = 'new review';
        $notifybuyer->type = 'review';

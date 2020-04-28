@@ -5,6 +5,8 @@ use Laravel\Lumen\Routing\Controller;
 use Illuminate\Http\Request;
 use App\Comment;
 use App\User;
+use App\Product;
+use App\Notification;
 
 class CommentController extends Controller
 
@@ -17,6 +19,7 @@ class CommentController extends Controller
         $description = $request->input('description');
         $user_id = $request->input('user_id');
 
+        $product = Product::where('product_id',$product_id)->first();
  
 
 
@@ -27,6 +30,14 @@ class CommentController extends Controller
         $data->product_id = $product_id;
         $data->user_id = $user_id;
         $data->save(); 
+
+        $notify = new Notification;
+        $notify->user_id = $product->user_id;
+        $notify->product_id = $product->product_id;
+        $notify->item = $product->product_name;
+        $notify->status = 'new comment';
+        $notify->type = 'comment';
+        $notify->save();
 
         return response()->json('Comment Added');
 
