@@ -123,7 +123,7 @@ class UserController extends Controller
 
         $validator = \validator::make($request->all(),
         [
-            'password' => 'required',
+            'password' => 'required|min:8',
             'user_email' => 'required',
             
         ]);
@@ -191,6 +191,17 @@ class UserController extends Controller
                 $data->phonenumber = $phonenumber;
                 $data->status = 'active';
                 $data->save();
+
+                $messages = 'Dear '.$data->user_fname.', '.' success register to Eco Waster Market';
+
+                Mail::raw( $messages ,function ($message) use($data)
+                {
+                 $message->to($data->user_email);
+                 $message->from('testemaillumen123@gmail.com', 'Admin of W2W');
+                 $message->subject('Account Management');
+      
+      
+                 }); 
             
                 return response()->json(['status'=>'success','value'=>'use has been registered']);
 
