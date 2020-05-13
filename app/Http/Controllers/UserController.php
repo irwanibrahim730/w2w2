@@ -60,8 +60,7 @@ class UserController extends Controller
 			array_push($finalArray, $tempArray);
 
         }
-        
-            return response()->json($finalArray); 
+            return response()->json(['status'=>'success','value'=>$finalArray]);
     
 }
 
@@ -73,7 +72,7 @@ class UserController extends Controller
 
         if ($data == null) {
 
-            return response()->json('data not exist');
+            return response()->json(['status'=>'error','value'=>'data not exist']);
         
          } else {
       
@@ -112,8 +111,8 @@ class UserController extends Controller
                 'activitylog' => $data->activitylog,
 
              ];
-            
-             return response()->json($tempArray);
+
+             return response()->json(['status'=>'success','value'=>$tempArray]);
        
             }
 
@@ -133,9 +132,7 @@ class UserController extends Controller
 
 			return response()->json($validator->errors(), 422);
 
-		}
-
-        else{
+        }else {
             
             $user_fname = $request->input('user_fname');
             $user_lname = $request->input('user_lname');
@@ -156,12 +153,11 @@ class UserController extends Controller
             $user_role = $request->input('user_role');
 
             if($request->hasfile('profilepicture')){
-            $extention = $profilepicture->getClientOriginalExtension();
-            $imagename = rand(11111, 99999) . '.' . $extention;
-            $destinationPath = 'image';
-    
-            $profilepicture->move($destinationPath, $imagename);
-
+                $extention = $profilepicture->getClientOriginalExtension();
+                $imagename = rand(11111, 99999) . '.' . $extention;
+                $destinationPath = 'image';
+        
+                $profilepicture->move($destinationPath, $imagename);
             }
 
             else if ($profilepicture == null) {
@@ -169,37 +165,37 @@ class UserController extends Controller
 
             }
 
+            $userExist = User::where('user_email',$user_email)->orWhere('password',$password)->first();
+
+            if($userExist){
+                return response()->json(['status'=>'failed','value'=>'email or password is exist']);
+            } else {
+
+                $data = new User();
+                $data->user_fname = $user_fname;
+                $data->user_lname = $user_lname;
+                $data->companyname = $companyname;
+                $data->password = $password;
+                $data->user_contact = $user_contact;
+                $data->user_email = $user_email;
+                $data->companyregisternumber = $companyregisternumber; 
+                $data->companydesc = $companydesc;
+                $data->address = $address;
+                $data->state = $state;
+                $data->occupation = $occupation;
+                $data->job_title = $job_title;
+                $data->user_type = $user_type;
+                $data->profilepicture=$imagename;
+                $data->user_role = $user_role;
+                $data->personincharge = $personincharge;
+                $data->phonenumber = $phonenumber;
+                $data->status = 'active';
+                $data->save();
             
+                return response()->json(['status'=>'success','value'=>'use has been registered']);
 
+            }
          }
-
-
-
-    
-
-        $data = new User();
-        $data->user_fname = $user_fname;
-        $data->user_lname = $user_lname;
-        $data->companyname = $companyname;
-        $data->password = $password;
-        $data->user_contact = $user_contact;
-        $data->user_email = $user_email;
-        $data->companyregisternumber = $companyregisternumber; 
-        $data->companydesc = $companydesc;
-        $data->address = $address;
-        $data->state = $state;
-        $data->occupation = $occupation;
-        $data->job_title = $job_title;
-        $data->user_type = $user_type;
-        $data->profilepicture=$imagename;
-        $data->user_role = $user_role;
-        $data->personincharge = $personincharge;
-        $data->phonenumber = $phonenumber;
-        $data->status = 'active';
-        $data->save();
-    
-        return response()->json('User has been registered');
-        
     }
 
 
@@ -304,13 +300,10 @@ class UserController extends Controller
             $data->status =$status;
             $data->user_role = $user_role;
             $data->save();
-    
-            return response()->json('Admin Updated'); 
+  
+            return response()->json(['status'=>'success','value'=>'admin updated']);
     
           }
-
-
-       
 
       if($data->user_type == 'individual'){
         
@@ -389,9 +382,7 @@ class UserController extends Controller
         $data->user_role = $user_role;
         $data->save();
 
-        return response()->json('User Updated'); 
-
-        
+        return response()->json(['status'=>'success','value'=>'User Updated']);
 
       }
 
@@ -471,10 +462,10 @@ if ($phonenumber == null) {
       $data->status =$status;
       $data->save();
 
-      return response()->json('Company Updated');
+      return response()->json(['status'=>'success','value'=>'Company Updated']);
     }
        
-       }
+}
 
 
 
@@ -497,9 +488,7 @@ if ($phonenumber == null) {
 
            }); 
 
-
-        return response()->json('user blocked');
-
+        return response()->json(['status'=>'success','value'=>'user blocked']);
 
        }
 
@@ -522,7 +511,7 @@ if ($phonenumber == null) {
 
            }); 
 
-        return response()->json('user unblocked');
+        return response()->json(['status'=>'success','value'=>'User unblocked']);
 
        }
     
@@ -534,6 +523,7 @@ if ($phonenumber == null) {
         $data->delete();
     
         return response()->json('User deleted');
+        return response()->json(['status'=>'success','value'=>'User deleted']);
     }
 
 
@@ -563,8 +553,7 @@ if ($phonenumber == null) {
         $history->name = $package->package_name;
         $history->save();
 
-        
-        return response()->json('package added');
+        return response()->json(['status'=>'success','value'=>'package added']);
 
 
     }

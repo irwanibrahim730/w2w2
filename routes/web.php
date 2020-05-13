@@ -58,8 +58,6 @@ Route::delete('/news/delete', 'NewsController@destroy');
 //login
 Route::post('/login', 'LoginController@signin');
 
-
-
 //product
 Route::get('/product', 'ProductController@index');
 Route::get('/product/listcategory', 'ProductController@listcategory');
@@ -76,16 +74,12 @@ Route::post('product/publish','ProductController@publishstatus');
 Route::post('product/availability','ProductController@availability');
 Route::get('product/premium','ProductController@listpremium');
 
-
-
 //admin
 Route::post('/admin/approve','AdminController@approve');
 Route::post('/admin/reject','AdminController@reject');
 Route::get('/admin/list','AdminController@listapproval');
 Route::post('/admin/block','UserController@block');
 Route::post('/admin/unblock','UserController@unblock');
-
-
 
 //category
 Route::post('/category/add','CategoryController@addcategory');
@@ -106,9 +100,6 @@ Route::get('/comment/all','CommentController@list');
 Route::get('/comment/detail','CommentController@detail');
 Route::get('/comment/listing','CommentController@listid');
 
-
-
-
 //enquiry
 Route::post('/enquiry','EnquiryController@store');
 Route::get('/enquiry/list','EnquiryController@list');
@@ -126,10 +117,6 @@ Route::post('/banner/edit','BannerController@edit');
 //notification
 Route::get('/notification','ProductController@listapproved');
 Route::get('/notification/expired','ProductController@listexpired');
-
-
-
-
 
 //reservation
 Route::post('/reserve','ReserveController@reserve');
@@ -155,7 +142,6 @@ Route::post('/review','ReviewController@store');
 Route::delete('/review/delete','ReviewController@delete');
 Route::get('/review/list','ReviewController@list');
 Route::get('/review/listuser','ReviewController@listuser');
-
 
 //mailing
 Route::post('/email','EmailController@mail');
@@ -188,8 +174,6 @@ Route::get('/admin/statecategory','AdminController@statecategory');
 Route::get('/history/all','HistoryController@all');
 Route::get('/history/id','HistoryController@listid');
 Route::delete('/history/delete','HistoryController@delete');
-
-
 
 Route::get('/latest','ProductController@latest');
 
