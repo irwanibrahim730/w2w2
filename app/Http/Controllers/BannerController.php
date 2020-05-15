@@ -78,7 +78,9 @@ class BannerController extends Controller
 
             $publishstatus = $request->input('publishstatus');
     
-            $datas = Banner::where('publishstatus',$publishstatus)->get();
+            $datas = Banner::where('publishstatus',$publishstatus)
+                        ->orderBy('created_at', 'DESC')
+                        ->get();
             $statusArray = array();
           
     
@@ -102,8 +104,7 @@ class BannerController extends Controller
                     ];
                      array_push($statusArray,$tempArray);
             }
-    
-                return response()->json($statusArray);
+                return response()->json(['status'=>'success','value'=>$statusArray]);
     
              }
       

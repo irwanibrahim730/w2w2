@@ -21,7 +21,7 @@ class ProductController extends Controller
         $finalArray = array();
         $products = Product::where('product_status','success')
                     ->where('publishstatus','yes')    
-                    ->orderBy('product_date','ASC')->get();
+                    ->orderBy('product_date','DESC')->get();
             
             foreach ($products as $product){
                 $user_id = $product->user_id;
@@ -2435,12 +2435,12 @@ public function listpremium (Request $request)
         $products = Product::where('premiumlist',$premiumlist)
         ->where('mainstatus', $type)
         ->where('publishstatus', 'yes')
-        ->orderBy('product_date', 'ASC')
+        ->orderBy('product_date', 'DESC')
         ->get();
     } else {
         $products = Product::where('premiumlist',$premiumlist)
         ->where('publishstatus', 'yes')
-        ->orderBy('product_date', 'ASC')
+        ->orderBy('product_date', 'DESC')
         ->get();
     }
    
