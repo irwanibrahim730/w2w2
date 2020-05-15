@@ -19,7 +19,9 @@ class ProductController extends Controller
         
        
         $finalArray = array();
-        $products = Product::all();
+        $products = Product::where('product_status','success')
+                    ->where('publishstatus','yes')    
+                    ->orderBy('product_date','ASC')->get();
             
             foreach ($products as $product){
                 $user_id = $product->user_id;
@@ -186,7 +188,7 @@ class ProductController extends Controller
                         array_push($finalArray,$tempArray);
                           } 
                         }       
-                         return response()->json($finalArray); 
+                return response()->json(['status'=>'success','value'=>$finalArray]);
             }
  
    
@@ -2433,10 +2435,12 @@ public function listpremium (Request $request)
         $products = Product::where('premiumlist',$premiumlist)
         ->where('mainstatus', $type)
         ->where('publishstatus', 'yes')
+        ->orderBy('product_date', 'ASC')
         ->get();
     } else {
         $products = Product::where('premiumlist',$premiumlist)
         ->where('publishstatus', 'yes')
+        ->orderBy('product_date', 'ASC')
         ->get();
     }
    
