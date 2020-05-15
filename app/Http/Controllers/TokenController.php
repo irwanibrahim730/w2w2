@@ -24,15 +24,14 @@ class TokenController extends Controller
         $data->save();
 
 
-    
-        return response()->json('Token added');
+        return response()->json(['status'=>'success','value'=>'token added']);
 
         }
 
         public function index(){
             $data = Token::all();
-    
-           return response()->json($data);
+           
+            return response()->json(['status'=>'success','value'=>$data]);
     
         }
     
@@ -40,7 +39,8 @@ class TokenController extends Controller
     
             $id = $request->input('id');
             $data = Token::where('id',$id)->get();
-            return response()->json($data);
+
+            return response()->json(['status'=>'success','value'=>$data]);
         }
 
 
@@ -50,8 +50,8 @@ class TokenController extends Controller
     
             $data = Token::where('id',$id)->first();
             $data->delete();
-        
-            return response()->json('Token deleted');
+  
+            return response()->json(['status'=>'success','value'=>'Token deleted']);
         }
 
         public function edit(Request $request)
@@ -118,8 +118,7 @@ class TokenController extends Controller
             $data->save();
     
     
-        
-            return response()->json('package updated');
+            return response()->json(['status'=>'success','value'=>'Package updated']);
         }
 
 
@@ -147,8 +146,7 @@ class TokenController extends Controller
         $history->name = $token->type;
         $history->save();
 
-
-        return response()->json('token added to user account');
+        return response()->json(['status'=>'success','value'=>'token added to user account']);
 
         }
 
@@ -169,7 +167,7 @@ class TokenController extends Controller
           $user->balancetoken = $total;
           $user->save();
 
-          return response()->json('token added');
+          return response()->json(['status'=>'success','value'=>'token added']);
 
 
         }

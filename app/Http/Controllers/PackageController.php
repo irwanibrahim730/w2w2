@@ -12,15 +12,15 @@ class PackageController extends Controller
     public function index(){
         $data = Package::all();
 
-       return response()->json($data);
-
+       return response()->json(['status'=>'success','value'=>$data]);
     }
 
     public function show(Request $request){
 
         $package_id = $request->input('package_id');
         $data = Package::where('package_id',$package_id)->get();
-        return response()->json($data);
+
+        return response()->json(['status'=>'success','value'=>$data]);
     }
 
     public function store (Request $request){
@@ -36,8 +36,7 @@ class PackageController extends Controller
         $data->save();
 
 
-    
-        return response()->json('Package success added');
+        return response()->json(['status'=>'success','value'=>'Package success added']);
 
         }
     
@@ -97,8 +96,7 @@ class PackageController extends Controller
         $data->save();
 
 
-    
-        return response()->json('package updated');
+        return response()->json(['status'=>'success','value'=>'Package updated']);
     }
     
     public function destroy(Request $request){
@@ -108,7 +106,7 @@ class PackageController extends Controller
         $data = Package::where('package_id',$package_id)->first();
         $data->delete();
     
-        return response()->json('packages success deleted');
+        return response()->json(['status'=>'success','value'=>'Package success deleted']);
     }
 
     public function paiduser(Request $request)
@@ -141,7 +139,7 @@ class PackageController extends Controller
 
           }
 
-        return response()->json($packArray);
+        return response()->json(['status'=>'success','value'=>$packArray]);
 
 
     }
@@ -176,7 +174,7 @@ class PackageController extends Controller
 
           }
 
-        return response()->json($packArray);
+        return response()->json(['status'=>'success','value'=>$packArray]);
 
 
     }
@@ -190,7 +188,7 @@ class PackageController extends Controller
           $userpack = Userpack::where('id',$id)->first();
           $userpack->delete();
 
-          return response ('paid package deleted');
+          return response()->json(['status'=>'success','value'=>'Paid package deleted']);
 
 
 

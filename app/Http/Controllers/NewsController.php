@@ -41,7 +41,7 @@ class NewsController extends Controller
 
         }
         
-            return response()->json($finalArray); 
+            return response()->json(['status'=>'success','value'=>$finalArray]);
     }
     
     public function show(Request $request){
@@ -72,13 +72,9 @@ class NewsController extends Controller
                 'updated_at' => $data->updated_at->format('d M Y - H:i:s'),
             ];
 
-            return response()->json($tempArray);
+            return response()->json(['status'=>'success','value'=>$tempArray]);
 
          }
-
-            
-
-
     }
 
     public function status(Request $request){
@@ -87,9 +83,6 @@ class NewsController extends Controller
 
         $datas = News::where('publishstatus',$publishstatus)->get();
         $statusArray = array();
-      
-
-
 
             foreach($datas->sortByDesc('created_at')as $data ) {
 
@@ -111,17 +104,11 @@ class NewsController extends Controller
                  array_push($statusArray,$tempArray);
         }
 
-            return response()->json($statusArray);
+        return response()->json(['status'=>'success','value'=>$statusArray]);
 
-         }
-
-            
-
-
-    
+    }
 
     public function store (Request $request){
-
 
             $news_title = $request->input('news_title');
             $news_desc = $request->input('news_desc');
@@ -132,10 +119,10 @@ class NewsController extends Controller
 
 
             if($request->hasfile('news_photo')){
-          $extention = $news_photo->getClientOriginalExtension();
-          $imagename = rand(11111, 99999) . '.' . $extention;
-          $destinationPath = 'image';
-          $news_photo->move($destinationPath, $imagename);
+                $extention = $news_photo->getClientOriginalExtension();
+                $imagename = rand(11111, 99999) . '.' . $extention;
+                $destinationPath = 'image';
+                $news_photo->move($destinationPath, $imagename);
             }
 
             else if ($news_photo == null) {
@@ -151,11 +138,10 @@ class NewsController extends Controller
         $data->published_at = $published_at;
         $data->publishstatus = $publishstatus;
         $data->save();
-        
+      
+        return response()->json(['status'=>'success','value'=>'News successfull added']);
 
-        return response()->json("News successfull added");
-
-         }
+    }
 
         public function update(Request $request)
         {
@@ -203,11 +189,6 @@ class NewsController extends Controller
                 $publishstatus = $data->publishstatus;
                }
 
-
-
-
-
-
         $data->news_title = $news_title;
 		$data->news_desc = $news_desc;
         $data->news_photo = $imagename;
@@ -216,22 +197,20 @@ class NewsController extends Controller
         $data->publishstatus = $publishstatus;
 		$data->save();
 
-		return response()->json('news  successfull updated');
+        return response()->json(['status'=>'success','value'=>'News successfull updated']);
     }
     
         
-        public function destroy(Request $request){
+    public function destroy(Request $request){
             
-            $news_id = $request->input('news_id');
-            $data = News::where('news_id',$news_id)->first();
-            $data->delete();
-        
-            return response()->json('News deleted');
-        }
-
-
-
+        $news_id = $request->input('news_id');
+        $data = News::where('news_id',$news_id)->first();
+        $data->delete();
+    
+        return response()->json(['status'=>'success','value'=>'News deleted']);
     }
+
+}
 
 
 

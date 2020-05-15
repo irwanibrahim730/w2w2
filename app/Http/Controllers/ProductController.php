@@ -2428,9 +2428,13 @@ public function availability(Request $request)
 
 public function listpremium (Request $request)
 {
+    $type = $request->input('type');
     $premiumlist = $request->input('premiumlist');
     $finalArray = array();
-    $products = Product::where('premiumlist',$premiumlist)->get();
+    $products = Product::where('premiumlist',$premiumlist)
+                ->where('mainstatus', $type)
+                ->where('publishstatus', 'yes')
+                ->get();
 
     foreach ($products as $product){
 
@@ -2600,8 +2604,7 @@ public function listpremium (Request $request)
             array_push($finalArray,$tempArray);
               }      
           }  
-             return response()->json($finalArray); 
-
+        return response()->json(['status'=>'success','value'=>$finalArray]);
   } 
 
 
