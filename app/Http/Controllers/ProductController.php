@@ -20,9 +20,6 @@ class ProductController extends Controller
        
         $finalArray = array();
         $products = Product::all();
- 
-                    
-
             
             foreach ($products as $product){
                 $user_id = $product->user_id;
@@ -2431,10 +2428,18 @@ public function listpremium (Request $request)
     $type = $request->input('type');
     $premiumlist = $request->input('premiumlist');
     $finalArray = array();
-    $products = Product::where('premiumlist',$premiumlist)
-                ->where('mainstatus', $type)
-                ->where('publishstatus', 'yes')
-                ->get();
+
+    if($type){
+        $products = Product::where('premiumlist',$premiumlist)
+        ->where('mainstatus', $type)
+        ->where('publishstatus', 'yes')
+        ->get();
+    } else {
+        $products = Product::where('premiumlist',$premiumlist)
+        ->where('publishstatus', 'yes')
+        ->get();
+    }
+   
 
     foreach ($products as $product){
 
