@@ -143,7 +143,7 @@ class TokenController extends Controller
         $history = new History;
         $history->user_id = $user_id;
         $history->type = 'token';
-        $history->name = $token->type;
+        $history->name = $token->id;
         $history->save();
 
         return response()->json(['status'=>'success','value'=>'token added to user account']);
