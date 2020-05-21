@@ -32,7 +32,7 @@ class EnquiryController extends Controller
         $notify->type = 'enquiry';
         $notify->save();
 
-        return response()->json('Enquiry Submitted');
+        return response()->json(['status'=>'success']);
 
     }
 
@@ -58,7 +58,7 @@ class EnquiryController extends Controller
            array_push($finalArray,$tempArray);
          }
 
-         return response()->json($finalArray); 
+         return response()->json(['status'=>'success','value'=>$finalArray]);
     
 
         }
@@ -69,7 +69,8 @@ class EnquiryController extends Controller
 
          $enquiry = Enquiry::where('id',$id)->first();
 
-         return response()->json($enquiry);
+         return response()->json(['status'=>'success','value'=>$enquiry]);
+
      }
       
     
@@ -82,7 +83,7 @@ public function delete(Request $request)
     $comments = Enquiry::where('id',$id)->first();
     $comments->delete();
 
-    return response()->json('enquiry deleted');
+    return response()->json(['status'=>'success']);
 
 
 
