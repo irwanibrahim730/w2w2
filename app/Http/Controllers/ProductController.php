@@ -8,6 +8,7 @@ use App\Package;
 use App\User;
 use App\Notification;
 use App\Review;
+use App\History;
 use Carbon\Carbon;
 
 
@@ -527,12 +528,21 @@ class ProductController extends Controller
         $notify->type = 'item';
         $notify->save();
 
+        $history = new History;
+        $history->user_id = $user->user_id;
+        $history->type = 'package';
+        $history->name = $package_id;
+        $history->save();
+        
+        $balancetoken = $user->balancetoken;
 
-        return response()->json('product added');
- 
-                
-    
-    
+        $temppackage = Package::find($package_id);
+        $temptoken = $temppackage->package_price;
+
+        $user->balancetoken = $balancetoken - $temptoken;
+        $user->save();
+
+        return response()->json(['status'=>'success','value'=>'product added']);
 
              
 }

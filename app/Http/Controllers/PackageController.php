@@ -28,9 +28,8 @@ class PackageController extends Controller
  
         $data = new Package();
         $data->package_name = $request->input('package_name');
-        $data->package_limit = $request->input('package_limit');
         $data->package_duration = $request->input('package_duration');
-        $data->package_price = $request->input('package_price');
+        $data->package_price = $request->input('package_token');
         $data->premiumlist = $request->input('premiumlist');
         $data->description = $request->input('description');
         $data->save();

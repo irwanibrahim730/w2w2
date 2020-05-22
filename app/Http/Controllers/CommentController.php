@@ -39,14 +39,13 @@ class CommentController extends Controller
         $notify->type = 'comment';
         $notify->save();
 
-        return response()->json('Comment Added');
+        return response()->json(['status'=>'success']);
 
     }
 
 
     public function listcomment(Request $request)
     {
-            
            $product_id = $request->input('product_id');
            $status = $request->input('status');
            $comment = Comment::where('product_id',$product_id)->get();
@@ -55,188 +54,164 @@ class CommentController extends Controller
         
            foreach ($comment->sortByDesc('created_at') as $comments){
             
-            $user_id = $comments->user_id;
-            $user = User::where('user_id',$user_id)->get(); 
+                $user_id = $comments->user_id;
+                $user = User::where('user_id',$user_id)->get(); 
+                
+                if($comments->status == $status){
+
+                    foreach($user as $users){
             
-            if($comments->status == $status){
+                            $tempArray = [
+                            'id' => $comments->id,
+                            'product_id' =>$comments->product_id,
+                            'user_id' => $comments->user_id,
+                            'user_fname' =>$users->user_fname,
+                            'user_lname' => $users->user_lname,
+                            'title'=>$comments->title,
+                            'description'=>$comments->description,
+                            'status' => $comments->status,
+                            'created_at' => $comments->created_at->format('d M Y - H:i:s'),
+                            'updated_at' => $comments->updated_at->format('d M Y - H:i:s'),
+                        ];
 
-
-                  foreach($user as $users){
-          
-            $tempArray = [
-              'id' => $comments->id,
-              'product_id' =>$comments->product_id,
-              'user_id' => $comments->user_id,
-              'user_fname' =>$users->user_fname,
-              'user_lname' => $users->user_lname,
-              'title'=>$comments->title,
-              'description'=>$comments->description,
-              'status' => $comments->status,
-              'created_at' => $comments->created_at->format('d M Y - H:i:s'),
-              'updated_at' => $comments->updated_at->format('d M Y - H:i:s'),
-          ];
-
-          array_push($finalArray,$tempArray);
-         }
-        }
+                    array_push($finalArray,$tempArray);
+                }
+            }
 
         }
       
-    
-           return response()->json($finalArray); 
-    
-
-
-     
-   }
-
-
-  
-
-
-
-
-
- public function status(Request $request)
-{
-   $id = $request->input('id');
-   $status = $request->input('status');
-
-   $comment = Comment::where('id',$id)->first();
-   $comment->status = $status;
-   $comment->save();
-
-   return response()->json('status changed');
-
-
-
-
-}
-
-
-public function delete(Request $request)
-{
-    $id = $request->input('id');
-
-    $comments = Comment::where('id',$id)->first();
-    $comments->delete();
-
-    return response()->json('comment deleted');
-
-
-
-}
-
-public function list()
-{
-
-   $comment = Comment::all();
-   $finalArray = array();
-    
-   foreach ($comment->sortByDesc('created_at') as $comments){
-   $user_id = $comments->user_id;
-   $user = User::where('user_id',$user_id)->get(); 
-   
-         foreach($user as $users){
- 
-                  $tempArray = [
-                  'id' => $comments->id,
-                  'product_id' => $comments->product_id,
-                  'user_id' => $comments->user_id,
-                  'user_fname' => $users->user_fname,
-                  'user_lname' => $users->user_lname,
-                  'title'=> $comments->title,
-                  'description'=> $comments->description,
-                  'status' => $comments->status,
-                  'created_at' => $comments->created_at->format('d M Y - H:i:s'),
-                  'updated_at' => $comments->updated_at->format('d M Y - H:i:s'),
- ];
-
- array_push($finalArray,$tempArray);
-}
-   }
-
-   return response()->json($finalArray);
-
-}
-
-public function listid(Request $request)
-{
-  
-    $product_id = $request->input('product_id');
-
-    $comment = Comment::where('product_id',$product_id)->get();
-   
-    $finalArray = array();
-    
-    foreach ($comment->sortByDesc('created_at') as $comments){
-    $user_id = $comments->user_id;
-    $user = User::where('user_id',$user_id)->get(); 
-    
-          foreach($user as $users){
-  
-    $tempArray = [
-      'id' => $comments->id,
-      'product_id' =>$comments->product_id,
-      'user_id' => $comments->user_id,
-      'user_fname' =>$users->user_fname,
-      'user_lname' => $users->user_lname,
-      'title'=>$comments->title,
-      'description'=>$comments->description,
-      'status' => $comments->status,
-      'created_at' => $comments->created_at->format('d M Y - H:i:s'),
-      'updated_at' => $comments->updated_at->format('d M Y - H:i:s'),
-  ];
- 
-  array_push($finalArray,$tempArray);
- }
+        return response()->json(['status'=>'success','value'=>$finalArray]);
     }
- 
-    return response()->json($finalArray);
 
 
-}
+    public function status(Request $request)
+    {
+        $id = $request->input('id');
+        $status = $request->input('status');
 
-public function detail(Request $request)
+        $comment = Comment::where('id',$id)->first();
+        $comment->status = $status;
+        $comment->save();
 
-{
-  
-   $id = $request->input('id');
+        return response()->json(['status'=>'success','value'=>'status changes']);
 
-   $comment = Comment::where('id',$id)->get();
+    }
 
-   $finalArray = array();
+
+    public function delete(Request $request)
+    {
+        $id = $request->input('id');
+
+        $comments = Comment::where('id',$id)->first();
+        $comments->delete();
+
+        return response()->json(['status'=>'success']);
+
+    }
+
+    public function list()
+    {
+
+        $comment = Comment::all();
+        $finalArray = array();
+            
+        foreach ($comment->sortByDesc('created_at') as $comments){
+        $user_id = $comments->user_id;
+        $user = User::where('user_id',$user_id)->get(); 
+        
+                foreach($user as $users){
+        
+                        $tempArray = [
+                        'id' => $comments->id,
+                        'product_id' => $comments->product_id,
+                        'user_id' => $comments->user_id,
+                        'user_fname' => $users->user_fname,
+                        'user_lname' => $users->user_lname,
+                        'title'=> $comments->title,
+                        'description'=> $comments->description,
+                        'status' => $comments->status,
+                        'created_at' => $comments->created_at->format('d M Y - H:i:s'),
+                        'updated_at' => $comments->updated_at->format('d M Y - H:i:s'),
+                ];
+
+                array_push($finalArray,$tempArray);
+                }
+        }
+
+        return response()->json(['status'=>'success','value'=>$finalArray]);
+
+    }
+
+    public function listid(Request $request)
+    {
     
-     foreach ($comment as $comments){
+        $product_id = $request->input('product_id');
 
-      $user_id = $comments->user_id;
-      $user = User::where('user_id',$user_id)->get(); 
-   
-         foreach($user as $users){
- 
-                   $tempArray = [
-                    
-                    'id' => $comments->id,
-                    'product_id' =>$comments->product_id,
-                    'user_id' => $comments->user_id,
-                    'user_fname' =>$users->user_fname,
-                    'user_lname' => $users->user_lname,
-                    'title'=>$comments->title,
-                    'description'=>$comments->description,
-                    'status' => $comments->status,
-                    'created_at' => $comments->created_at->format('d M Y - H:i:s'),
-                    'updated_at' => $comments->updated_at->format('d M Y - H:i:s'),
-                      ];
+        $comment = Comment::where('product_id',$product_id)->get();
+    
+        $finalArray = array();
+        
+        foreach ($comment->sortByDesc('created_at') as $comments){
+        $user_id = $comments->user_id;
+        $user = User::where('user_id',$user_id)->get(); 
+        
+            foreach($user as $users){
+    
+                $tempArray = [
+                'id' => $comments->id,
+                'product_id' =>$comments->product_id,
+                'user_id' => $comments->user_id,
+                'user_fname' =>$users->user_fname,
+                'user_lname' => $users->user_lname,
+                'title'=>$comments->title,
+                'description'=>$comments->description,
+                'status' => $comments->status,
+                'created_at' => $comments->created_at->format('d M Y - H:i:s'),
+                'updated_at' => $comments->updated_at->format('d M Y - H:i:s'),
+                ];
+    
+                array_push($finalArray,$tempArray);
+            }
+        }
+    
+        return response()->json(['status'=>'success','value'=>$finalArray]);
+    }
 
-                          array_push($finalArray,$tempArray);
-                 }
-             }
+    public function detail(Request $request)
+    {
+    
+        $id = $request->input('id');
 
-             return response()->json($finalArray);
+        $comment = Comment::where('id',$id)->get();
 
+        $finalArray = array();
+            
+            foreach ($comment as $comments){
 
+            $user_id = $comments->user_id;
+            $user = User::where('user_id',$user_id)->get(); 
+        
+                foreach($user as $users){
+        
+                        $tempArray = [
+                            
+                            'id' => $comments->id,
+                            'product_id' =>$comments->product_id,
+                            'user_id' => $comments->user_id,
+                            'user_fname' =>$users->user_fname,
+                            'user_lname' => $users->user_lname,
+                            'title'=>$comments->title,
+                            'description'=>$comments->description,
+                            'status' => $comments->status,
+                            'created_at' => $comments->created_at->format('d M Y - H:i:s'),
+                            'updated_at' => $comments->updated_at->format('d M Y - H:i:s'),
+                            ];
 
-      }
+                        array_push($finalArray,$tempArray);
+                }
+            }
 
+        return response()->json(['status'=>'success','value'=>$finalArray]);
+    }
 
 }
