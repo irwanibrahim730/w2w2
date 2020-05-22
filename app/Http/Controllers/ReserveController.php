@@ -17,14 +17,15 @@ class ReserveController extends Controller
         
         $product_id = $request->input('product_id');
 
-        $products = Product::where('product_id',$product_id)->first();
+        $products = Product::find($product_id);
         $buyer_id = $request->input('buyer_id');
         $offeredprice = $request->input('offeredprice');
         $quantity = $request->input('quantity');
         $unit = $request->input('unit');
         $info = $request->input('info');
 
-        $json_array = json_decode($products->product_image, true);
+
+        $json_array = $products->product_image;
         $images = array();
         
                 foreach ($json_array as $pic)
@@ -47,7 +48,7 @@ class ReserveController extends Controller
         $data->category = $products->maincategory;
         $data->save(); 
 
-        return response()->json('Product reserved');
+        return response()->json(['status'=>'success','value'=>'product reserved']);
 
     }
 
