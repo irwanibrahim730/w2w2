@@ -126,20 +126,20 @@ class TokenController extends Controller
         public function addtoken (Request $request )
         {
 
-        $id = $request->input('id');
         $user_id = $request->input('user_id');
+        $netprice = $request->input('netprice');
+        $quantitytoken = $request->input('quantitytoken');
 
-        $token = Token::find($id);
         $user = User::find($user_id);
 
-            if($token == null || $user == null){
-                return response()->json(['status'=>'failed','value'=>'token or user not exist']);
+            if($user == null){
+                return response()->json(['status'=>'failed','value'=>'user not exist']);
             } else {
                 
                 $balance = $user->balancetoken;
-                $newtoken = $token->quantity;
+                $quantitytoken;
                 
-                $total = $balance + $newtoken;
+                $total = $balance + $quantitytoken;
 
 
                 $user->balancetoken = $total;
@@ -148,7 +148,8 @@ class TokenController extends Controller
                 $history = new History;
                 $history->user_id = $user_id;
                 $history->type = 'token';
-                $history->name = $token->id;
+                $history->name = $quantitytoken;
+                $history->price = $netprice;
                 $history->save();
 
                 return response()->json(['status'=>'success','value'=>'token added to user account']);
