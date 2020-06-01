@@ -5,6 +5,7 @@ use Laravel\Lumen\Routing\Controller;
 use Illuminate\Http\Request;
 use App\Token;
 use App\User;
+use App\Package;
 use App\History;
 
 class TokenController extends Controller
@@ -170,6 +171,30 @@ class TokenController extends Controller
           return response()->json(['status'=>'success','value'=>'token added']);
 
 
+        }
+    
+        public function checkbalance(Request $request){
+
+            $userid = $request->input('userid');
+            $packageid = $request->input('packageid');
+
+            $package = Package::find($packageid);
+            $user = User::find($userid);
+
+            $packageprice = $package->package_price;
+            $userbalance = $user->balancetoken;
+
+            if($userbalance == null){
+                $userbalance = 0;
+            }
+
+            if($userbalance > $packageprice){
+                return response()->json(['status'=>'success','value'=>'success to subscribe this package']);
+            } elseif($packageprice > $userbalance){
+                return response()->json(['status'=>'success','value'=>'sorry your token is insufficient balance']);
+            } else {
+                return response()->json(['status'=>'failed']);
+            }
         }
         
     

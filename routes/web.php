@@ -38,6 +38,7 @@ Route::post('/token/update', 'TokenController@edit');
 Route::delete('/token/delete', 'TokenController@destroy');
 Route::post('/token/addtoken', 'TokenController@addtoken');
 Route::post('/token/give', 'TokenController@givetoken');
+Route::get('/token/checkbalance', 'TokenController@checkbalance');
 
 
 //inbox
