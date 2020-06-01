@@ -24,11 +24,11 @@ class LoginController extends Controller
          $user = User::where('user_email', $email)->where('password', $password)->first(); 
  
              if ($user == null) {
-                return response()->json('User wasnt existed' );
+                return response()->json(['status'=>'failed','value'=>'User wasnt existed']);
             }
 
-            if ($user->status == 'blocked' ) {
-                return response()->json('User blocked' );
+            if ($user->status == 'blocked' ) { 
+                return response()->json(['status'=>'failed','value'=>'User blocked']);
             }
 
             else 
@@ -65,8 +65,7 @@ class LoginController extends Controller
                         ];
                     
                         array_push($finalArray, $tempArray);
-
-                        return response()->json($finalArray); 
+                        return response()->json(['status'=>'success','value'=>$finalArray]);
             
                     }
                     
@@ -115,8 +114,7 @@ class LoginController extends Controller
                            ];
                            array_push($finalArray, $tempArray);
  
-
-                           return response()->json($finalArray);
+                           return response()->json(['status'=>'success','value'=>$finalArray]);
 
 
                       }
@@ -151,7 +149,7 @@ class LoginController extends Controller
 
                           array_push($compArray, $tempArray);
 
-                          return response()->json($compArray);
+                          return response()->json(['status'=>'success','value'=>$compArray]);
                       } 
 
                     }

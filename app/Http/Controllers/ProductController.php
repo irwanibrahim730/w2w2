@@ -2441,18 +2441,13 @@ public function listpremium (Request $request)
     $premiumlist = $request->input('premiumlist');
     $finalArray = array();
 
-    if($type){
-        $products = Product::where('premiumlist',$premiumlist)
+    $products = Product::where('premiumlist',$premiumlist)
         ->where('mainstatus', $type)
         ->where('publishstatus', 'yes')
-        ->orderBy('product_date', 'DESC')
+        ->orderBy('created_at', 'DESC')
         ->get();
-    } else {
-        $products = Product::where('premiumlist',$premiumlist)
-        ->where('publishstatus', 'yes')
-        ->orderBy('product_date', 'DESC')
-        ->get();
-    }
+
+    if($products){
    
 
     foreach ($products as $product){
@@ -2487,7 +2482,7 @@ public function listpremium (Request $request)
   
                       }  
 
-    $json_array = json_decode($product->product_image, true);
+    $json_array = $product->product_image;
     $imageArray = array();
     
             foreach ($json_array as $pic)
@@ -2622,8 +2617,12 @@ public function listpremium (Request $request)
              
             array_push($finalArray,$tempArray);
               }      
-          }  
-        return response()->json(['status'=>'success','value'=>$finalArray]);
+          }
+          return response()->json(['status'=>'success','value'=>$finalArray]);
+        }  else {
+            return response()->json(['status'=>'failed','value'=>'product not exist']);
+        } 
+        
   } 
 
 
