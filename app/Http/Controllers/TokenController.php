@@ -129,25 +129,31 @@ class TokenController extends Controller
         $id = $request->input('id');
         $user_id = $request->input('user_id');
 
-        $token = Token::where('id',$id)->first();
-        $user = User::where('user_id',$user_id)->first();
+        $token = Token::find($id);
+        $user = User::find($user_id);
 
-        $balance = $user->balancetoken;
-        $newtoken = $token->quantity;
-        
-        $total = $balance + $newtoken;
+            if($token == null || $user == null){
+                return response()->json(['status'=>'failed','value'=>'token or user not exist']);
+            } else {
+                
+                $balance = $user->balancetoken;
+                $newtoken = $token->quantity;
+                
+                $total = $balance + $newtoken;
 
 
-        $user->balancetoken = $total;
-        $user->save();
+                $user->balancetoken = $total;
+                $user->save();
 
-        $history = new History;
-        $history->user_id = $user_id;
-        $history->type = 'token';
-        $history->name = $token->id;
-        $history->save();
+                $history = new History;
+                $history->user_id = $user_id;
+                $history->type = 'token';
+                $history->name = $token->id;
+                $history->save();
 
-        return response()->json(['status'=>'success','value'=>'token added to user account']);
+                return response()->json(['status'=>'success','value'=>'token added to user account']);
+
+            }
 
         }
 
