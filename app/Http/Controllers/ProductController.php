@@ -395,7 +395,6 @@ class ProductController extends Controller
             $product_location = $request->input('product_location');
             $longitud = $request->input('longitud');
             $latitud = $request->input('latitud');
-            $tagging = $request->input('tagging');
             $product_state = $request->input('product_state');
             $city = $request->input('city');
             $postalcode = $request->input('postalcode');
@@ -435,14 +434,6 @@ class ProductController extends Controller
                  $locations[] = $location;
 
               }
-
-             $tag=array();
-             foreach($tagging as $taggings)
-             {
-                 $tag[] = $taggings;
-             }
-              
-
 
              $longituds=array();
               foreach($longitud as $longitude)
@@ -513,7 +504,6 @@ class ProductController extends Controller
         $file->company_name = $company_name;
         $file->company_email = $company_email;
         $file->company_contact = $company_contact;
-        $file->tagging = json_encode($tag);
         $file->name = $name;
         $file->contact = $contact;
         $file->user_state = $user->state;

@@ -32,76 +32,53 @@ class AdminController extends Controller
         }
 
 
+        $products = Product::find($product_id);
 
-        $products = Product::where('product_id',$product_id)->first(); 
-       
-        $user = User::where('user_id',$products->user_id)->first();
+          if($products){
 
-        $curtime = Carbon::now()->toDateString();
-       
-        $id = $products->package_id;
-        $userpack = Userpack::where('id',$id)->first();
-        
-        $package_id = $userpack->package_id;
-        $package = Package::where('package_id',$package_id)->first();
-         
+            $user = User::find($products->user_id);
+            $package = Package::find($products->package_id);
 
-         $userlimit = $userpack->limit;
-         $substract = 1;
+            $curtime = Carbon::now()->toDateTimeString();
 
+            $expiration = $package->package_duration;
+            $date = $curtime;
+            $expirationdate = date('Y-m-d H:i:s', strtotime($date. ' + ' . $expiration));
 
-         $total = $userlimit - $substract;
-         $userpack->limit = $total;
-         $userpack->save();
+            $products->product_status = 'success';
+            $products->suggestcustomer = $suggestcustomer;
+            $products->tagging = json_encode($tag);
+            $products->approved_at = $curtime;
+            $products->expired_at = $expirationdate; 
 
+            $approved = 'approved';
 
- 
+            $notify = Notification::where('product_id',$product_id)->first();
+            $notify->status = $approved;
+            $notify->type = 'approval';
 
+            $messages = 'your product, '.$products->product_name.'  has been approved';
 
-        $products->product_status = 'success';
-        $products->suggestcustomer = $suggestcustomer;
-        $products->tagging = json_encode($tag);
-        $products->approved_at = $curtime;
-        $products->premiumlist = $package->premiumlist;
-        $products->save(); 
-
-
-        $expiration = $package->package_duration;
-        $date = $products->approved_at;
-        $expirationdate = date('Y-m-d', strtotime($date. ' + ' . $expiration . ' days'));
-
-         
-         $products->expired_at = $expirationdate; 
-         $products->save(); 
-
-         $approved = 'approved';
-
-         $notify = Notification::where('product_id',$product_id)->first();
-         $notify->status = $approved;
-         $notify->type = 'approval';
-         $notify->save();
-
+            Mail::raw( $messages ,function ($message) use($user)
+              {
+                $message->to($user->user_email);
+                $message->from('testemaillumen123@gmail.com', 'Admin of W2W');
+                $message->subject('Product Approval');
+                }); 
             
+            $products->save(); 
+            $notify->save();
+        
+            return response()->json(['status'=>'success','value'=>'product approved']);
 
-         $messages = 'your product, '.$products->product_name.'  has been approved';
+          } else {
 
-         Mail::raw( $messages ,function ($message) use($user)
-           {
-            $message->to($user->user_email);
-            $message->from('testemaillumen123@gmail.com', 'Admin of W2W');
-            $message->subject('Product Approval');
+            return response()->json(['status'=>'failed','value'=>'product not exist']);
 
-
-            }); 
-
-
-
-    
-         return response()->json('product approved');
+          }
 
         }
-        
-        
+      
          public function reject(Request $request)
          {
   
