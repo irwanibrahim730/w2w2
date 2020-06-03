@@ -2475,7 +2475,7 @@ public function listpremium (Request $request)
     
                         }  
 
-        $json_array = $product->product_image;
+        $json_array = json_decode($product->product_image, true);
         $imageArray = array();
         
                 foreach ($json_array as $pic)
