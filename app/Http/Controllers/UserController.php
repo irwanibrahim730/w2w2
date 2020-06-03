@@ -171,6 +171,9 @@ class UserController extends Controller
                 return response()->json(['status'=>'failed','value'=>'email or password is exist']);
             } else {
 
+                $emailverification = 'process';
+                $encoded = str_rot13($password);
+
                 $data = new User();
                 $data->user_fname = $user_fname;
                 $data->user_lname = $user_lname;
@@ -190,18 +193,24 @@ class UserController extends Controller
                 $data->personincharge = $personincharge;
                 $data->phonenumber = $phonenumber;
                 $data->status = 'active';
-                $data->save();
+                $data->emailverification = $emailverification;
+               
 
-                $messages = 'Dear '.$data->user_fname.', '.' success register to Eco Waster Market';
+                $tempmessages = 'Dear '.$data->user_fname.', '.' success register to Eco Waster Market Please Verify Your Email Before Using Our System';
+                $link = 'http://codeviable.com/w2w2/public/ver12asdaasaas/verabcsadasdsdfss?id='.$user_email. '#' .$encoded;
+
+                $messages = $tempmessages ." ".$link;
 
                 Mail::raw( $messages ,function ($message) use($data)
                 {
                  $message->to($data->user_email);
-                 $message->from('testemaillumen123@gmail.com', 'Admin of W2W');
+                 $message->from('adminecowastemarket@gmail.com', 'Admin of EcoWaste Market');
                  $message->subject('Account Management');
       
       
                  }); 
+
+                 $data->save();
             
                 return response()->json(['status'=>'success','value'=>'use has been registered']);
 
@@ -566,6 +575,56 @@ if ($phonenumber == null) {
 
         return response()->json(['status'=>'success','value'=>'package added']);
 
+
+    }
+
+    public function verificationemail(Request $request){
+
+        $id = $request->input('id');
+
+        $user = User::where('user_email',$id)->first();
+
+        if($user){
+
+            $verification = 'success';
+            $user->emailverification = $verification;
+            $user->save();
+
+            return redirect()->to('http://google.com');
+
+        }else {
+            return response()->json(['status'=>'failed','value'=>'user not exist']);
+        }
+
+    }
+
+    public function resendverification(Request $request){
+
+        $email = $request->input('email');
+
+        $user = User::where('user_email',$email)->first();
+
+        if($user){
+
+            $encoded = str_rot13($user->password);
+            $tempmessages = 'Dear '.$user->user_fname.', '.' success register to Eco Waster Market Please Verify Your Email Before Using Our System';
+            $link = 'http://codeviable.com/w2w2/public/ver12asdaasaas/verabcsadasdsdfss?id='.$email. '#' .$encoded;
+
+            $messages = $tempmessages ." ".$link;
+
+            Mail::raw( $messages ,function ($message) use($user)
+                {
+
+                 $message->to($user->user_email);
+                 $message->from('adminecowastemarket@gmail.com', 'Admin of EcoWaste Market');
+                 $message->subject('Account Management');
+      
+                 }); 
+            
+            return response()->json(['status'=>'success']);
+        } else {
+            return response()->json(['status'=>'failed','value'=>'user not exist']);
+        }
 
     }
 

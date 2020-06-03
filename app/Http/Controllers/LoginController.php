@@ -31,6 +31,10 @@ class LoginController extends Controller
                 return response()->json(['status'=>'failed','value'=>'User blocked']);
             }
 
+            if ($user->emailverification == 'process') {
+                return response()->json(['status'=>'failed','value'=>'please verifi your email first']);
+            }
+
             else 
               {
                 if($user->status == 'active') {
