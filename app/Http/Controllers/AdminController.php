@@ -50,6 +50,7 @@ class AdminController extends Controller
             $products->tagging = json_encode($tag);
             $products->approved_at = $curtime;
             $products->expired_at = $expirationdate; 
+            $products->publishstatus = 'yes';
 
             $approved = 'approved';
 
