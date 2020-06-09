@@ -409,9 +409,9 @@ class ProductController extends Controller
             $company_name = $request->input('company_name');
             $company_email = $request->input('company_email');
             $company_contact = $request->input('company_contact');
-            $name = $request->input('name');
-            $contact = $request->input('contact');
-            $publishstatus = $request->input('publishstatus');
+            $name = $request->input('name_pic');
+            $contact = $request->input('contact_pic');
+            $publishstatus = "yes";
 
 
             $cities = array();

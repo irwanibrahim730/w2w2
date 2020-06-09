@@ -20,26 +20,18 @@ class ReserveController extends Controller
         $products = Product::find($product_id);
         $buyer_id = $request->input('buyer_id');
         $offeredprice = $request->input('offeredprice');
+        $offeredmaxprice = $request->input('offeredmaxprice');
         $quantity = $request->input('quantity');
         $unit = $request->input('unit');
         $info = $request->input('info');
 
 
-        $json_array = $products->product_image;
-        $images = array();
-        
-                foreach ($json_array as $pic)
-                {
-                  $images[] = $pic;
-                }
-        
-
 
         $data = new Reserve;
         $data->user_id = $products->user_id;
         $data->product_id = $products->product_id;
-        $data->image = json_encode($images);
         $data->offeredprice = $offeredprice;
+        $data->offeredmaxprice = $offeredmaxprice;
         $data->buyer_id = $buyer_id;
         $data->status = 'reserved';
         $data->quantity = $quantity;
