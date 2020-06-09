@@ -10,9 +10,27 @@ class PackageController extends Controller
 
 {
     public function index(){
-        $data = Package::all();
 
-       return response()->json(['status'=>'success','value'=>$data]);
+        $packageArray = array();
+
+        $package = Package::all();
+
+        foreach($package as $data){
+
+            $tempArray = [
+                'package_id' => $data->package_id,
+                'package_name' => $data->package_name,
+                'package_duration' => $data->package_duration,
+                'package_token'=> $data->package_price,
+                'package_premiumlist' => $data->premiumlist,
+            ];
+        
+            array_push($packageArray,$tempArray);
+
+        }
+
+        return response()->json(['status'=>'success','value'=>$packageArray]);
+       
     }
 
     public function show(Request $request){
