@@ -113,6 +113,7 @@ class LoginController extends Controller
                              'user_type' => $user->user_type,
                              'created_at' => $user->created_at,
                              'user_role' => $user->user_role,
+                             'balance_token' => $user->balancetoken,
 
 
                            ];
@@ -149,6 +150,7 @@ class LoginController extends Controller
                               'user_type' => $user->user_type,
                               'created_at' => $user->created_at,
                               'user_role' => $user->user_role,
+                              'balance_token' => $user->balancetoken,
                           ];
 
                           array_push($compArray, $tempArray);

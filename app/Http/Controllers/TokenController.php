@@ -188,20 +188,29 @@ class TokenController extends Controller
             $package = Package::find($packageid);
             $user = User::find($userid);
 
-            $packageprice = $package->package_price;
-            $userbalance = $user->balancetoken;
+            if($package == null || $user == null){
 
-            if($userbalance == null){
-                $userbalance = 0;
-            }
-
-            if($userbalance > $packageprice){
-                return response()->json(['status'=>'success','value'=>'success to subscribe this package']);
-            } elseif($packageprice > $userbalance){
-                return response()->json(['status'=>'success','value'=>'sorry your token is insufficient balance']);
+                return response()->json(['status'=>'failed','value'=>'package or user not exist']);
+                
             } else {
-                return response()->json(['status'=>'failed']);
+
+                $packageprice = $package->package_price;
+                $userbalance = $user->balancetoken;
+    
+                if($userbalance == null){
+                    $userbalance = 0;
+                }
+    
+                if($userbalance > $packageprice){
+                    return response()->json(['status'=>'success','value'=>'success to subscribe this package']);
+                } elseif($packageprice > $userbalance){
+                    return response()->json(['status'=>'success','value'=>'sorry your token is insufficient balance']);
+                } else {
+                    return response()->json(['status'=>'failed']);
+                }
+
             }
+
         }
         
     
