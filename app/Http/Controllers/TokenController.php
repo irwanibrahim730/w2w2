@@ -30,9 +30,28 @@ class TokenController extends Controller
         }
 
         public function index(){
-            $data = Token::all();
+
+            $tokenArray = array();
+
+            $token = Token::all();
+
+            foreach($token as $data){
+
+                $tempArray = [
+
+                    'id' => $data->id,
+                    'type' => $data->type,
+                    'quantity' => $data->quantity,
+                    'price' => $data->price,
+                    'discount' => $data->discount,
+
+                ];
+            array_push($tokenArray,$tempArray);
+
+            }
+
            
-            return response()->json(['status'=>'success','value'=>$data]);
+            return response()->json(['status'=>'success','value'=>$tokenArray]);
     
         }
     
