@@ -2420,8 +2420,7 @@ public function availability(Request $request)
     $product->availability = $availability;
     $product->save();
 
-
-    return response()->json('publish status updated');
+    return response()->json(['status'=>'success','value'=>'publish status updated']);
 
 
 
