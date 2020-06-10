@@ -165,10 +165,10 @@ class UserController extends Controller
 
             }
 
-            $userExist = User::where('user_email',$user_email)->orWhere('password',$password)->first();
+            $userExist = User::where('user_email',$user_email)->first();
 
             if($userExist){
-                return response()->json(['status'=>'failed','value'=>'email or password is exist']);
+                return response()->json(['status'=>'failed','value'=>'email is exist']);
             } else {
 
                 $emailverification = 'process';
