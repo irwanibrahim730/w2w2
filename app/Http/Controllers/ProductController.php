@@ -1152,8 +1152,8 @@ class ProductController extends Controller
 
             $imageArray = array();
             if($product->product_image){
-                //$json_array = json_decode($product->product_image, true);
-                $json_array = $product->product_image;
+                $json_array = json_decode($product->product_image, true);
+                //$json_array = $product->product_image;
 
                 foreach($json_array as $pic){
                     $url = 'https://codeviable.com/w2w2/public/image';

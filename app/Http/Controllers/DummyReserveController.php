@@ -70,8 +70,8 @@ class DummyReserveController extends Controller
 
             if($product->product_image){
          
-                // $format = json_decode($product->product_image, true);
-                $format = $product->product_image;
+                $format = json_decode($product->product_image, true);
+                //$format = $product->product_image;
                 foreach($format as $pic){
                     $url = 'https://codeviable.com/w2w2/public/image';
                     $public =  $url .'/'. $pic;
