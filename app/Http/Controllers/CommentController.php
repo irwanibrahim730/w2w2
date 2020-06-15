@@ -48,19 +48,24 @@ class CommentController extends Controller
     {
            $product_id = $request->input('product_id');
            $status = $request->input('status');
-           $comment = Comment::where('product_id',$product_id)->get();
            $finalArray = array(); 
 
-        
-           foreach ($comment->sortByDesc('created_at') as $comments){
+           if($status){
+            $comment = Comment::where('product_id',$product_id)
+                    ->where('status',$status)
+                    ->orderBy('created_at','desc')
+                    ->get();
+           } else {
+            $comment = Comment::where('product_id',$product_id)
+                    ->orderBy('created_at','desc')->get();
+           }
+           
+           foreach ($comment as $comments){
             
                 $user_id = $comments->user_id;
-                $user = User::where('user_id',$user_id)->get(); 
+                $users = User::where('user_id',$user_id)->first();
                 
-                if($comments->status == $status){
-
-                    foreach($user as $users){
-            
+       
                             $tempArray = [
                             'id' => $comments->id,
                             'product_id' =>$comments->product_id,
@@ -75,10 +80,10 @@ class CommentController extends Controller
                         ];
 
                     array_push($finalArray,$tempArray);
-                }
-            }
+                
+            
 
-        }
+            }
       
         return response()->json(['status'=>'success','value'=>$finalArray]);
     }

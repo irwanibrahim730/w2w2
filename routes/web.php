@@ -41,6 +41,7 @@ Route::delete('/token/delete', 'TokenController@destroy');
 Route::post('/token/addtoken', 'TokenController@addtoken');
 Route::post('/token/give', 'TokenController@givetoken');
 Route::get('/token/checkbalance', 'TokenController@checkbalance');
+Route::get('/token/mytoken', 'TokenController@mytoken');
 
 
 //inbox
@@ -76,6 +77,8 @@ Route::get('/listing','ProductController@premiumlist');
 Route::post('product/publish','ProductController@publishstatus');
 Route::post('product/availability','ProductController@availability');
 Route::get('product/premium','ProductController@listpremium');
+
+Route::get('/product/userproduct','ProductController@userproduct');
 
 //admin
 Route::post('/admin/approve','AdminController@approve');
@@ -140,7 +143,17 @@ Route::get('/reserve/buyer','ReserveController@liststatusbuyer');
 Route::get('/reserve/detail','ReserveController@detail');
 Route::delete('/reserve/delete','ReserveController@delete');
 
-//review
+//DummyRerservation
+Route::post('dumreserve/reserveproduct', 'DummyReserveController@reserveproduct');
+Route::get('dumreserve/listreserve', 'DummyReserveController@listreserve');
+Route::get('dumreserve/sellerreject', 'DummyReserveController@sellerreject');
+Route::get('dumreserve/sellerapprove', 'DummyReserveController@sellerapprove');
+Route::get('dumreserve/buyercancel', 'DummyReserveController@buyercancel');
+Route::get('dumreserve/buyerconfirm', 'DummyReserveController@buyerconfirm');
+Route::get('dumreserve/sellersold', 'DummyReserveController@sellersold');
+Route::get('dumreserve/buyercomplete', 'DummyReserveController@buyercomplete');
+
+//review 
 Route::post('/review','ReviewController@store');
 Route::delete('/review/delete','ReviewController@delete');
 Route::get('/review/list','ReviewController@list');
@@ -161,6 +174,7 @@ Route::delete('/notification/delete','NotificationController@delete');
 Route::get('/notification/status','NotificationController@liststatus');
 Route::get('/notification/detail','NotificationController@detail');
 Route::get('/notification/listid','NotificationController@listid');
+Route::get('/notification/notificationuser', 'NotificationController@notifiuser');
 
 //paidpackage
 Route::get('/paidpackage/user','PackageController@paiduser');

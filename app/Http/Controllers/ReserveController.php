@@ -93,13 +93,9 @@ class ReserveController extends Controller
 
      return response()->json($reservearray); 
 
-
-
     }
 
-
     public function listreserved (Request $request)
-
     {
 
        $reservearray = array();

@@ -271,8 +271,48 @@ class NotificationController extends Controller
 
    }
 
+   public function notifiuser(Request $request){
 
-    }
+        $userid = $request->input('userid');
+        $finalArray = array();    
+
+        $notifications = Notification::where('user_id',$userid)
+                ->orderBy('created_at','desc')
+                ->get();
+        
+        foreach($notifications as $notification){
+
+            if($notification->type == 'item'){
+                $message = "success add advertisement ". $notification->item ." and ready to review";
+            } elseif($notification->type == 'approval'){
+                $message = "admin approve advertisement ". $notification->item;
+            } elseif($notification->type == 'comment'){
+                $message = "receive comment from product ". $notification->item;
+            } elseif($notification->type == 'review'){
+                $message = "review from product ". $notification->item;
+            }
+
+            $dateformat = $notification->created_at->format('Y-m-d h:m:s');
+
+            $temparray = [
+
+                'id' => $notification->id,
+                'type' => $notification->type,
+                'message' => $message,
+                'date' => $dateformat,
+
+            ];
+
+            array_push($finalArray,$temparray);
+
+        }
+
+        return response()->json(['status'=>'success','value'=>$finalArray]);
+
+   }
+
+
+}
         
     
 

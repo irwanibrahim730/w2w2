@@ -1099,6 +1099,193 @@ class ProductController extends Controller
 
     } 
 
+    public function userproduct(Request $request){
+
+        $finalArray = array();
+        $userid = $request->input('userid');
+        $type = $request->input('type');
+        $category = $request->input('category');
+
+        if($category){
+            $products = Product::where('user_id',$userid)
+                    ->where('mainstatus',$type)
+                    ->where('maincategory',$category)
+                    ->orderBy('created_at','desc')
+                    ->get();
+        } else {
+            $products = Product::where('user_id',$userid)
+                    ->where('mainstatus',$type)
+                    ->orderBy('created_at','desc')
+                    ->get();
+        }
+
+        foreach($products as $product){
+
+            $userinfo = User::where('user_id',$product->user_id)->first();
+
+            $cityArray = array();
+            if($product->city){
+                $json_arrays = json_decode($product->city, true);
+
+                foreach($json_arrays as $citys){
+
+                    $tempArray = [
+                        'city' => $citys,
+                    ];
+
+                    array_push($cityArray,$tempArray);
+
+                }
+            }
+
+            $postcodeArray = array();
+            if($product->postalcode){
+                $json_arrays = json_decode($product->postalcode, true);
+                foreach($json_arrays as $postcodes){
+                    $tempArray = [
+                        'postalcode' => $postcodes,
+                    ];
+
+                    array_push($postcodeArray,$tempArray);
+                }
+            }
+
+            $imageArray = array();
+            if($product->product_image){
+                //$json_array = json_decode($product->product_image, true);
+                $json_array = $product->product_image;
+
+                foreach($json_array as $pic){
+                    $url = 'https://codeviable.com/w2w2/public/image';
+                    $public = $url .'/'. $pic;
+
+                    $imagetempArray = [
+                        'image' => $public,
+                    ];
+
+                    array_push($imageArray,$imagetempArray);
+                }
+            }
+
+            $locationArray = array();
+            if($product->location){
+                $json_arrays = json_decode($product->location, true);
+                foreach($json_arrays as $locate){
+                    $locationtempArray = [
+                        'location' => $locate,
+                    ];
+
+                    array_push($locationArray,$locationtempArray);
+                }
+            }
+
+            $longitudArray = array();
+            if($product->longitud){
+                $json_longitud = json_decode($product->longitud, true);
+
+                foreach($json_longitud as $longitude){
+                    $longitudtempArray = [
+                        'longitud' => $longitude,
+                    ];
+
+                    array_push($longitudArray,$longitudtempArray);
+                }
+            }
+
+            $latitudArray = array();
+            if($product->latitud){
+                $json_latitud = json_decode($product->latitud, true);
+                foreach($json_latitud as $latitude){
+                    $latitudtempArray = [
+                        'latitud' => $latitude,
+                    ];
+
+                    array_push($latitudArray,$latitudtempArray);
+                }
+            }
+
+            $stateArray = array();
+            if($product->product_state){
+                $json_state = json_decode($product->product_state, true);
+                foreach($json_state as $states){
+                    $statetempArray = [
+                        'state' => $states,
+                    ];
+                    array_push($stateArray,$statetempArray);
+                }
+            }
+
+            $tagArray = array();
+            if($product->tagging){
+                $json_tag = json_decode($product->tagging, true);
+                foreach($json_tag as $tags){
+                    $tagtempArray = [
+                        'tagging' => $tags,
+                    ];
+                
+                    array_push($tagArray,$tagtempArray);
+                }
+            }
+
+            $tempArray = [
+                              
+                'product_id' => $product->product_id,
+                'product_date' => $product->product_date,
+                'product_name' => $product->product_name,
+                'product_status' => $product->product_status,
+                'product_material' => $product->product_material,
+                'maincategory' => $product->maincategory,
+                'product_category' => $product->product_category,
+                'product_target' => $product->product_target,
+                'product_continuity' => $product->product_continuity,
+                'product_quantity' => $product->product_quantity,
+                'unit' => $product->unit,
+                'availability' => $product->availability,
+                'product_price' => $product->product_price,
+                'product_pricemax' => $product->product_pricemax,
+                'product_period' => $product->product_period,
+                'product_package' =>$product->product_package,
+                'product_location' =>$locationArray,
+                'city' => $cityArray,
+                'postalcode' => $postcodeArray,
+                'latitud' => $latitudArray,
+                'longitud' => $longitudArray,
+                'product_state' => $stateArray,
+                'product_transport' =>$product->product_transport,
+                'product_description' => $product->product_description,
+                'product_image' => $imageArray,
+                'mainstatus' => $product->mainstatus,
+                'website' => $product->website,
+                'user_id' => $product->user_id,
+                'user_type' => $userinfo->user_type,
+                'package_id' => $product->package_id,
+                'company_name' => $product->company_name,
+                'company_email' => $product->company_email,
+                'company_contact' => $product->company_contact,
+                'tagging' => $tagArray,
+                'suggestcustomer' => $product->suggestcustomer,
+                'rejectremark' => $product->rejectremark,
+                'name' => $product->name,
+                'contact' => $product->contact,
+                'publishstatus' => $product->publishstatus,
+                'approved_at' => $product->approved_at,
+                'expired_at' => $product->expired_at,
+                'created_at' => $product->created_at->format('d M Y - H:i:s'),
+                'updated_at' => $product->updated_at->format('d M Y - H:i:s'),
+             ];
+
+             array_push($finalArray,$tempArray);
+        }
+
+        return response()->json($finalArray);
+
+       } //end userproduct
+
+ 
+       
+      
+               
+      
 
     public function listuserproduct(Request $request)
 
@@ -1139,7 +1326,8 @@ class ProductController extends Controller
         
                             }  
 
-            $json_array = json_decode($product->product_image, true);
+            // $json_array = json_decode($product->product_image, true);
+            $json_array = $product->product_image;
             $imageArray = array();
             
                     foreach ($json_array as $pic)
@@ -1211,6 +1399,7 @@ class ProductController extends Controller
                     
                    
                                     $json_tag = json_decode($product->tagging, true);
+                                    //$json_tag = $product->tagging;
                                     $tagArray = array();
                                                                                 
                                         foreach ($json_tag as $tags)
@@ -2826,13 +3015,6 @@ public function listpremium (Request $request)
 
 
        }
-
-     
-
-
-
-
-
 
   }
 

@@ -162,13 +162,13 @@ class TokenController extends Controller
 
 
                 $user->balancetoken = $total;
-                $user->save();
 
                 $history = new History;
                 $history->user_id = $user_id;
                 $history->type = 'token';
                 $history->name = $quantitytoken;
                 $history->price = $netprice;
+                $user->save();
                 $history->save();
 
                 return response()->json(['status'=>'success','value'=>'token added to user account']);
@@ -229,6 +229,50 @@ class TokenController extends Controller
                 }
 
             }
+
+        }
+
+        public function mytoken(Request $request){
+
+            $transactionarray = array();
+            $finalarray = array();
+
+            $userid = $request->input('userid');
+            
+            $user = User::find($userid);
+            //balance
+            $tokenbalance = $user->balancetoken;
+            
+            //transaction
+            $transaction = History::where('user_id',$userid)->where('type','token')->orderBy('created_at','DESC')->get();
+
+            foreach($transaction as $data){
+
+                $dateformat = $data->created_at->format('Y-m-d h:m:s');
+
+                // {{ $post->created_at->format('Y-m-d') }}
+
+                $tempArray = [
+
+                    'token' => $data->name,
+                    'price' => $data->price,
+                    'date' => $dateformat,
+                    'status' => 'success',
+    
+                ];
+
+                array_push($transactionarray,$tempArray);
+
+            }
+
+            $finalarray = [
+
+                'tokenbalance' => $tokenbalance,
+                'transaction' => $transactionarray,
+
+            ];
+
+            return response()->json(['status'=>'success','value'=>$finalarray]);
 
         }
         
