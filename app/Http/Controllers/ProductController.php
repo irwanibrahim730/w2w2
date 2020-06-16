@@ -363,6 +363,7 @@ class ProductController extends Controller
                 'approved_at' => $product->approved_at,
                 'expired_at' => $product->expired_at,
                 'availability'=> $product->availability,
+                'review' => $users->review,
              ];
              
             array_push($finalArray,$tempArray);
