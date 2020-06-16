@@ -3080,12 +3080,6 @@ public function listpremium (Request $request)
             } else {
                 return response()->json(['status'=>'success', 'value'=>'sorry your token is insufficient balance']);
             }
-            
-
-            //checkbalance
-            //tolaktoken
-            //updatepackageinfo
-            //update expireddate
 
        }
 
