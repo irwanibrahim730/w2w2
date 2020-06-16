@@ -1106,15 +1106,19 @@ class ProductController extends Controller
         $type = $request->input('type');
         $category = $request->input('category');
 
-        if($category){
+        if($category == null && $type == null){
+            $products = Product::where('user_id',$userid)
+                    ->orderBy('created_at','desc')
+                    ->get();
+        } elseif($category == null){
+            $products = Product::where('user_id',$userid)
+                    ->where('mainstatus',$type)
+                    ->orderBy('created_at','desc')
+                    ->get();
+        } elseif($category != null && $type != null){
             $products = Product::where('user_id',$userid)
                     ->where('mainstatus',$type)
                     ->where('maincategory',$category)
-                    ->orderBy('created_at','desc')
-                    ->get();
-        } else {
-            $products = Product::where('user_id',$userid)
-                    ->where('mainstatus',$type)
                     ->orderBy('created_at','desc')
                     ->get();
         }
@@ -1226,7 +1230,23 @@ class ProductController extends Controller
                     array_push($tagArray,$tagtempArray);
                 }
             }
+            
+        
 
+            $currentdate = date("y-m-d h:m:s");
+
+            $timeDiff = abs(strtotime($product->expired_at) - strtotime($currentdate));
+
+            $numberDays = $timeDiff/86400;
+            $numberDays = intval($numberDays);
+
+            if($numberDays < 14){
+                $statuspublishperiod = 'yes';
+            } else {
+                $statuspublishperiod = 'no';
+            }
+
+        
             $tempArray = [
                               
                 'product_id' => $product->product_id,
@@ -1272,6 +1292,7 @@ class ProductController extends Controller
                 'expired_at' => $product->expired_at,
                 'created_at' => $product->created_at->format('d M Y - H:i:s'),
                 'updated_at' => $product->updated_at->format('d M Y - H:i:s'),
+                'statuspublishperiod' => $statuspublishperiod,
              ];
 
              array_push($finalArray,$tempArray);
