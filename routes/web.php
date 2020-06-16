@@ -77,6 +77,7 @@ Route::get('/listing','ProductController@premiumlist');
 Route::post('product/publish','ProductController@publishstatus');
 Route::post('product/availability','ProductController@availability');
 Route::get('product/premium','ProductController@listpremium');
+Route::get('product/renewproduct', 'ProductController@renewproduct');
 
 Route::get('/product/userproduct','ProductController@userproduct');
 

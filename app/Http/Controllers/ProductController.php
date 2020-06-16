@@ -3037,10 +3037,59 @@ public function listpremium (Request $request)
 
        }
 
+       public function renewproduct(Request $request){
+
+            $productid = $request->input('productid');
+            $packageid = $request->input('packageid');
+            $userid = $request->input('userid');
+
+            $userinfo = User::find($userid);
+            $packageinfo = Package::find($packageid);
+            $productinfo = Product::find($productid);
+
+            $usertoken = $userinfo->balancetoken;
+            $packagetoken = $packageinfo->package_price;
+
+            if($usertoken == null){
+                $usertoken = 0;
+            }
+
+            if($usertoken > $packagetoken){
+
+                $expiration = $packageinfo->package_duration;
+                
+                $finalbalancetoken = $usertoken - $packagetoken;
+                $packageid = $packageinfo->package_id;
+                $productpackage = $packageinfo->package_name;
+                $productpremiumlist = $packageinfo->premiumlist;
+                $expirationdate = date('Y-m-d H:i:s', strtotime($productinfo->expired_at. '+' . $expiration));
+                $productperiod = $packageinfo->package_duration;
+
+                $userinfo->balancetoken = $finalbalancetoken;
+                $productinfo->package_id = $packageid;
+                $productinfo->product_package = $productpackage;
+                $productinfo->premiumlist = $productpremiumlist;
+                $productinfo->expired_at = $expirationdate;
+                $productinfo->product_period = $productperiod;
+
+                $userinfo->save();
+                $productinfo->save();
+
+                return response()->json(['status'=>'success', 'value'=>'success reniew product']);
+
+            } else {
+                return response()->json(['status'=>'success', 'value'=>'sorry your token is insufficient balance']);
+            }
+            
+
+            //checkbalance
+            //tolaktoken
+            //updatepackageinfo
+            //update expireddate
+
+       }
+
   }
-
-
-
 
 
 

@@ -221,7 +221,7 @@ class TokenController extends Controller
                 }
     
                 if($userbalance > $packageprice){
-                    return response()->json(['status'=>'success','value'=>'success to subscribe this package']);
+                    return response()->json(['status'=>'success','value'=>'you enable to subscribe this package']);
                 } elseif($packageprice > $userbalance){
                     return response()->json(['status'=>'success','value'=>'sorry your token is insufficient balance']);
                 } else {
