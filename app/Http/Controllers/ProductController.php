@@ -787,6 +787,7 @@ class ProductController extends Controller
 
     if ($product_image == null) {
         $json_array = json_decode($data->product_image, true);
+        //$json_array = $data->product_image;
         $images = array();
         
                 foreach ($json_array as $pic)
@@ -903,7 +904,7 @@ class ProductController extends Controller
     $data->publishstatus = $publishstatus;
     $data->save();
 
-    return response()->json('product updated');
+    return response()->json(['status'=>'success','value'=>'success update product']);
 
  
 
