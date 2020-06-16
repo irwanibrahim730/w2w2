@@ -199,7 +199,7 @@ class UserController extends Controller
                 $tempmessages = 'Dear '.$data->user_fname.', '.' success register to Eco Waster Market Please Verify Your Email Before Using Our System';
                 $link = 'http://codeviable.com/w2w2/public/ver12asdaasaas/verabcsadasdsdfss?id='.$user_email. '#' .$encoded;
 
-                $messages = $tempmessages ." ".$link;
+                $messages = $tempmessages ."\n".$link;
 
                 Mail::raw( $messages ,function ($message) use($data)
                 {
