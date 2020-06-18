@@ -412,6 +412,7 @@ class ProductController extends Controller
             $company_contact = $request->input('company_contact');
             $name = $request->input('name_pic');
             $contact = $request->input('contact_pic');
+            $tagging = $request->input('tagging');
             $publishstatus = "yes";
 
 
@@ -455,10 +456,14 @@ class ProductController extends Controller
                   $states[] = $stated;
               }
 
+              $taggings = array();
 
+              foreach($tagging as $tag)
+              {
+                   $taggings[] = $tag;
+              }
 
               $images=array();
-
               
                 foreach( $product_image as $image){ 
 
@@ -511,6 +516,7 @@ class ProductController extends Controller
         $file->user_state = $user->state;
         $file->publishstatus = $publishstatus;
         $file->premiumlist = $premiumlist;
+        $file->tagging = json_encode($taggings);
         $file->save(); 
 
 
