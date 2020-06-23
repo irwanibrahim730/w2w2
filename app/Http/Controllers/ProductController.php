@@ -373,7 +373,7 @@ class ProductController extends Controller
 
             }
 
-            return response()->json($finalArray); 
+            return response()->json(['status'=>'success','value'=>$finalArray]);
     
 }
 
