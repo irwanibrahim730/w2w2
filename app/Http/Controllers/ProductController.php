@@ -212,7 +212,8 @@ class ProductController extends Controller
             foreach ($user as $users)
             {
 
-            $json_array = json_decode($product->product_image, true);
+            //$json_array = json_decode($product->product_image, true);
+            $json_array = $product->product_image;
             $imageArray = array();
             
                     foreach ($json_array as $pic)
@@ -1498,8 +1499,12 @@ class ProductController extends Controller
     {
         $product_status = $request->input('product_status');
         $finalArray = array();
-        $products = Product::where('product_status',$product_status)->get();
 
+        if($product_status){
+            $products = Product::where('product_status',$product_status)->get();
+        } else {
+            $products = Product::all();
+        }
 
         foreach ($products as $product){
 
@@ -1533,7 +1538,8 @@ class ProductController extends Controller
         
                             }  
 
-            $json_array = json_decode($product->product_image, true);
+            //$json_array = json_decode($product->product_image, true);
+            $json_array = $product->product_image;
             $imageArray = array();
             
                     foreach ($json_array as $pic)
@@ -1668,7 +1674,7 @@ class ProductController extends Controller
                     array_push($finalArray,$tempArray);
                       }      
                     }  
-                     return response()->json($finalArray); 
+                     return response()->json(['status'=>'success','value'=>$finalArray]);
 
 
 

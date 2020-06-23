@@ -285,7 +285,11 @@ class NotificationController extends Controller
             if($notification->type == 'item'){
                 $message = "success add advertisement ". $notification->item ." and ready to review";
             } elseif($notification->type == 'approval'){
-                $message = "admin approve advertisement ". $notification->item;
+                if($notification->status == 'approved'){
+                    $message = "admin approve advertisement ". $notification->item;
+                } elseif($notification->status == 'rejected'){
+                    $message = "admin reject advertisement ". $notification->item;
+                }
             } elseif($notification->type == 'comment'){
                 $message = "receive comment from product ". $notification->item;
             } elseif($notification->type == 'review'){

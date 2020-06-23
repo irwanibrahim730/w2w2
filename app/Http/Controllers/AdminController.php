@@ -54,8 +54,11 @@ class AdminController extends Controller
 
             $approved = 'approved';
 
-            $notify = Notification::where('product_id',$product_id)->first();
+            $notify = new Notification;
             $notify->status = $approved;
+            $notify->item = $products->product_name;
+            $notify->user_id = $user->user_id;
+            $notify->product_id = $product_id;
             $notify->type = 'approval';
 
             $messages = 'your product, '.$products->product_name.'  has been approved';
@@ -88,8 +91,7 @@ class AdminController extends Controller
 
 
             $products = Product::where('product_id',$product_id)->first(); 
-
-
+            $user = User::where('user_id',$products->user_id)->first();
 
             $products->product_status = 'rejected';
             $products->rejectremark = $rejectremark;
@@ -97,13 +99,13 @@ class AdminController extends Controller
 
             $rejected = 'rejected';
 
-            $notify = Notification::where('product_id',$product_id)->first();
+            $notify = new Notification;
             $notify->status = $rejected;
+            $notify->user_id = $user->user_id;
+            $notify->product_id = $product_id;
+            $notify->item = $products->product_name;
             $notify->type = 'approval';
             $notify->save();
-
-
-            $user = User::where('user_id',$products->user_id)->first();
 
             $messages = 'your product, '.$products->product_name.'  has been rejected';
 
@@ -116,9 +118,7 @@ class AdminController extends Controller
    
                }); 
 
-
-
-            return response()->json('product rejected');
+            return response()->json(['status'=>'success','value'=>'product rejected']);
  
 
          }
