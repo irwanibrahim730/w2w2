@@ -212,8 +212,8 @@ class ProductController extends Controller
             foreach ($user as $users)
             {
 
-            //$json_array = json_decode($product->product_image, true);
-            $json_array = $product->product_image;
+            $json_array = json_decode($product->product_image, true);
+            //$json_array = $product->product_image;
             $imageArray = array();
             
                     foreach ($json_array as $pic)
@@ -1538,8 +1538,8 @@ class ProductController extends Controller
         
                             }  
 
-            //$json_array = json_decode($product->product_image, true);
-            $json_array = $product->product_image;
+            $json_array = json_decode($product->product_image, true);
+            //$json_array = $product->product_image;
             $imageArray = array();
             
                     foreach ($json_array as $pic)
