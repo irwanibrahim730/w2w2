@@ -88,6 +88,7 @@ Route::post('/admin/reject','AdminController@reject');
 Route::get('/admin/list','AdminController@listapproval');
 Route::post('/admin/block','UserController@block');
 Route::post('/admin/unblock','UserController@unblock');
+Route::get('/admin/listproduct', 'AdminController@listproduct');
 
 //category
 Route::post('/category/add','CategoryController@addcategory');
