@@ -24,6 +24,7 @@ Route::delete('/user/delete', 'UserController@destroy');
 Route::post('/user/addpackage', 'UserController@addpackage');
 Route::get('/ver12asdaasaas/verabcsadasdsdfss', 'UserController@verificationemail');
 Route::get('/user/resendverification', 'UserController@resendverification');
+Route::post('/user/updatestatus', 'UserController@updatestatus');
 
 //package
 Route::get('/packages', 'PackageController@index');

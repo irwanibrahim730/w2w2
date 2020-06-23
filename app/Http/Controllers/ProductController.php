@@ -30,7 +30,8 @@ class ProductController extends Controller
                 foreach ($user as $users)
                 {
 
-                $json_array = json_decode($product->product_image, true);
+                //$json_array = json_decode($product->product_image, true);
+                $json_array = $product->product_image;
                 $imageArray = array();
                 
                         foreach ($json_array as $pic)
@@ -1326,9 +1327,7 @@ class ProductController extends Controller
         foreach ($products as $product){
 
             $user_id = $product->user_id;
-            $user = User::where('user_id',$user_id)->get();
-            foreach ($user as $users)
-            {
+            $users = User::where('user_id',$user_id)->first();
 
             $json_arrays = json_decode($product->city, true);
             $cityArray = array();
@@ -1489,11 +1488,9 @@ class ProductController extends Controller
                                         'updated_at' => $product->updated_at->format('d M Y - H:i:s'),
                                      ];
                      
-                    array_push($finalArray,$tempArray);
-                      }   
+                    array_push($finalArray,$tempArray); 
                     }     
-                     return response()->json($finalArray); 
-      
+        return response()->json(['status'=>'success','value'=>$finalArray]);      
 
     }
 

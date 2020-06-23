@@ -14,11 +14,17 @@ use App\History;
 class UserController extends Controller
 {
 
-    public function index(){
+    public function index(Request $request){
+
+        $type = $request->input('type');
+
+        if($type){
+            $user = User::where('user_type',$type)->get();
+        } else {
+            $user = User::all();
+        }
 
         $finalArray = array();
-        $user = User::all();
-
 
         foreach ($user as $data) {
 
@@ -627,7 +633,5 @@ if ($phonenumber == null) {
         }
 
     }
-
-
   
 }
