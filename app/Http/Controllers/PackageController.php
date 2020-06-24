@@ -49,7 +49,6 @@ class PackageController extends Controller
         $data->package_duration = $request->input('package_duration');
         $data->package_price = $request->input('package_token');
         $data->premiumlist = $request->input('premiumlist');
-        $data->description = $request->input('description');
         $data->save();
 
 
@@ -67,21 +66,14 @@ class PackageController extends Controller
 
         $data = Package::where('package_id',$package_id)->first();
         $package_name = $request->input('package_name');
-        $package_limit = $request->input('package_limit');
         $package_duration = $request->input('package_duration');
         $package_price = $request->input('package_price');
         $premiumlist = $request->input('premiumlist');
-        $description = $request->input('description');
         
         if($package_name == null){
            
             $package_name = $data->package_name;
 
-        }
-
-        if($package_limit == null){
-
-            $package_limit = $data->package_limit;
         }
 
         if($package_duration == null){
@@ -99,17 +91,11 @@ class PackageController extends Controller
             $premiumlist = $data->premiumlist;
         }
 
-        if($description == null){
-
-            $description = $data->description;
-        }
 
         $data->package_name = $package_name;
-        $data->package_limit = $package_limit;
         $data->package_duration = $package_duration;
         $data->package_price = $package_price;
         $data->premiumlist = $premiumlist;
-        $data->description = $description;
         $data->save();
 
 
