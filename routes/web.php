@@ -100,6 +100,13 @@ Route::get('/category/substatus','CategoryController@substatus');
 Route::post('/category/edit','CategoryController@edit');
 Route::get('/category/detail','CategoryController@detail');
 
+//dummycategory
+Route::get('/dummycategory', 'DummyCategoryController@index');
+Route::post('/dummycategory/add', 'DummyCategoryController@add');
+Route::get('/dummycategory/list', 'DummyCategoryController@list');
+Route::delete('/dummycategory/delete', 'DummyCategoryController@delete');
+Route::post('/dummycategory/edit', 'DummyCategoryController@edit');
+
 //comment
 Route::post('/comment','CommentController@addcomment');
 Route::get('/comment/list','CommentController@listcomment');
