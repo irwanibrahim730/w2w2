@@ -17,16 +17,16 @@ class BannerController extends Controller
         $url = $request->input('url');
         $publishstatus = 'publishstatus';
 
-        if($request->hasfile('image')){
-        $extention = $image->getClientOriginalExtension();
-        $imagename = rand(11111, 99999) . '.' . $extention;
-        $destinationPath = 'image';
-        $image->move($destinationPath, $imagename);
-        }
-        
-        
-            else if ($image == null) {
-                $imagename = null;
+        if($image){
+
+            $extention = $image->getClientOriginalExtension();
+            $imagename = rand(11111, 99999) . '.' . $extention;
+            $destinationPath = 'image';
+            $image->move($destinationPath, $imagename);
+
+        } else {
+
+            $imagename = null;
         }
 
 
