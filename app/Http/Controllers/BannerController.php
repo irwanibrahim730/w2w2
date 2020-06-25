@@ -15,7 +15,7 @@ class BannerController extends Controller
         $title = $request->input('title');
         $image = $request->file('image');
         $url = $request->input('url');
-        $publishstatus = $request->input('publishstatus');
+        $publishstatus = 'publishstatus';
 
         if($request->hasfile('image')){
         $extention = $image->getClientOriginalExtension();
@@ -37,15 +37,15 @@ class BannerController extends Controller
         $data->publishstatus = $publishstatus;
         $data->save(); 
 
-        return response()->json('Banner Submitted');
+        return response()->json(['status'=>'success','value'=>'banner submitted']);
 
     }
 
 
     public function list()
     {
-        
-           $banner = Banner::all();
+    
+           $banner = Banner::orderBy('created_at','DESC')->get();
            $finalArray = array();  
 
            foreach ($banner as $banners){
@@ -68,7 +68,7 @@ class BannerController extends Controller
            array_push($finalArray,$tempArray);
          }
 
-         return response()->json($finalArray); 
+         return response()->json(['status'=>'success','value'=>$finalArray]);
     
 
         }
@@ -118,9 +118,7 @@ public function delete(Request $request)
     $banners = Banner::where('id',$id)->first();
     $banners->delete();
 
-    return response()->json('banner deleted');
-
-
+    return response()->json(['status'=>'status','value'=>'banner deleted']);
 
 }
 
@@ -153,9 +151,7 @@ public function delete(Request $request)
      array_push($finalArray,$tempArray);
    }
 
-   return response()->json($finalArray); 
-
-     return response()->json($banners);
+    return response()->json(['status'=>'success','value'=>$finalArray]);
 
 
    }
@@ -204,9 +200,7 @@ public function delete(Request $request)
      $data->publishstatus = $publishstatus;
      $data->save();
 
-     return response()->json('news  successfull updated');
-
-
+     return response()->json(['status'=>'success','value'=>'news successfull updated']);
 
    }
 
