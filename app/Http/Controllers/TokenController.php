@@ -168,16 +168,28 @@ class TokenController extends Controller
 
           $user = User::where('user_id',$user_id)->first();
 
+          if($user){
 
-          $balance = $user->balancetoken;
+            $balance = $user->balancetoken;
           
-          $total = $balance + $amount;;
+            $total = $balance + $amount;;
 
-          $user->balancetoken = $total;
-          $user->save();
+            $user->balancetoken = $total;
 
-          return response()->json(['status'=>'success','value'=>'token added']);
+            $history = new History;
+            $history->user_id = $user_id;
+            $history->type = 'token';
+            $history->name = $amount;
+            $history->price = '-';
 
+            $user->save();
+            $history->save();
+
+            return response()->json(['status'=>'success','value'=>'token added']);
+
+          } else {
+              return response()->json(['status'=>'error','value'=>'user not exist']);
+          }
 
         }
     
