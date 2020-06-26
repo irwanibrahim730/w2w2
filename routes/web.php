@@ -90,6 +90,11 @@ Route::post('/admin/block','UserController@block');
 Route::post('/admin/unblock','UserController@unblock');
 Route::get('/admin/listproduct', 'AdminController@listproduct');
 
+Route::post('/admin/addadmin', 'AdminController@addadmin');
+Route::get('/admin/listadmin', 'AdminController@listadmin');
+Route::delete('/admin/deleteadmin','AdminController@destroy');
+Route::post('/admin/editadmin', 'AdminController@editadmin');
+
 //category
 Route::post('/category/add','CategoryController@addcategory');
 Route::get('/category','CategoryController@listcategory');

@@ -442,8 +442,119 @@ class AdminController extends Controller
                   }
                 return response()->json(['status'=>'success','value'=>$finalArray]);
          }
+
+         public function addadmin(Request $request){
+
+            $validator = \validator::make($request->all(),
+            [
+                'user_fname' => 'required',
+                'user_lname' => 'required',
+                'user_email' => 'required',
+                'password' => 'required',
+            ]);
+
+            if($validator->fails()){
+                return response()->json($validator->errors(), 422);
+            } else {
+
+                $user_fname = $request->input('user_fname');
+                $user_lname = $request->input('user_lname');
+                $user_email = $request->input('user_email');
+                $password = $request->input('password');
+
+                $userexist = User::where('user_email',$user_email)->first();
+
+                if($userexist){
+                    return response()->json(['status'=>'failed','value'=>'email is exist']);
+                } else {
+
+                    $user_type = 'admin';
+                    $user_role = 'admin';
+                    $status = 'active';
+
+                    $user = new User;
+                    $user->user_fname = $user_fname;
+                    $user->user_lname = $user_lname;
+                    $user->user_email = $user_email;
+                    $user->password = $password;
+                    $user->user_type = $user_type;
+                    $user->user_role = $user_role;
+                    $user->status = $status;
+
+                    $user->save();
+
+                    return response()->json(['status'=>'success','value'=>'success add admin']);
+
+                }
+
+            }
+
+         }
+
+         public function listadmin(){
+
+            $user = User::where('user_type','admin')
+                        ->orderBy('created_at','DESC')
+                        ->get();
+
+            return response()->json(['status'=>'success','value'=>$user]);
+
+         }
+
+         public function destroy(Request $request){
+             $id = $request->input('id');
+
+             $user = User::find($id);
+             $user->delete();
+             return response()->json(['status'=>'success','value'=>'success delete']);
+         }
+
+         public function editadmin(Request $request){
+             $id = $request->input('id');
+             $user_fname = $request->input('user_fname');
+             $user_lname = $request->input('user_lname');
+             $user_email = $request->input('user_email');
+             $password = $request->input('password');
+
+             $existuser = null;
+
+             $user = User::find($id);
+
+             if($user_fname == null){
+                 $user_fname = $user->user_fname;
+             }
+             if($user_lname == null){
+                 $user_lname = $user->user_lname;
+             }
+             if($password == null){
+                 $password = $user->password;
+             }
+
+             if($user_email == null){
+                 $user_email = $user->user_email;
+             } else {
+
+                $existuser = User::where('user_email',$user_email)->first();
+
+             }
+
+             if($existuser){
+                 return response()->json(['status'=>'failed','value'=>'email is exist']);
+             } else {
+
+                $user->user_fname = $user_fname;
+                $user->user_lname = $user_lname;
+                $user->user_email = $user_email;
+                $user->password = $password;
+
+                $user->save();
+
+                return response()->json(['status'=>'success','value'=>'update admin user']);
+
+             }
+
+
+         }
 }
     
     
-
-
