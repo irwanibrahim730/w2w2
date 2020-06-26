@@ -555,6 +555,26 @@ class AdminController extends Controller
 
 
          }
+
+         public function detailadmin(Request $request){
+
+            $id = $request->input('id');
+
+            $user = User::find($id);
+
+            $tempuser = [
+                'user_id' => $user->user_id,
+                'user_fname' => $user->user_fname,
+                'user_lname' => $user->user_lname,
+                'user_email' => $user->user_email,
+                'password' => $user->password,
+                'created_at' => $user->created_at,
+                'updated_at' => $user->updated_at,
+            ];
+
+            return response()->json(['status'=>'success','value'=>$tempuser]);
+
+         }
 }
     
     

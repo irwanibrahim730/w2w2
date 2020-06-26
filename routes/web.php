@@ -94,6 +94,7 @@ Route::post('/admin/addadmin', 'AdminController@addadmin');
 Route::get('/admin/listadmin', 'AdminController@listadmin');
 Route::delete('/admin/deleteadmin','AdminController@destroy');
 Route::post('/admin/editadmin', 'AdminController@editadmin');
+Route::get('/admin/detailsadmin', 'AdminController@detailadmin');
 
 //category
 Route::post('/category/add','CategoryController@addcategory');
