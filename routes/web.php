@@ -198,7 +198,7 @@ Route::get('/paidpackage/all','PackageController@paidall');
 Route::delete('/paidpackage/delete','PackageController@deletepaid');
 
 //dashboard
-Route::get('/admin/dash','AdminController@dashboard');
+Route::get('/admin/dashboard','AdminController@dashboard');
 Route::get('/admin/statedash','AdminController@dashstate');
 Route::get('/admin/statecategory','AdminController@statecategory');
 

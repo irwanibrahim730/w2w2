@@ -12,6 +12,7 @@ use App\Notification;
 use App\Package;
 use App\Userpack;
 use App\Reserve;
+use App\Enquiry;
 
 class AdminController extends Controller
 
@@ -123,8 +124,142 @@ class AdminController extends Controller
 
          }
 
+         public function dashboard(Request $request){
 
-         public function dashboard(Request $request)
+            $finalArray = array();
+
+            //product sold
+            $product = Reserve::where('status','sold')->orWhere('status','completed')->get();
+            $productsold = count($product);
+
+            //waste sold
+            $waste = Reserve::where('category','waste')
+                            ->where(function($q){
+                                $q->where('status','completed')
+                                  ->orWhere('status','sold');
+                            })
+                        ->get();
+            $wastesold = count($waste);
+
+            //waste reserved
+            $wasteres = Reserve::where('category','waste')
+                                ->where('status','reserved')
+                                ->get();
+            $wastereserved = count($wasteres);
+            
+            //service sold
+            $service = Reserve::where('category','service')
+                            ->where(function($q){
+                                $q->where('status','completed')
+                                ->orWhere('status','sold');
+                            })
+                        ->get();
+            $servicesold = count($service);
+
+            //service reserved
+            $serviceres = Reserve::where('category','service')
+                                ->where('status','reserved')
+                                ->get();
+            $servicereserved = count($serviceres);
+
+            //technology sold
+            $technology = Reserve::where('category','technology')
+                            ->where(function($q){
+                                $q->where('status','completed')
+                                ->where('status','reserved');
+                            })
+                        ->get();
+            $technologysold = count($technology);
+
+            //technology reserved
+            $technologyres = Reserve::where('category','technology')
+                                ->where('status','reserved')
+                                ->get();
+            $technologyreserved = count($technologyres);
+
+            //number of user register individual
+            $individual = User::where('user_type','individual')->get();
+            $userindividuals = count($individual);
+
+            //number of user register company
+            $company = User::where('user_type','company')->get();
+            $usercompanies = count($company);
+
+            //number of product active waste
+            $tempactivewaste = Product::where('product_status','success')->where('maincategory','waste')->get();
+            $activewaste = count($tempactivewaste);
+
+            //number of product active service
+            $tempactiveservice = Product::where('product_status','success')->where('maincategory','service')->get();
+            $activeservice = count($tempactiveservice);
+
+            //number of product active technology
+            $tempactivetechnology = Product::where('product_status','success')->where('maincategory','technology')->get();
+            $activetechnology = count($tempactivetechnology);
+
+            //list of pending task
+            $arraypendingtask = array();
+            $temppendingproduct = Product::where('product_status','processed')
+                                ->orderBy('created_at','DESC')
+                                ->get();
+
+            foreach($temppendingproduct as $data){
+
+                $temparray = [
+                    'id' => $data->product_id,
+                    'product_name' => $data->product_name,
+                    'product_category' => $data->maincategory,
+                    'created_at' => $data->created_at,
+                ];
+
+                array_push($arraypendingtask,$temparray);
+
+            }
+
+            //list of notifications
+            $arraynotifications = array();
+
+            $tempnoti = Enquiry::orderBy('created_at','DESC')->get();
+            
+            foreach($tempnoti as $data){
+
+                $temparray = [
+
+                    'id' => $data->id,
+                    'category' => $data->category,
+                    'description' => $data->description,
+
+                ];
+
+                array_push($arraynotifications,$temparray);
+
+            }
+
+            $finalArray = [
+
+                'productsold' => $productsold,
+                'wastesold' => $wastesold,
+                'wastereserve' => $wastereserved,
+                'servicesold' => $servicesold,
+                'servicereserved' => $servicesold,
+                'technologysold' => $technologysold,
+                'technologyreserved' => $technologyreserved,
+                'userindividuals' => $userindividuals,
+                'usercompanies' => $usercompanies,
+                'activewaste' => $activewaste,
+                'activeservice' => $activeservice,
+                'activetechnology' => $activetechnology,
+                'pendingtask' => $arraypendingtask,
+                'notifications' => $arraynotifications,
+
+            ];
+
+            return response()->json(['status'=>'success','value'=>$finalArray]);
+            
+         }
+
+
+         public function tempdashboard(Request $request)
 
          {
 
