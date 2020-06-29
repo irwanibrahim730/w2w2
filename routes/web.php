@@ -200,7 +200,7 @@ Route::delete('/paidpackage/delete','PackageController@deletepaid');
 //dashboard
 Route::get('/admin/dashboard','AdminController@dashboard');
 Route::get('/admin/statedash','AdminController@dashstate');
-Route::get('/admin/statecategory','AdminController@statecategory');
+Route::get('admin/statecategory','AdminController@tempstatecategory');
 
 
 //history

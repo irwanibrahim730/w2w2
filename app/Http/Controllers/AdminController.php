@@ -13,6 +13,7 @@ use App\Package;
 use App\Userpack;
 use App\Reserve;
 use App\Enquiry;
+use DB;
 
 class AdminController extends Controller
 
@@ -239,7 +240,7 @@ class AdminController extends Controller
 
                 'productsold' => $productsold,
                 'wastesold' => $wastesold,
-                'wastereserve' => $wastereserved,
+                'wastereserved' => $wastereserved,
                 'servicesold' => $servicesold,
                 'servicereserved' => $servicesold,
                 'technologysold' => $technologysold,
@@ -356,39 +357,134 @@ class AdminController extends Controller
 
          }
 
+         public function tempstatecategory(Request $request){
+
+            $state = $request->input('state');
+
+            $tempsellerwaste = DB::table('products')
+                    ->select('user_id', DB::raw('count(*) as total'))
+                    ->groupBy('user_id')
+                    ->where('user_state',$state)
+                    ->where('maincategory','waste')
+                    ->get();
+            
+            $tempsellerservice = DB::table('products')
+                        ->select('user_id', DB::raw('count(*) as total'))
+                        ->groupBy('user_id')
+                        ->where('user_state',$state)
+                        ->where('maincategory','service')
+                        ->get();
+            
+            $tempsellertechnology = DB::table('products')
+                            ->select('user_id', DB::raw('count(*) as total'))
+                            ->groupBy('user_id')
+                            ->where('user_state',$state)
+                            ->where('maincategory','technology')
+                            ->get();
+            
+            $countsellerwaste = count($tempsellerwaste);
+            $sellerwaste = [
+                'count' => $countsellerwaste,
+                'user_id' => $tempsellerwaste,
+            ];
+
+            $countsellerservice = count($tempsellerservice);
+            $sellerservice = [
+                'count' => $countsellerservice,
+                'user_id' => $tempsellerservice,
+            ];
+
+            $countsellertechnology = count($tempsellertechnology);
+            $sellertechnology = [
+                'count' => $countsellertechnology,
+            ];
 
 
-         public function statecategory(Request $request)
-         
-         
-         {
 
+            $sellerarray = [
 
-          $state = $request->input('state');
+                'waste' => $countsellerwaste,
+                'service' => $countsellerservice,
+                'technology' => $countsellertechnology,
+                
+            ];
 
-          $countarray = array();
+            $arraybuyer = array();
+            $buyer = Reserve::where('status','completed')->orWhere('status','sold')->get();
+            
+            foreach($buyer as $data){
 
-          $user = User::where('state',$state)->count();
+                $productdetails = Product::where('product_id',$data->product_id)->first();
+                
+                if($productdetails->user_state == $state){
+                    
+                  $temparray = [
+                    'id' => $data->id,
+                    'buyer_id' => $data->buyer_id,
+                    'product_id' => $data->product_id,
+                    'state' => $productdetails->user_state,
+                    'maincategory' => $productdetails->maincategory,
+                  ];
 
-          $waste = Product::where('user_state',$state)->where('maincategory','waste')->count();
+                    array_push($arraybuyer,$temparray);
 
-          $service = Product::where('user_state',$state)->where('maincategory','service')->count();
+                }
 
-          $technology = Product::where('user_state',$state)->where('maincategory','technology')->count();
+            }
 
-          $tempArray = [
+            $tempbuyerwaste = array();
+            $tempbuyerservice = array();
+            $tempbuyertechnology = array();
 
-             'total_user' => $user,
-             'total_waste' => $waste,
-             'total_service' => $service,
-             'total_technology' => $technology,
+            foreach($arraybuyer as $dataa){
 
-          ];
+                $tempdata = [
+                    'id' => $dataa['id'],
+                    'buyer_id' => $dataa['buyer_id'],
+                    'product_id' => $dataa['product_id'],
+                    'state' => $dataa['state'],
+                    'maincategory' => $dataa['maincategory'],
+                ];
+                
+               
+                if($dataa['maincategory'] == 'waste'){
+                    array_push($tempbuyerwaste,$tempdata);
+                }
 
-          array_push($countarray,$tempArray);
+                elseif($dataa['maincategory'] == 'service'){
+                    array_push($tempbuyerservice,$tempdata);
+                }
 
-          return response()->json($countarray);
+                elseif($dataa['maincategory'] == 'technology'){
+                    array_push($tempbuyertechnology,$tempdata);
+                }
 
+            }
+
+            $countbuyerwaste = count($tempbuyerwaste);
+            $countbuyerservice = count($tempbuyerservice);
+            $countbuyertechnology = count($tempbuyertechnology);
+            
+            $finalbuyyerarray = array();
+
+            $finalbuyyerarray = [
+
+                'waste' => $countbuyerwaste,
+                'service' => $countbuyerservice,
+                'technology' => $countbuyertechnology,
+
+            ];
+
+            $finalstatearray = array();
+
+            $finalstatearray = [
+
+                'seller' => $sellerarray,
+                'buyer' => $finalbuyyerarray,
+
+            ];
+           
+            return response()->json(['status'=>'success','value'=>$finalstatearray]);
          }
 
          public function listproduct(Request $request){
