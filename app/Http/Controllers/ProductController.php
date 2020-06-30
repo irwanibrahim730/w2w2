@@ -393,7 +393,7 @@ class ProductController extends Controller
             $product_continuity = $request->input ('product_season');
             $product_quantity = $request->input ('product_quantity');
             $unit = $request->input('unit');
-            $availability = $request->input('availability');
+            $availability = 'available';
             $product_price = $request->input ('product_price');
             $product_pricemax = $request->input('product_pricemax');
             $product_location = $request->input('product_location');
@@ -2658,6 +2658,7 @@ public function listpremium (Request $request)
     $products = Product::where('premiumlist',$premiumlist)
         ->where('mainstatus', $type)
         ->where('product_status', 'success')
+        ->where('availability','expired')
         ->where('publishstatus', 'yes')
         ->orderBy('created_at', 'DESC')
         ->get();
