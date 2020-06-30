@@ -259,6 +259,41 @@ class AdminController extends Controller
             
          }
 
+         public function notificationlist(Request $request){
+
+            $arraynotificationlist = array();
+            $tempproduct = Product::where('product_status','processed')
+                        ->orderBy('created_at','DESC')
+                        ->get();
+            
+            foreach($tempproduct as $data){
+
+                $temparray = [
+
+                    'id' => $data->product_id,
+                    'product_name' => $data->product_name,
+                    'product_category' => $data->product_category,
+                    'created_at' => $data->created_at,
+
+                ];
+
+                array_push($arraynotificationlist,$temparray);
+
+            }
+
+            $countarray = count($arraynotificationlist);
+
+            $finalarray = array();
+
+            $finalarray = [
+                'count' => $countarray,
+                'notification' => $arraynotificationlist,
+            ];
+
+            return response()->json(['status'=>'success','value'=>$finalarray]);
+
+
+         }
 
          public function tempdashboard(Request $request)
 
