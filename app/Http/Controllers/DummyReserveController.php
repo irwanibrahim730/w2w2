@@ -255,6 +255,20 @@ class DummyReserveController extends Controller
 
         $sellerinfo->review = $final;
         $sellerinfo->save();
+
+        //calculation review product   
+        $totalreviewproduct = 0;
+        $listreviewproduct = Review::where('product_id',$product_id)->get();
+        $countrevpro = count($listreviewproduct);
+        foreach($listreviewproduct as $data){
+            $totalreviewproduct = $totalreviewproduct + $data->rating;
+        }
+
+        $finalreviewproduct = $totalreviewproduct / $countrevpro;
+
+        $finalproduct = round($finalreviewproduct, 0);
+        $productinfo->rating = $finalproduct;
+        $productinfo->save();
         
 
         return response()->json(['status'=>'success','value'=>'success buyer review and complete']);
