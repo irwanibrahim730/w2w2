@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Laravel\Lumen\Routing\Controller;
 use Illuminate\Http\Request;
 use App\Inbox;
+use App\Product;
 use App\User;
 
 class InboxController extends Controller
@@ -82,9 +83,39 @@ class InboxController extends Controller
             return response()->json('inbox updated');
         }
 
+        public function listinbox(Request $request){
 
+            $arrayinbox = array();
+            $tempproduct = Product::where('product_status','processed')
+                        ->orderBy('created_at','DESC')
+                        ->get();
+            
+            foreach($tempproduct as $data){
 
-        
+                $temparray = [
+
+                    'id' => $data->product_id,
+                    'product_name' => $data->product_name,
+                    'product_category' => $data->product_category,
+                    'created_at' => $data->created_at,
+
+                ];
+
+                array_push($arrayinbox,$temparray);
+
+            }
+
+            $countarray = count($arrayinbox);
+            $finalarray = array();
+
+            $finalarray = [
+                'count' => $countarray,
+                'inbox' => $arrayinbox,
+            ];
+
+            return response()->json(['status'=>'success','value'=>$finalarray]);
+
+        }        
     
 }
     

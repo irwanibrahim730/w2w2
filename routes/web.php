@@ -52,6 +52,8 @@ Route::post('/inbox/add', 'InboxController@store');
 Route::post('/inbox/update', 'InboxController@edit');
 Route::delete('/inbox/delete', 'InboxController@destroy');
 
+Route::get('/inbox/list', 'InboxController@listinbox');
+
 //news
 Route::get('/news', 'NewsController@index');
 Route::get('/news/detail', 'NewsController@show');
