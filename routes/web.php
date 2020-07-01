@@ -213,6 +213,10 @@ Route::delete('/history/delete','HistoryController@delete');
 
 Route::get('/latest','ProductController@latest');
 
+//Search
+Route::get('/search','SearchController@index');
+Route::get('/search/resultsearch', 'SearchController@resultsearch');
+
 
 
 

@@ -519,6 +519,7 @@ class ProductController extends Controller
         $file->publishstatus = $publishstatus;
         $file->premiumlist = $premiumlist;
         $file->tagging = json_encode($taggings);
+        $file->rating ='0';
         $file->save(); 
 
 
@@ -2658,7 +2659,7 @@ public function listpremium (Request $request)
     $products = Product::where('premiumlist',$premiumlist)
         ->where('mainstatus', $type)
         ->where('product_status', 'success')
-        ->where('availability','expired')
+        ->where('availability','!=','expired')
         ->where('publishstatus', 'yes')
         ->orderBy('created_at', 'DESC')
         ->get();
