@@ -1309,7 +1309,7 @@ class ProductController extends Controller
              array_push($finalArray,$tempArray);
         }
 
-        return response()->json($finalArray);
+        return response()->json(['status'=>'success','value'=>$finalArray]);
 
        } //end userproduct
 
