@@ -97,9 +97,16 @@ class AdminController extends Controller
 
             $products->product_status = 'rejected';
             $products->rejectremark = $rejectremark;
-            $products->save();
 
             $rejected = 'rejected';
+
+            //get token back
+            $packageDetail = Package::find($products->package_id);
+            $amountToken = $packageDetail->package_price;
+
+            $addToken = $user->balancetoken + $amountToken;
+
+            $user->balanceToken = $addToken;
 
             $notify = new Notification;
             $notify->status = $rejected;
@@ -107,7 +114,10 @@ class AdminController extends Controller
             $notify->product_id = $product_id;
             $notify->item = $products->product_name;
             $notify->type = 'approval';
+
+            $products->save();
             $notify->save();
+            $user->save();
 
             $messages = 'your product, '.$products->product_name.'  has been rejected';
 
@@ -115,7 +125,7 @@ class AdminController extends Controller
               {
                $message->to($user->user_email);
                $message->from('testemaillumen123@gmail.com', 'Admin of W2W');
-               $message->subject('Product Approval');
+               $message->subject('Product Has Been Rejected');
    
    
                }); 

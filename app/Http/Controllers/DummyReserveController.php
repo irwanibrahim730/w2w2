@@ -107,6 +107,7 @@ class DummyReserveController extends Controller
                 'finalprice' => $data->finalprice,
                 'finalunit' => $data->finalunit,
                 'finalquantity' => $data->finalquantity,
+                'date' => $data->updated_at,
 
             ];
         
