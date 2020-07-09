@@ -3096,7 +3096,372 @@ public function listpremium (Request $request)
 
        }
 
+       public function resubmit(Request $request){
+
+            $product_id = $request->input('product_id');
+
+            $data = Product::where('product_id',$product_id)->first();
+
+            $userinfo = User::find($data->user_id);
+            $temppackage = Package::find($data->package_id);
+
+            $balancetoken = $userinfo->balancetoken;
+            $temptoken = $temppackage->package_price;
+            $userinfo->balancetoken = $balancetoken - $temptoken;
+            $userinfo->save();
+
+            $product_status = 'processed';
+
+            $product_date = $request->input('product_date');
+            $product_name = $request->input('product_name');
+            $product_material = $request->input ('product_material');
+            $maincategory = $request->input('maincategory');
+            $product_category = $request->input ('product_category');
+            $product_target = $request->input('product_target');
+            $product_continuity = $request->input ('product_season');
+            $product_quantity = $request->input ('product_quantity');
+            $unit = $request->input('unit');
+            $availability = $request->input('availability');
+            $product_price = $request->input ('product_price');
+            $product_pricemax = $request->input ('product_pricemax');
+            $product_period = $request->input('product_period');
+            $product_package = $request->input('product_package');
+            $product_location = $request->input('product_location');
+            $city = $request->input('city');
+            $postalcode = $request->input('postalcode');
+            $longitud = $request->input('longitud');
+            $latitud = $request->input('latitud');
+            $product_state = $request->input('product_state');
+            $product_transport = $request->input('product_transport');
+            $product_description = $request->input('product_description');  
+            $product_image = $request->file('product_image');
+            $mainstatus = $request->input('mainstatus');
+            $website = $request->input('website');
+            $user_id = $request->input('user_id');  
+            $package_id = $request->input('package_id');   
+            $company_name = $request->input('company_name');
+            $company_email = $request->input('company_email');
+            $company_contact = $request->input('company_contact');
+            $tagging = $request->input('tagging');
+            $name = $request->input('name');
+            $contact = $request->input('contact');
+            $publishstatus = $request->input('publishstatus');
+
+
+            if ($city == null) {
+                $json_arrays = json_decode($data->city, true);
+                $cities = array();
+
+                        foreach ($json_arrays as $cits)
+                        {
+                        $cities[] = $cits;
+
+                        }
+            }
+
+            else
+            {
+                $cities=array();
+                foreach($city as $cits)
+                {
+                $cities[] = $cits;
+
+                }
+            }
+
+            if ($postalcode == null) {
+                $json_arrays = json_decode($data->postalcode, true);
+                $postcode = array();
+
+                        foreach ($json_arrays as $postcodes)
+                        {
+                        $postcode[] = $postcodes;
+
+                        }
+
+            }
+
+            else
+            {
+                $postcode=array();
+                foreach($postalcode as $postcodes)
+                {
+                $postcode[] = $postcodes;
+
+                }
+            }
+
+
+
+            if ($product_date == null) {
+                $product_date = $data->product_date;
+            }
+
+            if ($product_name == null) {
+                $product_name = $data->product_name;
+            }
+
+            if ($product_material == null) {
+                $product_material = $data->product_material;
+            }
+
+            if ($maincategory == null) {
+                $maincategory = $data->maincategory;
+            }
+
+            if ($product_category == null) {
+                $product_category = $data->product_category;
+            }
+
+            if ($product_target == null) {
+                $product_target = $data->product_target;
+            }
+
+            if ($product_continuity == null) {
+                $product_continuity = $data->product_continuity;
+            }
+
+            if ($product_quantity == null) {
+                $product_quantity = $data->product_quantity;
+            }
+            if ($unit == null) {
+                $unit = $data->unit;
+            }
+
+            if($availability == null)
+            {
+                $availability = $data->availability;
+            }
+
+            if ($product_price == null) {
+                $product_price = $data->product_price;
+            }
+
+            if ($product_pricemax == null) {
+                $product_pricemax = $data->product_pricemax;
+            }
+
+            if ($product_period == null) {
+                $product_period = $data->product_period;
+            }
+
+            if ($product_package == null) {
+                $product_package = $data->product_package;
+            }
+
+            if ($product_location == null) {
+                $json_arrays = json_decode($data->product_location, true);
+                $locations = array();
+
+                        foreach ($json_arrays as $locate)
+                        {
+                        $locations[] = $locate;
+
+                        }
+
+            }
+
+            else
+            {
+                $locations=array();
+                foreach($product_location as $location)
+                {
+                $locations[] = $location;
+
+                }
+            }
+
+            if($latitud == null) {
+                $json_latitud = json_decode($data->latitud, true);
+                $latituds = array();
+                            
+                            foreach ($json_latitud as $latitude)
+                            {
+                                $latituds[] = $latitude;
+                            
+                                }
+            }
+
+            else{
+
+                $latituds=array();
+                foreach($latitud as $latitude)
+                {
+                    $latituds[] = $latitude;
+                }
+
+            }
+
+            if($longitud == null)
+            {
+                $json_longitud = json_decode($data->longitud, true);
+                $longituds = array();
+
+                            foreach ($json_longitud as $longitude)
+                            {
+                                $longituds[] = $longitude;
+
+                                }
+            }
+            else{
+                $longituds=array();
+                foreach($longitud as $longitude)
+                {
+                    $longituds[] = $longitude;
+                }
+
+            }
+
+            if ($product_state == null) {
+                $json_state = json_decode($data->product_state, true);
+                $states = array();
+                                            
+                            foreach ($json_state as $stated)
+                            {
+                            
+                                    $states[] = $stated;
+                        
+                                    
+                                        
+                                }
+            }
+            else{
+                $states=array();
+                foreach($product_state as $stated)
+                {
+                    $states[] = $stated;
+                }
+            }
+
+            if ($product_transport == null) {
+                $product_transport = $data->product_transport;
+            }
+
+            if ($product_description == null) {
+                $product_description = $data->product_description;
+            }
+
+            if ($product_image == null) {
+                $json_array = json_decode($data->product_image, true);
+                //$json_array = $data->product_image;
+                $images = array();
+                
+                        foreach ($json_array as $pic)
+                        {
+                        $images[] = $pic;
+                        }
+            } 
+            else {
+
+                $images=array();
+                $product_image = $request->file('product_image'); 
+                        
+                foreach( $product_image as $image){ 
+
+                $extention = $image->getClientOriginalExtension();
+                $imagename = rand(11111, 99999) . '.' . $extention;
+                $destinationPath = 'image';
+                $image->move($destinationPath, $imagename);
+                $images[] = $imagename;
+
+                }
+            }
+
+            if ($mainstatus == null)
+            {
+                $mainstatus = $data->mainstatus;
+            }
+
+            if($website == null){
+
+                $website = $data->website;
+            }
+
+            if($company_name == null){
+
+                $company_name = $data->company_name;
+            }
+
+            if($company_email == null){
+
+                $company_email = $data->company_email;
+            }
+
+            if($company_contact == null){
+
+                $company_contact = $data->company_contact;
+            }
+
+            if ($tagging == null) {
+                $json_tag = json_decode($data->tagging, true);
+                $taggings = array();
+                                                            
+                    foreach ($json_tag as $tags)
+                    {
+                
+                        $taggings[] = $tags;
+
+                    }
+            }
+            else{
+                $taggings=array();
+                foreach($tagging as $tagged)
+                {
+                    $taggings[] = $tagged;
+                }
+            }
+
+            if($name == null){
+
+                $name = $data->name;
+            }
+
+            if($contact == null){
+
+                $contact = $data->contact;
+            }
+
+            if($publishstatus == null){
+
+                $publishstatus = $data->publishstatus;
+            }
+
+            $data->product_date = $product_date;
+            $data->product_name = $product_name;
+            $data->product_status = $product_status;
+            $data->product_material = $product_material;
+            $data->product_category = $product_category;
+            $data->product_target = $product_target;
+            $data->product_continuity = $product_continuity;
+            $data->product_quantity = $product_quantity;
+            $data->unit = $unit;
+            $data->availability = $availability;
+            $data->product_price = $product_price;
+            $data->product_pricemax = $product_pricemax;
+            $data->product_period = $product_period;
+            $data->product_package = $product_package;
+            $data->product_location = json_encode($locations);
+            $data->city = json_encode($cities);
+            $data->postalcode = json_encode($postcode);
+            $data->latitud = json_encode($latituds);
+            $data->longitud = json_encode($longituds);
+            $data->product_state = json_encode($states);
+            $data->product_transport = $product_transport;
+            $data->product_description = $product_description;
+            $data->product_image = json_encode($images);
+            $data->mainstatus = $mainstatus;
+            $data->website = $website;
+            $data->company_name = $company_name;
+            $data->company_email = $company_email;
+            $data->company_contact = $company_contact;
+            $data->tagging = json_encode($taggings);
+            $data->name = $name;
+            $data->contact = $contact;
+            $data->publishstatus = $publishstatus;
+            $data->save();
+
+            return response()->json(['status'=>'success','value'=>'success resubmit']);
+
+       }
+
   }
-
-
-

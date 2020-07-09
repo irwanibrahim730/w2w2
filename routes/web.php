@@ -83,6 +83,7 @@ Route::get('product/premium','ProductController@listpremium');
 Route::get('product/renewproduct', 'ProductController@renewproduct');
 
 Route::get('/product/userproduct','ProductController@userproduct');
+Route::post('/product/resubmit', 'ProductController@resubmit');
 
 //admin
 Route::post('/admin/approve','AdminController@approve');
