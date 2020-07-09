@@ -138,54 +138,70 @@ class TokenController extends Controller
                 if($user == null){
                     return response()->json(['status'=>'failed','value'=>'user not exist']);
                 } else {
-                    
+
                     $balance = $user->balancetoken;
-                    $quantitytoken;
-                    
                     $total = $balance + $quantitytoken;
+                    $user->balancetoken = $total;
 
-                    if($user->user_type == 'company'){
-                        $finalname = $user->companyname;
-                    } else {
-                        $finalname = $user->user_fname;
-                    }
+                    $history = new History;
+                    $history->user_id = $user_id;
+                    $history->type = 'token';
+                    $history->name = $quantitytoken;
+                    $history->price = $netprice;
+                    $user->save();
+                    $history->save();
 
-
-                    $email = $user->user_email;
-                    $mobile = $user->user_contact;
-                    $name = $finalname;
-                    $tempprice = $netprice;
-                    $token = $quantitytoken .' token';
-
-                    echo $token;
-
-                    //create bill billplz
-                    $price = $tempprice * 100;
-
-                    $bill = Billplz::bill('v3')->create(
-
-                        $collectionId = "kfstwuda",
-                        $email,
-                        $mobile,
-                        $name,
-                        $price,
-                        '-',
-                        $token,
-                        [
-                            'redirect_url' => 'http://codeviable.com/w2w2/public/billplz/redirect'
-                        ]
                 
 
-                    );  
+                    return response()->json(['status'=>'success','value'=>'token added to user account']);
                     
-                    //save to purchase table
-                    $purchase = new Purchase;
-                    $purchase->billid = $bill->toArray()['id'];
-                    $purchase->userid = $user_id;
+                    // $balance = $user->balancetoken;
+                    // $quantitytoken;
+                    
+                    // $total = $balance + $quantitytoken;
 
-                    $purchase->save();
+                    // if($user->user_type == 'company'){
+                    //     $finalname = $user->companyname;
+                    // } else {
+                    //     $finalname = $user->user_fname;
+                    // }
 
-                    return redirect($bill->toArray()['url']);
+
+                    // $email = $user->user_email;
+                    // $mobile = $user->user_contact;
+                    // $name = $finalname;
+                    // $tempprice = $netprice;
+                    // $token = $quantitytoken .' token';
+
+                    // echo $token;
+
+                    // //create bill billplz
+                    // $price = $tempprice * 100;
+
+                    // $bill = Billplz::bill('v3')->create(
+
+                    //     $collectionId = "kfstwuda",
+                    //     $email,
+                    //     $mobile,
+                    //     $name,
+                    //     $price,
+                    //     '-',
+                    //     $token,
+                    //     [
+                    //         'redirect_url' => 'http://codeviable.com/w2w2/public/billplz/redirect'
+                    //     ]
+                
+
+                    // );  
+                    
+                    // //save to purchase table
+                    // $purchase = new Purchase;
+                    // $purchase->billid = $bill->toArray()['id'];
+                    // $purchase->userid = $user_id;
+
+                    // $purchase->save();
+
+                    // return redirect($bill->toArray()['url']);
 
                 }
 
