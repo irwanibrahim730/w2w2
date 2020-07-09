@@ -171,6 +171,7 @@ Route::get('dumreserve/buyercancel', 'DummyReserveController@buyercancel');
 Route::get('dumreserve/buyerconfirm', 'DummyReserveController@buyerconfirm');
 Route::get('dumreserve/sellersold', 'DummyReserveController@sellersold');
 Route::get('dumreserve/buyercomplete', 'DummyReserveController@buyercomplete');
+Route::get('dumreserve/buysell', 'DummyReserveController@buyandsellactivity');
 
 //review 
 Route::post('/review','ReviewController@store');

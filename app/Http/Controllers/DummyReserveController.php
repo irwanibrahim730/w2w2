@@ -274,4 +274,42 @@ class DummyReserveController extends Controller
 
         return response()->json(['status'=>'success','value'=>'success buyer review and complete']);
     }
+
+    public function buyandsellactivity(Request $request){
+
+        $user_id = $request->input('user_id');
+        $finalArray = array();
+        
+        $listSeller = Reserve::where('user_id',$user_id)->orWhere('buyer_id',$user_id)->orderBy('created_at','DESC')->get();
+
+        if($listSeller){
+
+            foreach($listSeller as $data){
+
+                if($data->user_id == $user_id){
+                    $type = 'sell';
+                } else{
+                    $type = 'buy';
+                }
+
+                $product = Product::where('product_id',$data->product_id)->first();
+                $temparray = [
+
+                    'id' => $data->id,
+                    'product_name' => $product->product_name,
+                    'type' => $type,
+                    'status' => $data->status,
+                    'date' => $data->updated_at,
+
+                ];
+
+                array_push($finalArray,$temparray);
+
+            }
+
+        }
+
+        return response()->json(['status'=>'success','value'=>$finalArray]);
+
+    }
 }
