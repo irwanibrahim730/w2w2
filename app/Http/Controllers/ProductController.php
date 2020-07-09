@@ -1126,6 +1126,11 @@ class ProductController extends Controller
                     ->where('mainstatus',$type)
                     ->orderBy('created_at','desc')
                     ->get();
+        } elseif($type == null){
+            $products = Product::where('user_id',$userid)
+                    ->where('maincategory',$category)
+                    ->orderBy('created_at','desc')
+                    ->get();
         } elseif($category != null && $type != null){
             $products = Product::where('user_id',$userid)
                     ->where('mainstatus',$type)
