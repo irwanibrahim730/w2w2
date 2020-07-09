@@ -217,6 +217,11 @@ Route::get('/latest','ProductController@latest');
 Route::get('/search','SearchController@index');
 Route::get('/search/resultsearch', 'SearchController@resultsearch');
 
+//Billplz
+Route::get('/billplz', 'BillplzController@index');
+Route::post('billplz/createbill', 'BillplzController@create');
+Route::get('/billplz/redirect', 'BillplzController@redirect');
+
 
 
 

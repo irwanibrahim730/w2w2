@@ -85,11 +85,15 @@ $app->routeMiddleware([
  $app->register(App\Providers\EventServiceProvider::class);
  $app->register(Illuminate\Mail\MailServiceProvider::class);
 
+ $app->register(Billplz\Laravel\BillplzServiceProvider::class,);
+
 
  $app->configure('mail');
  $app->alias('mailer', Illuminate\Mail\Mailer::class);
  $app->alias('mailer', Illuminate\Contracts\Mail\Mailer::class);
  $app->alias('mailer', Illuminate\Contracts\Mail\MailQueue::class);
+
+ $app->alias('Billplz', Billplz\Laravel\Billplz::class);
 
 /*
 |--------------------------------------------------------------------------
