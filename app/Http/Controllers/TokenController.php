@@ -128,67 +128,66 @@ class TokenController extends Controller
 
         public function addtoken (Request $request )
         {
-            echo 'a';
 
-        // $user_id = $request->input('user_id');
-        // $netprice = $request->input('netprice');
-        // $quantitytoken = $request->input('quantitytoken');
+            $user_id = $request->input('user_id');
+            $netprice = $request->input('netprice');
+            $quantitytoken = $request->input('quantitytoken');
 
-        // $user = User::find($user_id);
+            $user = User::find($user_id);
 
-        //     if($user == null){
-        //         return response()->json(['status'=>'failed','value'=>'user not exist']);
-        //     } else {
+                if($user == null){
+                    return response()->json(['status'=>'failed','value'=>'user not exist']);
+                } else {
+                    
+                    $balance = $user->balancetoken;
+                    $quantitytoken;
+                    
+                    $total = $balance + $quantitytoken;
+
+                    if($user->user_type == 'company'){
+                        $finalname = $user->companyname;
+                    } else {
+                        $finalname = $user->user_fname;
+                    }
+
+
+                    $email = $user->user_email;
+                    $mobile = $user->user_contact;
+                    $name = $finalname;
+                    $tempprice = $netprice;
+                    $token = $quantitytoken .' token';
+
+                    echo $token;
+
+                    //create bill billplz
+                    $price = $tempprice * 100;
+
+                    $bill = Billplz::bill('v3')->create(
+
+                        $collectionId = "kfstwuda",
+                        $email,
+                        $mobile,
+                        $name,
+                        $price,
+                        '-',
+                        $token,
+                        [
+                            'redirect_url' => 'http://codeviable.com/w2w2/public/billplz/redirect'
+                        ]
                 
-        //         $balance = $user->balancetoken;
-        //         $quantitytoken;
-                
-        //         $total = $balance + $quantitytoken;
 
-        //         if($user->user_type == 'company'){
-        //             $finalname = $user->companyname;
-        //         } else {
-        //             $finalname = $user->user_fname;
-        //         }
+                    );  
+                    
+                    //save to purchase table
+                    $purchase = new Purchase;
+                    $purchase->billid = $bill->toArray()['id'];
+                    $purchase->userid = $user_id;
 
+                    $purchase->save();
 
-        //         $email = $user->user_email;
-        //         $mobile = $user->user_contact;
-        //         $name = $finalname;
-        //         $tempprice = $netprice;
-        //         $token = $quantitytoken .' token';
+                    return redirect($bill->toArray()['url']);
 
-        //         echo $token;
-
-                // //create bill billplz
-                // $price = $tempprice * 100;
-
-                // $bill = Billplz::bill('v3')->create(
-
-                //     $collectionId = "kfstwuda",
-                //     $email,
-                //     $mobile,
-                //     $name,
-                //     $price,
-                //     '-',
-                //     $token,
-                //     [
-                //         'redirect_url' => 'http://codeviable.com/w2w2/public/billplz/redirect'
-                //     ]
-            
-
-                // );  
-                
-                // //save to purchase table
-                // $purchase = new Purchase;
-                // $purchase->billid = $bill->toArray()['id'];
-                // $purchase->userid = $user_id;
-
-                // $purchase->save();
-
-                // return redirect($bill->toArray()['url']);
-
-            //}
+                }
 
         }
 
