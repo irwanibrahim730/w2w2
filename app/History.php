@@ -10,7 +10,7 @@ class History extends Model
 
     protected $table = 'history';
     protected $primaryKey = 'id';
-
+    //hello
 
 
 
