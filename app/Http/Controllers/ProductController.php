@@ -366,6 +366,7 @@ class ProductController extends Controller
                 'expired_at' => $product->expired_at,
                 'availability'=> $product->availability,
                 'review' => $users->review,
+                'shellife' => $product->shellife,
              ];
              
             array_push($finalArray,$tempArray);
@@ -416,6 +417,7 @@ class ProductController extends Controller
             $contact = $request->input('contact_pic');
             $tagging = $request->input('tagging');
             $publishstatus = "yes";
+            $shellife = $request->input('shellife');
 
 
             $cities = array();
@@ -520,6 +522,7 @@ class ProductController extends Controller
         $file->premiumlist = $premiumlist;
         $file->tagging = json_encode($taggings);
         $file->rating ='0';
+        $file->shellife = $shellife;
         $file->save(); 
 
 

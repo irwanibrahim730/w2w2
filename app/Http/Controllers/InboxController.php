@@ -38,7 +38,6 @@ class InboxController extends Controller
             return response()->json($data);
         }
 
-
         public function destroy(Request $request){
 
             $id = $request->input('id');
