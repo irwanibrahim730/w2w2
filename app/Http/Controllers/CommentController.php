@@ -57,6 +57,7 @@ class CommentController extends Controller
                     ->get();
            } else {
             $comment = Comment::where('product_id',$product_id)
+                    ->where('status','visible')
                     ->orderBy('created_at','desc')->get();
            }
            
@@ -93,7 +94,7 @@ class CommentController extends Controller
     {
         $id = $request->input('id');
         $status = $request->input('status');
-
+    
         $comment = Comment::where('id',$id)->first();
         $comment->status = $status;
         $comment->save();
@@ -152,7 +153,7 @@ class CommentController extends Controller
     
         $product_id = $request->input('product_id');
 
-        $comment = Comment::where('product_id',$product_id)->get();
+        $comment = Comment::where('product_id',$product_id)->where('status','visible')->get();
     
         $finalArray = array();
         

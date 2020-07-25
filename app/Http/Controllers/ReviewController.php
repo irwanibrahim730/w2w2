@@ -88,13 +88,19 @@ class ReviewController extends Controller
             $buyer = User::where('user_id',$buyer_id)->get();
 
             foreach ($buyer as $buyers){
+
+              if($buyers->user_type == 'individual'){
+                $buyname = $buyers->user_fname .' '. $buyers->user_lname;
+              } else {
+                $buyname = $buyers->companyname;
+              }
+
                   $temparray = [
 
                     'id' => $reviews->id,
                     'user_id' => $reviews->user_id,
                     'buyer_id' => $reviews->buyer_id,
-                    'user_fname' => $buyers->user_fname,
-                    'user_lname' => $buyers->user_lname,
+                    'user_fname' => $buyname,
                     'product_id' => $reviews->product_id,
                     'product_name' => $products->product_name,
                     'product_image' => $imageArray,
