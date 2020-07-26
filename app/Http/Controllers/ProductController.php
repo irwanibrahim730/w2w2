@@ -599,6 +599,8 @@ class ProductController extends Controller
     $name = $request->input('name');
     $contact = $request->input('contact');
     $publishstatus = $request->input('publishstatus');
+    $shellife = $request->input('shellife');
+    $suggestcustomer = $request->input('suggestcustomer');
 
     if ($city == null) {
         $json_arrays = json_decode($data->city, true);
@@ -704,6 +706,14 @@ class ProductController extends Controller
 
     if ($product_package == null) {
         $product_package = $data->product_package;
+    }
+
+    if($shellife == null){
+        $shellife = $data->shellife;
+    }
+
+    if($suggestcustomer == null){
+        $suggestcustomer = $data->suggestcustomer;
     }
 
     if ($product_location == null) {
@@ -915,6 +925,8 @@ class ProductController extends Controller
     $data->name = $name;
     $data->contact = $contact;
     $data->publishstatus = $publishstatus;
+    $data->shellife = $shellife;
+    $data->suggestcustomer = $suggestcustomer;
     $data->save();
 
     return response()->json(['status'=>'success','value'=>'success update product']);
