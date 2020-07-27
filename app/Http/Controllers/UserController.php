@@ -596,7 +596,7 @@ if ($phonenumber == null) {
             $user->emailverification = $verification;
             $user->save();
 
-            return redirect()->to('http://google.com');
+            return redirect()->to('https://codeviable.com/w2w/signin.html');
 
         }else {
             return response()->json(['status'=>'failed','value'=>'user not exist']);
