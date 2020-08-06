@@ -461,19 +461,24 @@ class AdminController extends Controller
 
                 $productdetails = Product::where('product_id',$data->product_id)->first();
                 
-                if($productdetails->user_state == $state){
-                    
-                  $temparray = [
-                    'id' => $data->id,
-                    'buyer_id' => $data->buyer_id,
-                    'product_id' => $data->product_id,
-                    'state' => $productdetails->user_state,
-                    'maincategory' => $productdetails->maincategory,
-                  ];
+                if($productdetails){
 
-                    array_push($arraybuyer,$temparray);
+                    if($productdetails->user_state == $state){
+                    
+                        $temparray = [
+                          'id' => $data->id,
+                          'buyer_id' => $data->buyer_id,
+                          'product_id' => $data->product_id,
+                          'state' => $productdetails->user_state,
+                          'maincategory' => $productdetails->maincategory,
+                        ];
+      
+                          array_push($arraybuyer,$temparray);
+      
+                      }
 
                 }
+                
 
             }
 
