@@ -5,6 +5,9 @@ use Laravel\Lumen\Routing\Controller;
 use Illuminate\Http\Request;
 use App\Enquiry;
 use App\Notification;
+use App\User;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Mail\Mailer;
 
 class EnquiryController extends Controller
 
@@ -23,13 +26,36 @@ class EnquiryController extends Controller
         $data->email = $email;
         $data->category = $category;
         $data->description = $description;
-        $data->save(); 
-
 
         $notify = new Notification;
         $notify->email = $email;
         $notify->status = 'new enquiry';
         $notify->type = 'enquiry';
+
+        //get admin email user and pass to them
+        $user = User::where('user_role','admin')->get();
+
+        $emailuser = $email;
+
+        $tempmessages = 'Hi admin, there is one enquiry receive from the system, the details are as stated below :';
+        $tempemail = 'enquiry email :';
+        $tempdesc = 'enquiry content :';
+        $tempname = 'enquiry name :';
+        $messages = $tempmessages ."\n". $tempname.$name ."\n". $tempemail.$emailuser ."\n". $tempdesc.$description;
+
+        foreach($user as $data){
+
+            Mail::raw( $messages , function ($message) use ($data){
+
+                $message->to($data->user_email);
+                $message->from('hafizaldevtest@gmail.com', 'muhamad ijal');
+                $message->subject('EcoWaste Market');
+
+            });
+
+        }
+
+        $data->save(); 
         $notify->save();
 
         return response()->json(['status'=>'success']);
