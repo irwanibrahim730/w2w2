@@ -2849,6 +2849,7 @@ public function listpremium (Request $request)
                                     'expired_at' => $product->expired_at,
                                     'created_at' => $product->created_at->format('d M Y - H:i:s'),
                                     'updated_at' => $product->updated_at->format('d M Y - H:i:s'),
+                                    'average_rating' => $product->rating,
                                 ];
                 
                 array_push($finalArray,$tempArray);
