@@ -201,17 +201,22 @@ class UserController extends Controller
                 $data->status = 'active';
                 $data->emailverification = $emailverification;
                
-
-                $tempmessages = 'Dear '.$data->user_fname.', '.' success register to Eco Waster Market Please Verify Your Email Before Using Our System';
-                $link = 'http://codeviable.com/w2w2/public/ver12asdaasaas/verabcsadasdsdfss?id='.$user_email. '#' .$encoded;
+                if($data->user_fname == null){
+                    $sendname = $data->companyname;
+                } else {
+                    $sendname = $data->user_fname;
+                }
+                //$tempmessages = 'Dear '.$sendname.', '.' success register to Eco Waster Market Please Verify Your Email Before Using Our System';
+                $tempmessages = 'Dear ' .$sendname.', '.' Thank you for registration to Eco Waste Market, please click link below to verify you email';
+                $link = 'https://codeviable.com/w2w2/public/ver12asdaasaas/verabcsadasdsdfss?id='.$user_email;
 
                 $messages = $tempmessages ."\n".$link;
 
                 Mail::raw( $messages ,function ($message) use($data)
                 {
                  $message->to($data->user_email);
-                 $message->from('adminecowastemarket@gmail.com', 'Admin of EcoWaste Market');
-                 $message->subject('Account Management');
+                 $message->from('hafizaldevtest@gmail.com', 'muhamad ijal');
+                 $message->subject('EcoWaste Market');
       
       
                  }); 
@@ -612,9 +617,8 @@ if ($phonenumber == null) {
 
         if($user){
 
-            $encoded = str_rot13($user->password);
             $tempmessages = 'Dear '.$user->user_fname.', '.' success register to Eco Waster Market Please Verify Your Email Before Using Our System';
-            $link = 'http://codeviable.com/w2w2/public/ver12asdaasaas/verabcsadasdsdfss?id='.$email. '#' .$encoded;
+            $link = 'https://codeviable.com/w2w2/public/ver12asdaasaas/verabcsadasdsdfss?id='.$email;
 
             $messages = $tempmessages ." ".$link;
 
@@ -622,8 +626,8 @@ if ($phonenumber == null) {
                 {
 
                  $message->to($user->user_email);
-                 $message->from('adminecowastemarket@gmail.com', 'Admin of EcoWaste Market');
-                 $message->subject('Account Management');
+                 $message->from('hafizaldevtest@gmail.com', 'muhamad ijal');
+                 $message->subject('EcoWaste Market');
       
                  }); 
             
