@@ -25,6 +25,7 @@ Route::post('/user/addpackage', 'UserController@addpackage');
 Route::get('/ver12asdaasaas/verabcsadasdsdfss', 'UserController@verificationemail');
 Route::get('/user/resendverification', 'UserController@resendverification');
 Route::post('/user/updatestatus', 'UserController@updatestatus');
+Route::get('/user/resetpassword', 'UserController@resetpassword');
 
 //package
 Route::get('/packages', 'PackageController@index');

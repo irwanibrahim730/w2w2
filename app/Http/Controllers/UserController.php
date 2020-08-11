@@ -9,6 +9,7 @@ use App\User;
 use App\Package;
 use App\Userpack;
 use App\History;
+use App\Notification;
 
 
 class UserController extends Controller
@@ -599,7 +600,26 @@ if ($phonenumber == null) {
 
             $verification = 'success';
             $user->emailverification = $verification;
+
+            //email config
+            $messages = 'Thank you, your registration is activated';
+
+            Mail::raw( $messages ,function ($message) use($user){
+
+                $message->to($user->user_email);
+                $message->from('hafizaldevtest@gmail.com', 'muhamad ijal');
+                $message->subject('EcoWaste Market');
+
+            });
+
+            //notification config
+            $notification = new Notification;
+            $notification->user_id = $user->user_id;
+            $notification->type = 'registration';
+            $notification->status = 'success';
+
             $user->save();
+            $notification->save();
 
             return redirect()->to('https://codeviable.com/w2w/signin.html');
 
@@ -634,6 +654,50 @@ if ($phonenumber == null) {
             return response()->json(['status'=>'success']);
         } else {
             return response()->json(['status'=>'failed','value'=>'user not exist']);
+        }
+
+    }
+
+    public function resetpassword(Request $request){
+
+        $validator = \validator::make($request->all(),
+        [
+            'email' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors(), 422);
+        } else {
+
+            $email = $request->input('email');
+
+            $user = User::where('user_email',$email)->first();
+
+            if($user){
+
+                $password = 'gnasd@123';
+
+                $user->password = $password;
+                $user->save();
+
+                $tempmessages = 'Please use default password to access the system and update your password';
+                $desc = 'your default password : ';
+                $messages = $tempmessages ."\n". $desc .$password;
+
+                Mail::raw( $messages ,function ($message) use($user)
+                    {
+
+                    $message->to($user->user_email);
+                    $message->from('hafizaldevtest@gmail.com', 'muhamad ijal');
+                    $message->subject('EcoWaste Market');
+        
+                    }); 
+
+                return response()->json(['status'=>'success','value'=>'success reset password']);
+            } else {
+                return response()->json(['status'=>'success','value'=>'user not exist']);
+            }
+
         }
 
     }
