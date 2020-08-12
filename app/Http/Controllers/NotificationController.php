@@ -296,6 +296,8 @@ class NotificationController extends Controller
                 $message = "review from product ". $notification->item;
             } elseif($notification->type == 'registration'){
                 $message = "Thank you, your registration is activated";
+            } elseif($notification->type == 'reserverproduct'){
+                $message = 'Your product name' . $notification->item .' have been reserved';
             }
 
             $dateformat = $notification->created_at->format('Y-m-d h:m:s');

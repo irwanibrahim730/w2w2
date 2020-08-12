@@ -8,6 +8,8 @@ use App\Product;
 use App\User;
 use App\log;
 use App\Notification;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Mail\Mailer;
 
 class ReserveController extends Controller
 
@@ -17,30 +19,58 @@ class ReserveController extends Controller
         
         $product_id = $request->input('product_id');
 
-        $products = Product::find($product_id);
         $buyer_id = $request->input('buyer_id');
         $offeredprice = $request->input('offeredprice');
-        $offeredmaxprice = $request->input('offeredmaxprice');
         $quantity = $request->input('quantity');
         $unit = $request->input('unit');
         $info = $request->input('info');
 
+        $products = Product::find($product_id);
+
+        if($products){
+
+            $data = new Reserve;
+            $data->user_id = $products->user_id;
+            $data->product_id = $products->product_id;
+            $data->offeredprice = $offeredprice;
+            $data->buyer_id = $buyer_id;
+            $data->status = 'reserved';
+            $data->quantity = $quantity;
+            $data->unit = $unit;
+            $data->info = $info;
+            $data->category = $products->maincategory;
+
+            //notification system
+            $notification = new Notification;
+            $notification->user_id = $products->user_id;
+            $notification->product_id = $product_id;
+            $notification->type = 'reserverproduct';
+            $notification->item = $products->product_name;
 
 
-        $data = new Reserve;
-        $data->user_id = $products->user_id;
-        $data->product_id = $products->product_id;
-        $data->offeredprice = $offeredprice;
-        $data->offeredmaxprice = $offeredmaxprice;
-        $data->buyer_id = $buyer_id;
-        $data->status = 'reserved';
-        $data->quantity = $quantity;
-        $data->unit = $unit;
-        $data->info = $info;
-        $data->category = $products->maincategory;
-        $data->save(); 
+            //notification email seller
+            $tempmessages = 'Your product name' . $products->product_name .' have been reserved';
+            $messages = $tempmessages;
 
-        return response()->json(['status'=>'success','value'=>'product reserved']);
+            $useremail = User::where('user_id',$products->user_id)->first();
+
+            Mail::raw( $messages , function ($message) use($useremail){
+                $message->to($useremail->user_email);
+                $message->from('hafizaldevtest@gmail.com', 'muhamad ijal');
+                $message->subject('Ecowaste Market');
+            });
+
+            $notification->save();
+            $data->save(); 
+
+            return response()->json(['status'=>'success','value'=>'product reserved']);
+
+        } else {
+            return response()->json(['status'=>'failed','value'=>'product not exist']);
+        }
+
+
+        
 
     }
 
