@@ -305,6 +305,7 @@ class NotificationController extends Controller
             $temparray = [
 
                 'id' => $notification->id,
+                'product_id' => $notification->product_id,
                 'type' => $notification->type,
                 'message' => $message,
                 'date' => $dateformat,

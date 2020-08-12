@@ -7,6 +7,8 @@ use App\Comment;
 use App\User;
 use App\Product;
 use App\Notification;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Mail\Mailer;
 
 class CommentController extends Controller
 
@@ -15,31 +17,54 @@ class CommentController extends Controller
     {
         
         $product_id = $request->input('product_id');
-        $title = $request->input('title');
         $description = $request->input('description');
         $user_id = $request->input('user_id');
 
         $product = Product::where('product_id',$product_id)->first();
  
+        if($product){
 
+            $data = new Comment;
+            $data->description = $description;
+            $data->status = 'visible';
+            $data->title = 'null';
+            $data->product_id = $product_id;
+            $data->user_id = $user_id;
 
-        $data = new Comment;
-        $data->title = $title;
-        $data->description = $description;
-        $data->status = 'visible';
-        $data->product_id = $product_id;
-        $data->user_id = $user_id;
-        $data->save(); 
+            //notification system
+            $notify = new Notification;
+            $notify->user_id = $product->user_id;
+            $notify->product_id = $product->product_id;
+            $notify->item = $product->product_name;
+            $notify->status = 'new comment';
+            $notify->type = 'comment';
 
-        $notify = new Notification;
-        $notify->user_id = $product->user_id;
-        $notify->product_id = $product->product_id;
-        $notify->item = $product->product_name;
-        $notify->status = 'new comment';
-        $notify->type = 'comment';
-        $notify->save();
+            //notification email owner product
+            $date = date('Y-m-d H:i:s');
+            $tempmessages = 'You have receive comment from product:';
+            $pro = 'Product :'.$product->product_name;
+            $desc = 'Comment :'.$description;
+            $date = 'Date :' . $date;
+            $messages = $tempmessages."\n".$pro."\n".$desc."\n".$date;
 
-        return response()->json(['status'=>'success']);
+            $useremail = User::where('user_id',$product->user_id)->first();
+
+            Mail::raw( $messages, function ($message) use($useremail){
+                $message->to($useremail->user_email);
+                $message->from('hafizaldevtest@gmail.com', 'muhamad ijal');
+                $message->subject('EcoWaste Market');
+
+            });
+
+            $data->save(); 
+            $notify->save();
+
+            return response()->json(['status'=>'success']);
+        } else {
+            return response()->json(['status'=>'failed','value'=>'product not exist']);
+        }
+
+        
 
     }
 
@@ -66,13 +91,20 @@ class CommentController extends Controller
                 $user_id = $comments->user_id;
                 $users = User::where('user_id',$user_id)->first();
                 
+                if($users->user_type == 'company'){
+                    $fname = $users->companyname;
+                    $lname = '';
+                } else {
+                    $fname = $users->user_fname;
+                    $lname = $users->user_lname; 
+                }
        
                             $tempArray = [
                             'id' => $comments->id,
                             'product_id' =>$comments->product_id,
                             'user_id' => $comments->user_id,
-                            'user_fname' =>$users->user_fname,
-                            'user_lname' => $users->user_lname,
+                            'user_fname' =>$fname,
+                            'user_lname' => $lname,
                             'title'=>$comments->title,
                             'description'=>$comments->description,
                             'status' => $comments->status,
@@ -159,25 +191,31 @@ class CommentController extends Controller
         
         foreach ($comment->sortByDesc('created_at') as $comments){
         $user_id = $comments->user_id;
-        $user = User::where('user_id',$user_id)->get(); 
+        $user = User::where('user_id',$user_id)->first(); 
         
-            foreach($user as $users){
-    
-                $tempArray = [
-                'id' => $comments->id,
-                'product_id' =>$comments->product_id,
-                'user_id' => $comments->user_id,
-                'user_fname' =>$users->user_fname,
-                'user_lname' => $users->user_lname,
-                'title'=>$comments->title,
-                'description'=>$comments->description,
-                'status' => $comments->status,
-                'created_at' => $comments->created_at->format('d M Y - H:i:s'),
-                'updated_at' => $comments->updated_at->format('d M Y - H:i:s'),
-                ];
-    
-                array_push($finalArray,$tempArray);
-            }
+        if($user->user_type == 'company'){
+            $fname = $user->companyname;
+            $lname = '';
+        } else {
+            $fname = $user->user_fname;
+            $lname = $user->user_lname; 
+        }
+        
+        $tempArray = [
+            'id' => $comments->id,
+            'product_id' =>$comments->product_id,
+            'user_id' => $comments->user_id,
+            'user_fname' =>$fname,
+            'user_lname' => $lname,
+            'title'=>$comments->title,
+            'description'=>$comments->description,
+            'status' => $comments->status,
+            'created_at' => $comments->created_at->format('d M Y - H:i:s'),
+            'updated_at' => $comments->updated_at->format('d M Y - H:i:s'),
+            ];
+
+            array_push($finalArray,$tempArray);
+
         }
     
         return response()->json(['status'=>'success','value'=>$finalArray]);
