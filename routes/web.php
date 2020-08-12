@@ -225,6 +225,10 @@ Route::get('/billplz', 'BillplzController@index');
 Route::post('billplz/createbill', 'BillplzController@create');
 Route::get('/billplz/redirect', 'BillplzController@redirect');
 
+//Receipt
+Route::get('/receipt', 'ReceiptController@index');
+Route::get('/receipt/getreceipt', 'ReceiptController@getreceipt');
+
 
 
 

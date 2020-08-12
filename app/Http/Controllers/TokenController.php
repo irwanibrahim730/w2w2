@@ -304,11 +304,20 @@ class TokenController extends Controller
                     $price = '-';
                 }
 
+                if($data->billid){
+                    $receiptstatus = 'yes';
+                } else {
+                    $receiptstatus = 'no';
+                }
+
                 $tempArray = [
 
+                    'id' => $data->token,
                     'token' => $token,
                     'price' => $price,
                     'date' => $dateformat,
+                    'receiptstatus' => $receiptstatus,
+                    'billid' => $data->billid,
                     'status' => 'success',
     
                 ];
