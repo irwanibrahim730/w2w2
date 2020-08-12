@@ -291,13 +291,13 @@ class NotificationController extends Controller
                     $message = "admin reject advertisement ". $notification->item;
                 }
             } elseif($notification->type == 'comment'){
-                $message = "receive comment from product ". $notification->item;
+                $message = "receive comment from advertisement ". $notification->item;
             } elseif($notification->type == 'review'){
-                $message = "review from product ". $notification->item;
+                $message = "review from advertisement ". $notification->item;
             } elseif($notification->type == 'registration'){
                 $message = "Thank you, your registration is activated";
             } elseif($notification->type == 'reserverproduct'){
-                $message = 'Your product name' . $notification->item .' have been reserved';
+                $message = 'Your advertisement name' . $notification->item .' have been reserved';
             }
 
             $dateformat = $notification->created_at->format('Y-m-d h:m:s');

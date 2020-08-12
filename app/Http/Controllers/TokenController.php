@@ -284,20 +284,30 @@ class TokenController extends Controller
             $user = User::find($userid);
             //balance
             $tokenbalance = $user->balancetoken;
+
             
             //transaction
-            $transaction = History::where('user_id',$userid)->where('type','token')->orderBy('created_at','DESC')->get();
+            $transaction = History::where('user_id',$userid)->orderBy('created_at','DESC')->get();
 
             foreach($transaction as $data){
 
                 $dateformat = $data->created_at->format('Y-m-d h:m:s');
 
                 // {{ $post->created_at->format('Y-m-d') }}
+                if($data->type == 'token'){
+                    $token = '+'.$data->name;
+                    $price = $data->price;
+                } elseif($data->type == 'package'){
+                    $packageid = Package::where('package_id',$data->name)->first();
+                    $temptoken = $packageid->package_price;
+                    $token = '-'.$temptoken;
+                    $price = '-';
+                }
 
                 $tempArray = [
 
-                    'token' => $data->name,
-                    'price' => $data->price,
+                    'token' => $token,
+                    'price' => $price,
                     'date' => $dateformat,
                     'status' => 'success',
     

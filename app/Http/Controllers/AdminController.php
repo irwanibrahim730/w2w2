@@ -63,7 +63,7 @@ class AdminController extends Controller
             $notify->product_id = $product_id;
             $notify->type = 'approval';
 
-            $messages = 'your product, '.$products->product_name.'  has been approved';
+            $messages = 'your advertisement, '.$products->product_name.'  has been approved';
 
             Mail::raw( $messages ,function ($message) use($user)
               {
@@ -108,6 +108,12 @@ class AdminController extends Controller
 
             $user->balanceToken = $addToken;
 
+            //history get token back
+            $history = new History;
+            $history->user_id = $user->user_id;
+            $history->type = 'token';
+            $history->name = $amountToken;
+
             $notify = new Notification;
             $notify->status = $rejected;
             $notify->user_id = $user->user_id;
@@ -115,11 +121,12 @@ class AdminController extends Controller
             $notify->item = $products->product_name;
             $notify->type = 'approval';
 
+            $history->save();
             $products->save();
             $notify->save();
             $user->save();
 
-            $messages = 'your product, '.$products->product_name.'  has been rejected';
+            $messages = 'your advertisement, '.$products->product_name.'  has been rejected';
 
             Mail::raw( $messages ,function ($message) use($user)
               {

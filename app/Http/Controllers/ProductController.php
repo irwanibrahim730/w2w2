@@ -523,9 +523,6 @@ class ProductController extends Controller
         $file->tagging = json_encode($taggings);
         $file->rating ='0';
         $file->shellife = $shellife;
-        $file->save(); 
-
-
 
         $notify = new Notification;
         $notify->user_id = $user->user_id;
@@ -533,13 +530,11 @@ class ProductController extends Controller
         $notify->email = $user->user_email;
         $notify->item  = $product_name;
         $notify->type = 'item';
-        $notify->save();
 
         $history = new History;
         $history->user_id = $user->user_id;
         $history->type = 'package';
         $history->name = $package_id;
-        $history->save();
         
         $balancetoken = $user->balancetoken;
 
@@ -547,6 +542,21 @@ class ProductController extends Controller
         $temptoken = $temppackage->package_price;
 
         $user->balancetoken = $balancetoken - $temptoken;
+
+        //email notification submit product
+        $messages = 'success add advertisement, '.$product_name.'  and ready to review';
+
+        Mail::raw( $messages ,function ($message) use($user)
+          {
+            $message->to($user->user_email);
+            $message->from('hafizaldevtest@gmail.com', 'muhamad ijal');
+            $message->subject('EcoWaste Market');
+          }); 
+    
+
+        $file->save(); 
+        $notify->save();
+        $history->save();
         $user->save();
 
         return response()->json(['status'=>'success','value'=>'product added']);
