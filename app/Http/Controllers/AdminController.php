@@ -43,7 +43,8 @@ class AdminController extends Controller
 
             $curtime = Carbon::now()->toDateTimeString();
 
-            $expiration = $package->package_duration;
+            $tempexpiration = $package->package_duration;
+            $expiration = $tempexpiration . ' months';
             $date = $curtime;
             $expirationdate = date('Y-m-d H:i:s', strtotime($date. ' + ' . $expiration));
 
