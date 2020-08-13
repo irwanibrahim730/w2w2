@@ -233,81 +233,94 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
-        
-        $user_id = $request->input('user_id');
 
-        $data = User::where('user_id',$user_id)->first();
-        
+        //start
+
+        $user_id = $request->input('user_id');
         $user_fname = $request->input('user_fname');
         $user_lname = $request->input('user_lname');
         $companyname = $request->input('companyname');
         $password = $request->input('password');
-        $user_contact = $request->input('user_contact');
+        $user_contact = $request->input('user_contact');    
         $user_email = $request->input('user_email');
         $companyregisternumber = $request->input('companyregisternumber');
         $companydesc = $request->input('companydesc');
         $address = $request->input('address');
-        $state = $request->input('state');
         $occupation = $request->input('occupation');
         $job_title = $request->input('job_title');
-        $profilepicture = $request->file('profilepicture'); 
+        $user_type = $request->input('user_type');
+        $profilepicture = $request->file('profilepicture');
+        $remember_token = $request->input('remember_token');
+        $user_role = $request->input('user_role');
         $personincharge = $request->input('personincharge');
         $phonenumber = $request->input('phonenumber');
         $status = $request->input('status');
-        $user_role = $request->input('user_role');
-
-
-        if($data->user_role == 'admin'){
+        $balancetoken = $request->input('balancetoken');
+        $state = $request->input('state');
         
-            if ($user_fname == null) {
-                $user_fname = $data->user_fname;
-            }
-    
-            if ($user_role == null) {
-                $user_role = $data->user_role;
-            }
-    
-            if ($user_lname == null) {
-                $user_lname= $data->user_lname;
-            }
-    
-            if ($password == null) {
-            $password = $data->password;
-            }
-    
-            if ($user_contact == null) {
-            $user_contact= $data->user_contact;
-            }
-    
-            if ($user_email == null) {
-            $user_email = $data->user_email;
-            }
-    
-            if ($address == null) {
-                $address = $data->address;
-                }
+        $userdetails = User::where('user_id',$user_id)->first();
+        if($userdetails){
 
-             if ($state == null) {
-                    $state = $data->state;
-                    }
-    
-            if ($occupation == null) {
-                    $occupation = $data->occupation;
-                    }
-            if ($personincharge == null) {
-                    $personincharge = $data->personincharge;
-                    }
-                
-            if ($phonenumber == null) {
-                    $phonenumber = $data->phonenumber;
-                    }
-    
-                    if ($status == null) {
-                        $status = $data->status;
-                        }
-    
-             if ($profilepicture == null) {
-                $imagename = $data->profilepicture;
+            if($user_fname == null){
+                $user_fname = $userdetails->user_fname;
+            }
+            if($user_lname == null){
+                $user_lname = $userdetails->user_lname;
+            }
+            if($companyname == null){
+                $companyname = $userdetails->companyname;
+            }
+            if($password == null){
+                $password = $userdetails->password;
+            }
+            if($user_contact == null){
+                $user_contact = $userdetails->user_contact;
+            }
+            if($user_email == null){
+                $user_email = $userdetails->user_email;
+            }
+            if($companyregisternumber == null){
+                $companyregisternumber = $userdetails->companyregisternumber;
+            }
+            if($companydesc == null){
+                $companydesc = $userdetails->companydesc;
+            }
+            if($address == null){
+                $address = $userdetails->address;
+            }
+            if($occupation == null){
+                $occupation = $userdetails->occupation;
+            }
+            if($job_title == null){
+                $job_title = $userdetails->job_title;
+            }
+            if($user_type == null){
+                $user_type = $userdetails->user_type;
+            }
+            if($remember_token == null){
+                $remember_token = $userdetails->remember_token;
+            }
+            if($user_role == null){
+                $user_role = $userdetails->user_role;
+            }
+            if($personincharge == null){
+                $personincharge = $userdetails->personincharge;
+            }
+            if($phonenumber == null){
+                $phonenumber = $userdetails->phonenumber;
+            }
+            if($status == null){
+                $status = $userdetails->status;
+            }
+            if($balancetoken == null){
+                $balancetoken = $userdetails->balancetoken;
+            }
+            if($state == null){
+                $state = $userdetails->state;
+            }
+
+            if ($profilepicture == null) {
+                $imagename = $userdetails->profilepicture;
             } else {
     
                 $extention = $profilepicture->getClientOriginalExtension();
@@ -317,185 +330,301 @@ class UserController extends Controller
                 $profilepicture->move($destinationPath, $imagename); 
     
             }
-         
-            $data->user_fname = $user_fname;
-            $data->user_lname = $user_lname;
-            $data->password = $password;
-            $data->user_contact = $user_contact;
-            $data->user_email = $user_email;
-            $data->address = $address;
-            $data->state = $state;
-            $data->occupation = $occupation;
-            $data->profilepicture = $imagename;
-            $data->personincharge = $personincharge;
-            $data->phonenumber = $phonenumber;
-            $data->status =$status;
-            $data->user_role = $user_role;
-            $data->save();
-  
-            return response()->json(['status'=>'success','value'=>'admin updated']);
-    
-          }
 
-      if($data->user_type == 'individual'){
-        
-        if ($user_fname == null) {
-            $user_fname = $data->user_fname;
-        }
+            $userdetails->user_fname = $user_fname;
+            $userdetails->user_lname = $user_lname;
+            $userdetails->companyname = $companyname;
+            $userdetails->password = $password;
+            $userdetails->user_contact = $user_contact;
+            $userdetails->user_email = $user_email;
+            $userdetails->companyregisternumber = $companyregisternumber;
+            $userdetails->companydesc = $companydesc;
+            $userdetails->address = $address;
+            $userdetails->occupation = $occupation;
+            $userdetails->job_title = $job_title;
+            $userdetails->user_type = $user_type;
+            $userdetails->profilepicture = $imagename;
+            $userdetails->remember_token = $remember_token;
+            $userdetails->user_role = $user_role;
+            $userdetails->personincharge = $personincharge;
+            $userdetails->phonenumber = $phonenumber;
+            $userdetails->status = $status;
+            $userdetails->balancetoken = $balancetoken;
+            $userdetails->state = $state;
 
-        if ($user_role == null) {
-            $user_role = $data->user_role;
-        }
+            $userdetails->save();
 
-        if ($user_lname == null) {
-            $user_lname= $data->user_lname;
-        }
+            return response()->json(['status'=>'success','value'=>'success update user']);
 
-        if ($password == null) {
-        $password = $data->password;
-        }
 
-        if ($user_contact == null) {
-        $user_contact= $data->user_contact;
-        }
-
-        if ($user_email == null) {
-        $user_email = $data->user_email;
-        }
-
-        if ($address == null) {
-            $address = $data->address;
-            }
-
-            if ($state == null) {
-                $state = $data->state;
-                }
-        
-
-        if ($occupation == null) {
-                $occupation = $data->occupation;
-                }
-        if ($personincharge == null) {
-                $personincharge = $data->personincharge;
-                }
-            
-        if ($phonenumber == null) {
-                $phonenumber = $data->phonenumber;
-                }
-
-                if ($status == null) {
-                    $status = $data->status;
-                    }
-
-         if ($profilepicture == null) {
-            $imagename = $data->profilepicture;
         } else {
-
-            $extention = $profilepicture->getClientOriginalExtension();
-            $imagename = rand(11111, 99999) . '.' . $extention;
-            $destinationPath = 'image';
-    
-            $profilepicture->move($destinationPath, $imagename); 
-
+            return response()->json(['status'=>'failed','value'=>'sorry user not exist']);
         }
-     
-        $data->user_fname = $user_fname;
-        $data->user_lname = $user_lname;
-        $data->password = $password;
-        $data->user_contact = $user_contact;
-        $data->user_email = $user_email;
-        $data->address = $address;
-        $data->state = $state;
-        $data->occupation = $occupation;
-        $data->profilepicture = $imagename;
-        $data->personincharge = $personincharge;
-        $data->phonenumber = $phonenumber;
-        $data->status =$status;
-        $data->user_role = $user_role;
-        $data->save();
 
-        return response()->json(['status'=>'success','value'=>'User Updated']);
-
-      }
-
-      if($data->user_type == 'company'){
+        //end
         
-        if ($companyname == null) {
-            $companyname = $data->companyname;
-        }
-        if ($password == null) {
-            $password= $data->password;
-        }
+//         $user_id = $request->input('user_id');
 
-        if ($user_contact == null) {
-            $user_contact = $data->user_contact;
-        }
+//         $data = User::where('user_id',$user_id)->first();
+        
+//         $user_fname = $request->input('user_fname');
+//         $user_lname = $request->input('user_lname');
+//         $companyname = $request->input('companyname');
+//         $password = $request->input('password');
+//         $user_contact = $request->input('user_contact');
+//         $user_email = $request->input('user_email');
+//         $companyregisternumber = $request->input('companyregisternumber');
+//         $companydesc = $request->input('companydesc');
+//         $address = $request->input('address');
+//         $state = $request->input('state');
+//         $occupation = $request->input('occupation');
+//         $job_title = $request->input('job_title');
+//         $profilepicture = $request->file('profilepicture'); 
+//         $personincharge = $request->input('personincharge');
+//         $phonenumber = $request->input('phonenumber');
+//         $status = $request->input('status');
+//         $user_role = $request->input('user_role');
 
-        if ($user_email == null) {
-        $user_email= $data->user_email;
-        }
 
-        if ($companyregisternumber == null) {
-        $companyregisternumber = $data->companyregisternumber;
-        } 
-      
-       if($companydesc == null){
-       $companydesc = $data->companydesc;
-      }
-
-      if($address == null){
-        $address = $data->address;
-       }
-
-       if ($state == null) {
-        $state = $data->state;
-        }
-
-       if($job_title == null){
-        $job_title = $data->job_title;
-       }
-
-       if ($personincharge == null) {
-        $personincharge = $data->personincharge;
-        }
+//         if($data->user_role == 'admin'){
+        
+//             if ($user_fname == null) {
+//                 $user_fname = $data->user_fname;
+//             }
     
-if ($phonenumber == null) {
-        $phonenumber = $data->phonenumber;
-        }
+//             if ($user_role == null) {
+//                 $user_role = $data->user_role;
+//             }
+    
+//             if ($user_lname == null) {
+//                 $user_lname= $data->user_lname;
+//             }
+    
+//             if ($password == null) {
+//             $password = $data->password;
+//             }
+    
+//             if ($user_contact == null) {
+//             $user_contact= $data->user_contact;
+//             }
+    
+//             if ($user_email == null) {
+//             $user_email = $data->user_email;
+//             }
+    
+//             if ($address == null) {
+//                 $address = $data->address;
+//                 }
 
-        if ($status == null) {
-            $status = $data->status;
-            }
+//              if ($state == null) {
+//                     $state = $data->state;
+//                     }
+    
+//             if ($occupation == null) {
+//                     $occupation = $data->occupation;
+//                     }
+//             if ($personincharge == null) {
+//                     $personincharge = $data->personincharge;
+//                     }
+                
+//             if ($phonenumber == null) {
+//                     $phonenumber = $data->phonenumber;
+//                     }
+    
+//                     if ($status == null) {
+//                         $status = $data->status;
+//                         }
+    
+//              if ($profilepicture == null) {
+//                 $imagename = $data->profilepicture;
+//             } else {
+    
+//                 $extention = $profilepicture->getClientOriginalExtension();
+//                 $imagename = rand(11111, 99999) . '.' . $extention;
+//                 $destinationPath = 'image';
+        
+//                 $profilepicture->move($destinationPath, $imagename); 
+    
+//             }
+         
+//             $data->user_fname = $user_fname;
+//             $data->user_lname = $user_lname;
+//             $data->password = $password;
+//             $data->user_contact = $user_contact;
+//             $data->user_email = $user_email;
+//             $data->address = $address;
+//             $data->state = $state;
+//             $data->occupation = $occupation;
+//             $data->profilepicture = $imagename;
+//             $data->personincharge = $personincharge;
+//             $data->phonenumber = $phonenumber;
+//             $data->status =$status;
+//             $data->user_role = $user_role;
+//             $data->save();
+  
+//             return response()->json(['status'=>'success','value'=>'admin updated']);
+    
+//           }
 
-      if ($profilepicture == null) {
-        $imagename = $data->profilepicture;
-    } else {
+//       if($data->user_type == 'individual'){
+        
+//         if ($user_fname == null) {
+//             $user_fname = $data->user_fname;
+//         }
 
-        $extention = $profilepicture->getClientOriginalExtension();
-        $imagename = rand(11111, 99999) . '.' . $extention;
-        $destinationPath = 'image';
+//         if ($user_role == null) {
+//             $user_role = $data->user_role;
+//         }
 
-        $profilepicture->move($destinationPath, $imagename); 
+//         if ($user_lname == null) {
+//             $user_lname= $data->user_lname;
+//         }
 
-    }
+//         if ($password == null) {
+//         $password = $data->password;
+//         }
 
-      $data->companyname = $companyname;
-      $data->password = $password;
-      $data->user_contact = $user_contact;
-      $data->user_email = $user_email;
-      $data->companyregisternumber = $companyregisternumber;
-      $data->companydesc = $companydesc;
-      $data->address = $address;
-      $data->state = $state;
-      $data->job_title = $job_title;
-      $data->profilepicture = $imagename;
-      $data->personincharge = $personincharge;
-      $data->phonenumber = $phonenumber;
-      $data->status =$status;
-      $data->save();
+//         if ($user_contact == null) {
+//         $user_contact= $data->user_contact;
+//         }
 
-      return response()->json(['status'=>'success','value'=>'Company Updated']);
-    }
+//         if ($user_email == null) {
+//         $user_email = $data->user_email;
+//         }
+
+//         if ($address == null) {
+//             $address = $data->address;
+//             }
+
+//             if ($state == null) {
+//                 $state = $data->state;
+//                 }
+        
+
+//         if ($occupation == null) {
+//                 $occupation = $data->occupation;
+//                 }
+//         if ($personincharge == null) {
+//                 $personincharge = $data->personincharge;
+//                 }
+            
+//         if ($phonenumber == null) {
+//                 $phonenumber = $data->phonenumber;
+//                 }
+
+//                 if ($status == null) {
+//                     $status = $data->status;
+//                     }
+
+//          if ($profilepicture == null) {
+//             $imagename = $data->profilepicture;
+//         } else {
+
+//             $extention = $profilepicture->getClientOriginalExtension();
+//             $imagename = rand(11111, 99999) . '.' . $extention;
+//             $destinationPath = 'image';
+    
+//             $profilepicture->move($destinationPath, $imagename); 
+
+//         }
+     
+//         $data->user_fname = $user_fname;
+//         $data->user_lname = $user_lname;
+//         $data->password = $password;
+//         $data->user_contact = $user_contact;
+//         $data->user_email = $user_email;
+//         $data->address = $address;
+//         $data->state = $state;
+//         $data->occupation = $occupation;
+//         $data->profilepicture = $imagename;
+//         $data->personincharge = $personincharge;
+//         $data->phonenumber = $phonenumber;
+//         $data->status =$status;
+//         $data->user_role = $user_role;
+//         $data->save();
+
+//         return response()->json(['status'=>'success','value'=>'User Updated']);
+
+//       }
+
+//       if($data->user_type == 'company'){
+        
+//         if ($companyname == null) {
+//             $companyname = $data->companyname;
+//         }
+//         if ($password == null) {
+//             $password= $data->password;
+//         }
+
+//         if ($user_contact == null) {
+//             $user_contact = $data->user_contact;
+//         }
+
+//         if ($user_email == null) {
+//         $user_email= $data->user_email;
+//         }
+
+//         if ($companyregisternumber == null) {
+//         $companyregisternumber = $data->companyregisternumber;
+//         } 
+      
+//        if($companydesc == null){
+//        $companydesc = $data->companydesc;
+//       }
+
+//       if($address == null){
+//         $address = $data->address;
+//        }
+
+//        if ($state == null) {
+//         $state = $data->state;
+//         }
+
+//        if($job_title == null){
+//         $job_title = $data->job_title;
+//        }
+
+//        if ($personincharge == null) {
+//         $personincharge = $data->personincharge;
+//         }
+    
+// if ($phonenumber == null) {
+//         $phonenumber = $data->phonenumber;
+//         }
+
+//         if ($status == null) {
+//             $status = $data->status;
+//             }
+
+//       if ($profilepicture == null) {
+//         $imagename = $data->profilepicture;
+//     } else {
+
+//         $extention = $profilepicture->getClientOriginalExtension();
+//         $imagename = rand(11111, 99999) . '.' . $extention;
+//         $destinationPath = 'image';
+
+//         $profilepicture->move($destinationPath, $imagename); 
+
+//     }
+
+//       $data->companyname = $companyname;
+//       $data->password = $password;
+//       $data->user_contact = $user_contact;
+//       $data->user_email = $user_email;
+//       $data->companyregisternumber = $companyregisternumber;
+//       $data->companydesc = $companydesc;
+//       $data->address = $address;
+//       $data->state = $state;
+//       $data->job_title = $job_title;
+//       $data->profilepicture = $imagename;
+//       $data->personincharge = $personincharge;
+//       $data->phonenumber = $phonenumber;
+//       $data->status =$status;
+//       $data->save();
+
+//       return response()->json(['status'=>'success','value'=>'Company Updated']);
+//     }
        
 }
 
