@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use Laravel\Lumen\Routing\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Mail\Mailer;
 use App\Product;
 use App\Package;
 use App\User;
@@ -413,11 +415,13 @@ class ProductController extends Controller
             $company_name = $request->input('company_name');
             $company_email = $request->input('company_email');
             $company_contact = $request->input('company_contact');
-            $name = $request->input('name_pic');
-            $contact = $request->input('contact_pic');
-            $tagging = $request->input('tagging');
+            $name = $request->input('name');
+            $contact = $request->input('contact');
+            $email = $request->input('email');
+            //$tagging = $request->input('tagging');
             $publishstatus = "yes";
             $shellife = $request->input('shellife');
+            $suggestcustomer = $request->input('suggestcustomer');
 
 
             $cities = array();
@@ -460,12 +464,12 @@ class ProductController extends Controller
                   $states[] = $stated;
               }
 
-              $taggings = array();
+            //   $taggings = array();
 
-              foreach($tagging as $tag)
-              {
-                   $taggings[] = $tag;
-              }
+            //   foreach($tagging as $tag)
+            //   {
+            //        $taggings[] = $tag;
+            //   }
 
               $images=array();
               
@@ -517,12 +521,14 @@ class ProductController extends Controller
         $file->company_contact = $company_contact;
         $file->name = $name;
         $file->contact = $contact;
+        $file->email = $email;
         $file->user_state = $user->state;
         $file->publishstatus = $publishstatus;
         $file->premiumlist = $premiumlist;
-        $file->tagging = json_encode($taggings);
+        //$file->tagging = json_encode($taggings);
         $file->rating ='0';
         $file->shellife = $shellife;
+        $file->suggestcustomer = $suggestcustomer;
 
         $notify = new Notification;
         $notify->user_id = $user->user_id;
