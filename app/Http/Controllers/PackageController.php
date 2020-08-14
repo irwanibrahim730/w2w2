@@ -5,6 +5,7 @@ use Laravel\Lumen\Routing\Controller;
 use Illuminate\Http\Request;
 use App\Package;
 use App\Userpack;
+use DB;
 
 class PackageController extends Controller
 
@@ -13,7 +14,7 @@ class PackageController extends Controller
 
         $packageArray = array();
 
-        $package = Package::all();
+        $package = Package::orderBy('arangenum','ASC')->get();
 
         foreach($package as $data){
 
@@ -23,6 +24,7 @@ class PackageController extends Controller
                 'package_duration' => $data->package_duration,
                 'package_token'=> $data->package_price,
                 'package_premiumlist' => $data->premiumlist,
+                'package_arangenum' => $data->arangenum,
             ];
         
             array_push($packageArray,$tempArray);
@@ -43,18 +45,40 @@ class PackageController extends Controller
 
     public function store (Request $request){
 
- 
+        $lastData = DB::table('packages')->latest('arangenum')->first();
+        $lastArrange = $lastData->arangenum + 1;
+
         $data = new Package();
         $data->package_name = $request->input('package_name');
         $data->package_duration = $request->input('package_duration');
         $data->package_price = $request->input('package_token');
         $data->premiumlist = $request->input('premiumlist');
-        $data->save();
+        $data->arangenum = $lastArrange;
 
+        $data->save();
 
         return response()->json(['status'=>'success','value'=>'Package success added']);
 
         }
+    
+    public function rearangepackage(Request $request){
+
+        $rearangenum = $request->input('reanragenum');
+
+        $num = $rearangenum;
+
+        $temp = (json_decode($num));
+        
+        foreach($temp as $data){
+        
+            $packagedetails = Package::where('package_id',$data->id)->first();
+            $packagedetails->arangenum = $data->num;
+            $packagedetails->save();
+
+        }
+
+        return response()->json(['status'=>'success','value'=>'success update arrange num']);
+    }
     
     
 

@@ -33,6 +33,7 @@ Route::get('/packages/detail', 'PackageController@show');
 Route::post('/packages/add', 'PackageController@store');
 Route::post('/packages/update', 'PackageController@update');
 Route::delete('/packages/delete', 'PackageController@destroy');
+Route::get('/packages/rearangepackage', 'PackageController@rearangepackage');
 
 //token
 Route::get('/token', 'TokenController@index');
