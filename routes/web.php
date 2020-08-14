@@ -45,6 +45,7 @@ Route::post('/token/addtoken', 'TokenController@addtoken');
 Route::post('/token/give', 'TokenController@givetoken');
 Route::get('/token/checkbalance', 'TokenController@checkbalance');
 Route::get('/token/mytoken', 'TokenController@mytoken');
+Route::get('/token/rearrangetoken', 'TokenController@rearrangetoken');
 
 
 //inbox

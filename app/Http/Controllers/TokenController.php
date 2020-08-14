@@ -8,13 +8,16 @@ use App\User;
 use App\Package;
 use App\History;
 use App\Purchase;
+use DB;
 use Billplz\Laravel\Billplz;
 
 class TokenController extends Controller
 
 {
     public function store (Request $request){
-
+        
+        $lastData = DB::table('tokens')->latest('arrangenum')->first();
+        $lastArrange = $lastData->arrangenum + 1;
  
         $data = new Token();
         $data->type = $request->input('type');
@@ -22,6 +25,8 @@ class TokenController extends Controller
         $data->price = $request->input('price');
         $data->discount = $request->input('discount');
         $data->description = $request->input('description');
+        $data->publish = 'yes';
+        $data->arrangenum = $lastArrange;
         $data->save();
 
 
@@ -29,11 +34,18 @@ class TokenController extends Controller
 
         }
 
-        public function index(){
+        public function index(Request $request){
+
+            $publish = $request->input('publish');
+
+            if($publish){
+                $token = Token::where('publish',$publish)->orderBy('arrangenum','ASC')->get();
+            } else {
+                $token = Token::orderBy('arrangenum','ASC')->get();
+            }
 
             $tokenArray = array();
-
-            $token = Token::all();
+            
 
             foreach($token as $data){
 
@@ -44,6 +56,8 @@ class TokenController extends Controller
                     'quantity' => $data->quantity,
                     'price' => $data->price,
                     'discount' => $data->discount,
+                    'arrangenum' => $data->arrangenum,
+                    'publish' => $data->publish,
 
                 ];
             array_push($tokenArray,$tempArray);
@@ -86,6 +100,7 @@ class TokenController extends Controller
             $price = $request->input('price');
             $discount = $request->input('discount');
             $description = $request->input('description');
+            $publish = $request->input('publish');
             
             if($type == null){
                
@@ -113,12 +128,17 @@ class TokenController extends Controller
     
                 $description = $data->description;
             }
+
+            if($publish == null){
+                $publish = $data->publish;
+            }
     
             $data->type = $type;
             $data->quantity = $quantity;
             $data->price = $price;
             $data->discount = $discount;
             $data->description = $description;
+            $data->publish = $publish;
             $data->save();
     
     
@@ -335,6 +355,25 @@ class TokenController extends Controller
 
             return response()->json(['status'=>'success','value'=>$finalarray]);
 
+        }
+
+        public function rearrangetoken(Request $request){
+
+            $arrangetoken = $request->input('arrangetoken');
+
+            $num = $arrangetoken;
+
+            $temp = (json_decode($num));
+            
+            foreach($temp as $data){
+            
+                $tokendetails = Token::where('id',$data->id)->first();
+                $tokendetails->arrangenum = $data->num;
+                $tokendetails->save();
+
+            }
+
+            return response()->json(['status'=>'success','value'=>'success update rearrange']);
         }
         
     
