@@ -323,16 +323,21 @@ class ProductController extends Controller
                                                         
                 }
             
+                if($users->user_type == 'company'){
+                    $username = $users->companyname;
+                } else {
+                    $username = $users->user_fname .' '. $users->user_lname;
+                }
+            
            
              $tempArray = [
       
                 'product_id' => $product->product_id,
                 'product_date' => $product->product_date,
                 'product_name' => $product->product_name,
-                'product_status' => $product->product_status,
                 'product_material' => $product->product_material,
-                'product_category' => $product->product_category,
                 'maincategory' => $product->maincategory,
+                'product_category' => $product->product_category,
                 'product_target' => $product->product_target,
                 'product_continuity' => $product->product_continuity,
                 'product_quantity' => $product->product_quantity,
@@ -341,6 +346,7 @@ class ProductController extends Controller
                 'product_pricemax' => $product->product_pricemax,
                 'product_period' => $product->product_period,
                 'product_package' =>$product->product_package,
+                'package_id' => $product->package_id,
                 'product_location' =>$locationArray,
                 'city' => $cityArray,
                 'postalcode' =>$postcodeArray,
@@ -350,25 +356,27 @@ class ProductController extends Controller
                 'product_transport' =>$product->product_transport,
                 'product_description' => $product->product_description,
                 'product_image' => $imageArray,
-                'mainstatus' => $product->mainstatus,
+                'product_rating' => $product->rating,
                 'website' => $product->website,
-                'user_id' => $product->user_id,
-                'user_type' => $users->user_type,
-                'package_id' => $product->package_id,
-                'company_name' => $product->company_name,
-                'company_email' => $product->company_email,
-                'company_contact' => $product->company_contact,
                 'tagging' => $tagArray,
                 'suggestcustomer' => $product->suggestcustomer,
-                'rejectremark' => $product->rejectremark,
-                'name' => $product->name,
-                'contact' => $product->contact,
-                'publishstatus' => $product->publishstatus,
                 'approved_at' => $product->approved_at,
                 'expired_at' => $product->expired_at,
                 'availability'=> $product->availability,
-                'review' => $users->review,
+                'mainstatus' => $product->mainstatus,
                 'shellife' => $product->shellife,
+                'product_status' => $product->product_status,
+                'publishstatus' => $product->publishstatus,
+                'rejectremark' => $product->rejectremark,
+                'user_id' => $product->user_id,
+                'user_type' => $users->user_type,
+                'user_name' => $username,
+                'user_contact' => $users->user_contact,
+                'user_email' => $users->user_email,
+                'user_review' => $users->review,
+                'pic_name' => $product->name,
+                'pic_contact' => $product->contact,
+                'pic_email' => $product->email,
              ];
              
             array_push($finalArray,$tempArray);
@@ -2817,6 +2825,12 @@ public function listpremium (Request $request)
                                 array_push($tagArray,$tagtempArray);
                                                                             
                                     }
+
+                                if($users->user_type == 'company'){
+                                    $username = $users->companyname;
+                                } else {
+                                    $username = $users->user_fname . ' ' . $users->user_lname;
+                                }
                                 
                             
                                 $tempArray = [
@@ -2824,7 +2838,6 @@ public function listpremium (Request $request)
                                     'product_id' => $product->product_id,
                                     'product_date' => $product->product_date,
                                     'product_name' => $product->product_name,
-                                    'product_status' => $product->product_status,
                                     'product_material' => $product->product_material,
                                     'maincategory' => $product->maincategory,
                                     'product_category' => $product->product_category,
@@ -2832,7 +2845,6 @@ public function listpremium (Request $request)
                                     'product_continuity' => $product->product_continuity,
                                     'product_quantity' => $product->product_quantity,
                                     'unit' => $product->unit,
-                                    'availability' => $product->availability,
                                     'product_price' => $product->product_price,
                                     'product_pricemax' => $product->product_pricemax,
                                     'product_period' => $product->product_period,
@@ -2846,26 +2858,30 @@ public function listpremium (Request $request)
                                     'product_transport' =>$product->product_transport,
                                     'product_description' => $product->product_description,
                                     'product_image' => $imageArray,
+                                    'product_rating' => $product->rating,
                                     'mainstatus' => $product->mainstatus,
                                     'website' => $product->website,
-                                    'user_id' => $product->user_id,
-                                    'user_type' => $users->user_type,
                                     'package_id' => $product->package_id,
-                                    'company_name' => $product->company_name,
-                                    'company_email' => $product->company_email,
-                                    'company_contact' => $product->company_contact,
                                     'tagging' => $tagArray,
                                     'premiumlist' => $product->premiumlist,
                                     'suggestcustomer' => $product->suggestcustomer,
                                     'rejectremark' => $product->rejectremark,
-                                    'name' => $product->name,
                                     'contact' => $users->user_contact,
                                     'publishstatus' => $product->publishstatus,
                                     'approved_at' => $product->approved_at,
                                     'expired_at' => $product->expired_at,
                                     'created_at' => $product->created_at->format('d M Y - H:i:s'),
                                     'updated_at' => $product->updated_at->format('d M Y - H:i:s'),
-                                    'average_rating' => $product->rating,
+                                    'product_status' => $product->product_status,
+                                    'availability' => $product->availability,
+                                    'user_id' => $product->user_id,
+                                    'user_type' => $users->user_type,
+                                    'user_name' => $username,
+                                    'user_contact' => $users->user_contact,
+                                    'user_email' => $users->user_email,
+                                    'pic_name' => $product->name,
+                                    'pic_email' => $product->email,
+                                    'pic_contact' => $product->contact,
                                 ];
                 
                 array_push($finalArray,$tempArray);
