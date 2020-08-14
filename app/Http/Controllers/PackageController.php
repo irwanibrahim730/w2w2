@@ -63,9 +63,9 @@ class PackageController extends Controller
     
     public function rearangepackage(Request $request){
 
-        $rearangenum = $request->input('reanragenum');
+        $rearrangenum = $request->input('rearrangenum');
 
-        $num = $rearangenum;
+        $num = $rearrangenum;
 
         $temp = (json_decode($num));
         

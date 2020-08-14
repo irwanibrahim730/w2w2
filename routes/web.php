@@ -235,7 +235,12 @@ Route::get('/receipt/getreceipt', 'ReceiptController@getreceipt');
 Route::get('/dumreserve/negotiatedetails', 'DummyReserveController@negotiatedetails');
 Route::get('/dumreserve/buyerresubmit', 'DummyReserveController@buyerresubmit');
 
-
+//Tagging
+Route::get('/tagging', 'TaggingController@index');
+Route::post('/tagging/add', 'TaggingController@store');
+Route::get('/tagging/all', 'TaggingController@all');
+Route::post('/tagging/edit', 'TaggingController@edit');
+Route::delete('/tagging/delete', 'TaggingController@destroy');
 
 
 
