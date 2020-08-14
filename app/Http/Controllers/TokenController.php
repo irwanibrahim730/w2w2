@@ -315,12 +315,12 @@ class TokenController extends Controller
 
                 // {{ $post->created_at->format('Y-m-d') }}
                 if($data->type == 'token'){
-                    $token = '+'.$data->name;
+                    $token = '(+) '.$data->name;
                     $price = $data->price;
                 } elseif($data->type == 'package'){
                     $packageid = Package::where('package_id',$data->name)->first();
                     $temptoken = $packageid->package_price;
-                    $token = '-'.$temptoken;
+                    $token = '(-) '.$temptoken;
                     $price = '-';
                 }
 
@@ -332,7 +332,7 @@ class TokenController extends Controller
 
                 $tempArray = [
 
-                    'id' => $data->token,
+                    'id' => $data->id,
                     'token' => $token,
                     'price' => $price,
                     'date' => $dateformat,
