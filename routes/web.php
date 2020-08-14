@@ -229,6 +229,10 @@ Route::get('/billplz/redirect', 'BillplzController@redirect');
 Route::get('/receipt', 'ReceiptController@index');
 Route::get('/receipt/getreceipt', 'ReceiptController@getreceipt');
 
+//Negotiate
+Route::get('/dumreserve/negotiatedetails', 'DummyReserveController@negotiatedetails');
+Route::get('/dumreserve/buyerresubmit', 'DummyReserveController@buyerresubmit');
+
 
 
 

@@ -9,41 +9,13 @@ use App\User;
 use App\log;
 use App\Review;
 use App\Notification;
+use App\Negotiate;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Mail\Mailer;
 
 class DummyReserveController extends Controller
 
 {
-  
-
-    public function reserveproduct(Request $request){
-
-        $product_id = $request->input('product_id');
-        $buyer_id = $request->input('buyer_id');
-        $offeredprice = $request->input('offeredprice');
-        $offeredmaxprice = $request->input('offeredmaxprice');
-        $quantity = $request->input('quantity');
-        $unit = $request->input('unit');
-        $info = $request->input('info');
-
-        $products = Product::find($product_id);
-
-        $data = new Reserve;
-        $data->user_id = $products->user_id;
-        $data->product_id = $products->product_id;
-        $data->buyer_id = $buyer_id;
-        $data->offeredprice = $offeredprice;
-        $data->offeredmaxprice = $offeredmaxprice;
-        $data->quantity = $quantity;
-        $data->unit = $unit;
-        $data->info = $info;
-        $data->category = $products->maincategory;
-        $data->status = 'reserved';
-
-        $data->save();
-
-        return response()->json(['status'=>'success','value'=>'success product reserved']);
-
-    }
 
     public function listreserve(Request $request){
 
@@ -65,6 +37,19 @@ class DummyReserveController extends Controller
 
             $product = Product::where('product_id',$data->product_id)->first();
             $sellerinfo = User::where('user_id',$product->user_id)->first();
+            $buyerinfo = User::where('user_id',$data->buyer_id)->first();
+
+            if($sellerinfo->user_type == 'company'){
+                $username = $sellerinfo->companyname;
+            } else {
+                $username = $sellerinfo->user_fname . ' ' . $sellerinfo->user_lname;
+            }
+
+            if($buyerinfo->user_type == 'company'){
+                $buyerusername = $buyerinfo->companyname;
+            } else {
+                $buyerusername = $buyerinfo->user_fname . ' ' . $buyerinfo->user_lname;
+            }
 
             $imageArray = array();
 
@@ -91,19 +76,25 @@ class DummyReserveController extends Controller
                 'status' => $data->status,
                 'seller_id' => $data->user_id,
                 'buyer_id' => $data->buyer_id,
-                'offeredprice' => $data->offeredprice,
-                'offeredmaxprice' => $data->offeredmaxprice,
-                'info' => $data->info,
-                'unit' => $data->unit,
-                'quantity' => $data->quantity,
-                'product_id' => $data->product_id,
                 'product_name' => $product->product_name,
+                'offeredprice' => $data->offeredprice,
+                'quantity' => $data->quantity,
+                'unit' => $data->unit,
+                'info' => $data->info,
+                'buyer_name' => $buyerusername,
+                'buyer_contact' => $buyerinfo->user_contact,
+                'buyer_email' => $buyerinfo->user_email,
+                'product_id' => $data->product_id,
                 'product_category' => $data->category,
                 'product_image' => $imageArray,
                 'remarks' => $data->remarks,
-                'seller_name' => $sellerinfo->user_fname,
+                'seller_type' => $sellerinfo->user_type,
+                'seller_name' => $username,
                 'seller_email' => $sellerinfo->user_email,
                 'seller_contact' => $sellerinfo->user_contact,
+                'pic_name' => $product->name,
+                'pic_contact' => $product->contact,
+                'pic_email' => $product->email,
                 'finalprice' => $data->finalprice,
                 'finalunit' => $data->finalunit,
                 'finalquantity' => $data->finalquantity,
@@ -124,11 +115,39 @@ class DummyReserveController extends Controller
         $remarks = $request->input('remarks');
 
         $reserve = Reserve::where('id',$reserveid)->first();
+        $buyerinfo = User::where('user_id',$reserve->buyer_id)->first();
+        $productinfo = Product::where('product_id',$reserve->product_id)->first();
 
         $status = 'rejected';
-
         $reserve->status = $status;
         $reserve->remarks = $remarks;
+
+        //negotiate
+        $negotiate = new Negotiate;
+        $negotiate->reserveid = $reserveid;
+        $negotiate->remarks = $remarks;
+        $negotiate->negostatus = 'reject';
+
+        //notification system buyer
+        $notification = new Notification;
+        $notification->user_id = $reserve->buyer_id;
+        $notification->product_id = $reserve->product_id;
+        $notification->type = 'sellerrejectproduct';
+        $notification->item = $productinfo->product_name;
+
+        //notification email buyer
+        $tempmessages = 'Your reserved ' . $productinfo->product_name .' have been rejected by seller';
+        $messages = $tempmessages;
+
+        Mail::raw( $messages , function ($message) use($buyerinfo){
+            $message->to($buyerinfo->user_email);
+            $message->from('hafizaldevtest@gmail.com', 'muhamad ijal');
+            $message->subject('Ecowaste Market');
+        });
+
+
+        $notification->save();
+        $negotiate->save();
         $reserve->save();
 
         return response()->json(['status'=>'success','value'=>'success seller reserve reject']);
@@ -138,18 +157,113 @@ class DummyReserveController extends Controller
     public function sellerapprove(Request $request){
 
         $reserveid = $request->input('reserveid');
+        $finalprice = $request->input('finalprice');
+        $finalquantity = $request->input('finalquantity');
+        $finalunit = $request->input('finalunit');
 
-        $status = 'approve';
+        $status = 'sold';
 
         $reserve = Reserve::where('id',$reserveid)->first();
 
         $reserve->status = $status;
+        $reserve->finalprice = $finalprice;
+        $reserve->finalquantity = $finalquantity;
+        $reserve->finalunit = $finalunit;
+
+        $productinfo = Product::where('product_id',$reserve->product_id)->first();
+
+        //notification seller
+        $notification = new Notification;
+        $notification->user_id = $reserve->user_id;
+        $notification->product_id = $reserve->product_id;
+        $notification->type = 'sellerapproveproduct';
+        $notification->item = $productinfo->product_name;
+
+        $notification->save();
+
+        //notification buyer
+        $notification = new Notification;
+        $notification->user_id = $reserve->buyer_id;
+        $notification->product_id = $reserve->product_id;
+        $notification->type = 'sellerapproveproduct';
+        $notification->item = $productinfo->product_name;
+
+        $notification->save();
+
+        //notification email buyer
+        $tempmessages = 'Your reserved ' . $productinfo->product_name .' have been approve by seller';
+        $messages = $tempmessages;
+
+        $useremail = User::where('user_id',$reserve->buyer_id)->first();
+
+        Mail::raw( $messages , function ($message) use($useremail){
+            $message->to($useremail->user_email);
+            $message->from('hafizaldevtest@gmail.com', 'muhamad ijal');
+            $message->subject('Ecowaste Market');
+        });
+
         $reserve->save();
 
         return response()->json(['status'=>'success','value'=>'success seller reserve approve']);
 
 
     }
+
+    //start
+    public function negotiatedetails(Request $request){
+
+        $reserveid = $request->input('reserveid');
+
+        $listnegotiate = Negotiate::where('reserveid',$reserveid)->orderBy('created_at','asc')->get();
+
+        return response()->json(['statue'=>'success','value'=>$listnegotiate]);
+
+    }
+
+    public function buyerresubmit(Request $request){
+
+        $reserveid = $request->input('reserveid');
+        $price = $request->input('price');
+        $quantity = $request->input('quantity');
+        $unit = $request->input('unit');
+        $desc = $request->input('desc');
+
+        $reserveinfo = Reserve::where('id',$reserveid)->first();
+        $productinfo = Product::where('product_id',$reserveinfo->product_id)->first();
+        $sellerinfo = User::where('user_id',$reserveinfo->user_id)->first();
+
+        $negotiate = new Negotiate;
+        $negotiate->reserveid = $reserveid;
+        $negotiate->price = $price;
+        $negotiate->quantity = $quantity;
+        $negotiate->unit = $unit;
+        $negotiate->desc = $desc;
+        $negotiate->negostatus = 'resubmit';
+
+        //notification system seller
+        $notification = new Notification;
+        $notification->user_id = $reserveinfo->user_id;
+        $notification->product_id = $reserveinfo->product_id;
+        $notification->type = 'buyerresubmit';
+        $notification->item = $productinfo->product_name;
+
+        //notification email seller
+        $tempmessages = 'Your product name' . $productinfo->product_name .' have been resubmit by buyer';
+        $messages = $tempmessages;
+
+        Mail::raw( $messages , function ($message) use($sellerinfo){
+            $message->to($sellerinfo->user_email);
+            $message->from('hafizaldevtest@gmail.com', 'muhamad ijal');
+            $message->subject('Ecowaste Market');
+        });
+
+        $negotiate->save();
+        $notification->save();
+
+        return response()->json(['status'=>'success','value'=>'success resubmit']);
+    }
+
+    //end
     
     public function buyercancel(Request $request){
 
@@ -180,6 +294,7 @@ class DummyReserveController extends Controller
 
     }
 
+    
     public function sellersold(Request $request){
 
         $reserveid = $request->input('reserveid');

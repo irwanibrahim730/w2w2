@@ -69,9 +69,6 @@ class ReserveController extends Controller
             return response()->json(['status'=>'failed','value'=>'product not exist']);
         }
 
-
-        
-
     }
 
     public function listall(){

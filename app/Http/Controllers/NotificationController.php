@@ -298,6 +298,12 @@ class NotificationController extends Controller
                 $message = "Thank you, your registration is activated";
             } elseif($notification->type == 'reserverproduct'){
                 $message = 'Your advertisement name' . $notification->item .' have been reserved';
+            } elseif($notification->type == 'sellerapproveproduct'){
+                $message = 'Seller has been approve for reserve product' . $notification->item;
+            } elseif($notification->tyoe ='sellerrejectproduct'){
+                $message = 'Seller has been reject for reserve product';
+            } elseif($notification->type == 'buyerresubmit'){
+                $message = 'Buyer has been resubmit make an offfer for product'. $notification->item;
             }
 
             $dateformat = $notification->created_at->format('Y-m-d h:m:s');
