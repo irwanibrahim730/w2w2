@@ -39,7 +39,7 @@ class LoginController extends Controller
               {
                 if($user->status == 'active') {
                 
-                if($user->user_role == 'admin'){
+                if($user->user_role == 'admin' || $user->user_role == 'superadmin'){
                        
 
                        $finalArray = array();  
