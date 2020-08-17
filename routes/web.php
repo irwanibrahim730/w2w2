@@ -133,6 +133,7 @@ Route::post('/enquiry','EnquiryController@store');
 Route::get('/enquiry/list','EnquiryController@list');
 Route::delete('/enquiry/delete','EnquiryController@delete');
 Route::get('/enquiry/detail','EnquiryController@detail');
+Route::post('enquiry/edit', 'EnquiryController@update');
 
 //banner
 Route::post('/banner','BannerController@store');
@@ -241,6 +242,13 @@ Route::post('/tagging/add', 'TaggingController@store');
 Route::get('/tagging/all', 'TaggingController@all');
 Route::post('/tagging/edit', 'TaggingController@edit');
 Route::delete('/tagging/delete', 'TaggingController@destroy');
+
+//UserEnquiery
+Route::get('/userenquiery', 'UserenquieryController@index');
+Route::post('/userenquiery/store', 'UserenquieryController@store');
+Route::get('/userenquiery/list', 'UserenquieryController@list');
+Route::post('userenquiery/edit', 'UserenquieryController@update');
+Route::delete('/userenquiery/delete', 'UserenquieryController@destroy');
 
 
 

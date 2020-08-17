@@ -472,13 +472,9 @@ class ProductController extends Controller
                   $states[] = $stated;
               }
 
-            //   $taggings = array();
-
-            //   foreach($tagging as $tag)
-            //   {
-            //        $taggings[] = $tag;
-            //   }
-
+              $taggings = array();
+              $taggings[] = "";
+            
               $images=array();
               
                 foreach( $product_image as $image){ 
@@ -533,7 +529,7 @@ class ProductController extends Controller
         $file->user_state = $user->state;
         $file->publishstatus = $publishstatus;
         $file->premiumlist = $premiumlist;
-        //$file->tagging = json_encode($taggings);
+        $file->tagging = json_encode($taggings);
         $file->rating ='0';
         $file->shellife = $shellife;
         $file->suggestcustomer = $suggestcustomer;
