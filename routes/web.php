@@ -103,14 +103,19 @@ Route::post('/admin/editadmin', 'AdminController@editadmin');
 Route::get('/admin/detailsadmin', 'AdminController@detailadmin');
 
 //category
-Route::post('/category/add','CategoryController@addcategory');
-Route::get('/category','CategoryController@listcategory');
-Route::get('/category/sub','CategoryController@listsubcategory');
-Route::delete('/category/delete','CategoryController@delete');
-Route::get('/category/mainstatus','CategoryController@mainstatus');
-Route::get('/category/substatus','CategoryController@substatus');
-Route::post('/category/edit','CategoryController@edit');
-Route::get('/category/detail','CategoryController@detail');
+// Route::post('/category/add','CategoryController@addcategory');
+// Route::get('/category','CategoryController@listcategory');
+// Route::get('/category/sub','CategoryController@listsubcategory');
+// Route::delete('/category/delete','CategoryController@delete');
+// Route::get('/category/mainstatus','CategoryController@mainstatus');
+// Route::get('/category/substatus','CategoryController@substatus');
+// Route::post('/category/edit','CategoryController@edit');
+// Route::get('/category/detail','CategoryController@detail');
+
+Route::get('/category', 'CategoryController@index');
+Route::post('/category/add', 'CategoryController@store');
+Route::delete('/category/delete', 'CategoryController@destroy');
+Route::post('/category/edit', 'CategoryController@update');
 
 //dummycategory
 Route::get('/dummycategory', 'DummyCategoryController@index');

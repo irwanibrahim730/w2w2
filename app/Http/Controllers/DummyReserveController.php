@@ -36,7 +36,9 @@ class DummyReserveController extends Controller
         foreach($reserve as $data){
 
             $product = Product::where('product_id',$data->product_id)->first();
-            $sellerinfo = User::where('user_id',$product->user_id)->first();
+            if($product){
+
+                $sellerinfo = User::where('user_id',$product->user_id)->first();
             $buyerinfo = User::where('user_id',$data->buyer_id)->first();
 
             if($sellerinfo->user_type == 'company'){
@@ -103,6 +105,10 @@ class DummyReserveController extends Controller
             ];
         
             array_push($finalarray,$temparray);
+
+
+            }
+            
         }
 
         return response()->json(['status'=>'success','value'=>$finalarray]);
