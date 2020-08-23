@@ -13,6 +13,7 @@ use App\Package;
 use App\Userpack;
 use App\Reserve;
 use App\Enquiry;
+use App\History;
 use DB;
 
 class AdminController extends Controller

@@ -29,6 +29,8 @@ class EnquiryController extends Controller
         $data->description = $description;
         $data->answer = 'no';
 
+        $data->save(); 
+
         $notify = new Notification;
         $notify->email = $email;
         $notify->status = 'new enquiry';
@@ -75,7 +77,7 @@ class EnquiryController extends Controller
 
         }
 
-        $data->save(); 
+        
         $notify->save();
 
         return response()->json(['status'=>'success']);
