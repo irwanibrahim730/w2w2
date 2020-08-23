@@ -155,25 +155,38 @@ class CommentController extends Controller
             
         foreach ($comment->sortByDesc('created_at') as $comments){
         $user_id = $comments->user_id;
-        $user = User::where('user_id',$user_id)->get(); 
-        
-                foreach($user as $users){
-        
-                        $tempArray = [
-                        'id' => $comments->id,
-                        'product_id' => $comments->product_id,
-                        'user_id' => $comments->user_id,
-                        'user_fname' => $users->user_fname,
-                        'user_lname' => $users->user_lname,
-                        'title'=> $comments->title,
-                        'description'=> $comments->description,
-                        'status' => $comments->status,
-                        'created_at' => $comments->created_at->format('d M Y - H:i:s'),
-                        'updated_at' => $comments->updated_at->format('d M Y - H:i:s'),
-                ];
+        $user = User::where('user_id',$user_id)->first(); 
 
-                array_push($finalArray,$tempArray);
-                }
+        if($user){
+
+            if($user->user_type == 'company'){
+                $fname = $user->companyname;
+                $lname = '';
+            } else {
+                $fname = $user->user_fname;
+                $lname = $user->user_lname; 
+            }
+            
+                    foreach($user as $users){
+            
+                            $tempArray = [
+                            'id' => $comments->id,
+                            'product_id' => $comments->product_id,
+                            'user_id' => $comments->user_id,
+                            'user_fname' =>$fname,
+                            'user_lname' => $lname,
+                            'title'=> $comments->title,
+                            'description'=> $comments->description,
+                            'status' => $comments->status,
+                            'created_at' => $comments->created_at->format('d M Y - H:i:s'),
+                            'updated_at' => $comments->updated_at->format('d M Y - H:i:s'),
+                    ];
+    
+                    array_push($finalArray,$tempArray);
+                    }
+
+        }
+        
         }
 
         return response()->json(['status'=>'success','value'=>$finalArray]);
