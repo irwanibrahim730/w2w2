@@ -414,17 +414,22 @@ class DummyReserveController extends Controller
                 }
 
                 $product = Product::where('product_id',$data->product_id)->first();
-                $temparray = [
+                if($product){
 
-                    'id' => $data->id,
-                    'product_name' => $product->product_name,
-                    'type' => $type,
-                    'status' => $data->status,
-                    'date' => $data->updated_at,
+                    $temparray = [
 
-                ];
+                        'id' => $data->id,
+                        'product_name' => $product->product_name,
+                        'type' => $type,
+                        'status' => $data->status,
+                        'date' => $data->updated_at,
+    
+                    ];
+    
+                    array_push($finalArray,$temparray);
 
-                array_push($finalArray,$temparray);
+                }
+                
 
             }
 
