@@ -121,6 +121,7 @@ class AdminController extends Controller
 
             $products->product_status = 'rejected';
             $products->rejectremark = $rejectremark;
+            $products->publishstatus = 'no';
 
             $rejected = 'rejected';
 

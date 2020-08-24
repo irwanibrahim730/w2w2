@@ -3118,13 +3118,15 @@ public function listpremium (Request $request)
 
             if($usertoken > $packagetoken){
 
-                $expiration = $packageinfo->package_duration;
-                
+             
+                $tempexpiration = $packageinfo->package_duration;
+                $expiration = $tempexpiration . ' months';
                 $finalbalancetoken = $usertoken - $packagetoken;
                 $packageid = $packageinfo->package_id;
                 $productpackage = $packageinfo->package_name;
                 $productpremiumlist = $packageinfo->premiumlist;
-                $expirationdate = date('Y-m-d H:i:s', strtotime($productinfo->expired_at. '+' . $expiration));
+                $curtime = Carbon::now()->toDateTimeString();
+                $expirationdate = date('Y-m-d H:i:s', strtotime($curtime. '+' . $expiration));
                 $productperiod = $packageinfo->package_duration;
 
                 $userinfo->balancetoken = $finalbalancetoken;
@@ -3133,7 +3135,8 @@ public function listpremium (Request $request)
                 $productinfo->premiumlist = $productpremiumlist;
                 $productinfo->expired_at = $expirationdate;
                 $productinfo->product_period = $productperiod;
-
+                $productinfo->publishstatus = 'yes';
+                
                 $userinfo->save();
                 $productinfo->save();
 

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 use Laravel\Lumen\Routing\Controller;
 use Illuminate\Http\Request;
 use App\User;
+use App\Product;
+use Carbon\Carbon;
+use DB;
 
 class LoginController extends Controller
 {
@@ -19,7 +22,27 @@ class LoginController extends Controller
         $email = $request->input('user_email');
         $password = $request->input('password');
 
- 
+        $listexpired = DB::table('products')
+                ->where('publishstatus','yes')
+                ->whereDate('expired_at', '<', Carbon::now()->toDateString())
+                ->get();
+     
+        //update publishstatus (yes);
+        if($listexpired){
+
+          foreach($listexpired as $data){
+
+             $product = Product::where('product_id',$data->product_id)->first();
+
+             $product->publishstatus = 'no';
+             $product->save();
+
+          }
+
+        }
+
+       
+
 
          $user = User::where('user_email', $email)->where('password', $password)->first(); 
  
