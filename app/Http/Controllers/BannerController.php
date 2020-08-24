@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Laravel\Lumen\Routing\Controller;
 use Illuminate\Http\Request;
 use App\Banner;
+use App\Log;
 
 class BannerController extends Controller
 
@@ -16,6 +17,7 @@ class BannerController extends Controller
         $image = $request->file('image');
         $url = $request->input('url');
         $publishstatus = 'publishstatus';
+        $adminid = $request->input('adminid');
 
         if($image){
 
@@ -27,6 +29,15 @@ class BannerController extends Controller
         } else {
 
             $imagename = null;
+        }
+
+        if($adminid){
+
+            $log = new Log;
+            $log->userid = $adminid;
+            $log->description = 'add banner '. $title;
+
+            $log->save();
         }
 
 
@@ -114,8 +125,18 @@ class BannerController extends Controller
 public function delete(Request $request)
 {
     $id = $request->input('id');
-
+    $adminid = $request->input('adminid');
     $banners = Banner::where('id',$id)->first();
+
+    if($adminid){
+
+        $log = new Log;
+        $log->userid = $adminid;
+        $log->description = 'delete banner '. $banners->title;
+
+        $log->save();
+    }
+
     $banners->delete();
 
     return response()->json(['status'=>'status','value'=>'banner deleted']);
@@ -166,12 +187,23 @@ public function delete(Request $request)
     $image = $request->file('image');
     $url = $request->input('url');
     $publishstatus = $request->input('publishstatus');
+    $adminid = $request->input('adminid');
 
     $data = Banner::where('id',$id)->first();
 
     if ($title == null) {
         $title = $data->title;
     }
+    
+    if($adminid){
+
+        $log = new Log;
+        $log->userid = $adminid;
+        $log->description = 'update news '. $title;
+
+        $log->save();
+    }
+
     if($request->hasfile('image')){
         $extention = $image->getClientOriginalExtension();
         $imagename = rand(11111, 99999) . '.' . $extention;

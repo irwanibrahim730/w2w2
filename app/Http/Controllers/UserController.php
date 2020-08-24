@@ -10,6 +10,7 @@ use App\Package;
 use App\Userpack;
 use App\History;
 use App\Notification;
+use App\Log;
 
 
 class UserController extends Controller
@@ -633,10 +634,21 @@ class UserController extends Controller
        public function block (Request $request){
 
         $user_id = $request->input('user_id');
+        $adminid = $request->input('adminid');
+
 
         $data = User::where('user_id',$user_id)->first();
         $data->status = 'blocked';
         $data->save();
+
+        if($adminid){
+
+            $log = new Log;
+            $log->userid = $adminid;
+            $log->description = 'block user '. $data->user_fname;
+
+            $log->save();
+        }
 
         $messages = 'Dear '.$data->user_fname.', '.' your account has been blocked';
 
@@ -656,10 +668,21 @@ class UserController extends Controller
        public function unblock(Request $request){
 
         $user_id = $request->input('user_id');
+        $adminid = $request->input('adminid');
 
         $data = User::where('user_id',$user_id)->first();
         $data->status = 'active';
         $data->save();
+
+        if($adminid){
+
+            $log = new Log;
+            $log->userid = $adminid;
+            $log->description = 'unblock user '. $data->user_fname;
+
+            $log->save();
+
+        }
 
         $messages = 'Dear '.$data->user_fname.', '.' your account has been unblocked';
 

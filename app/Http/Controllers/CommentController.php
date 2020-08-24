@@ -7,6 +7,7 @@ use App\Comment;
 use App\User;
 use App\Product;
 use App\Notification;
+use App\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Mail\Mailer;
 
@@ -139,8 +140,20 @@ class CommentController extends Controller
     public function delete(Request $request)
     {
         $id = $request->input('id');
+        $adminid = $request->input('adminid');
 
         $comments = Comment::where('id',$id)->first();
+
+        if($adminid){
+
+            $log = new Log;
+            $log->userid = $adminid;
+            $log->description = 'delete comment '. $comments->description;
+
+            $log->save();
+
+        }
+
         $comments->delete();
 
         return response()->json(['status'=>'success']);

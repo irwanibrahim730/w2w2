@@ -14,6 +14,7 @@ use App\Userpack;
 use App\Reserve;
 use App\Enquiry;
 use App\History;
+use App\Log;
 use DB;
 
 class AdminController extends Controller
@@ -27,6 +28,7 @@ class AdminController extends Controller
         $product_id = $request->input('product_id');
         $suggestcustomer = $request->input('suggestcustomer');
         $tagging = $request->input('tagging');
+        $adminid = $request->input('adminid');        
 
         $tag=array();
         foreach($tagging as $taggings)
@@ -36,6 +38,15 @@ class AdminController extends Controller
 
 
         $products = Product::find($product_id);
+
+        //logadmin
+        if($adminid){
+            $log = new Log;
+            $log->userid = $adminid;
+            $log->description = 'approved product '. $products->product_name;
+
+            $log->save();
+        }
 
           if($products){
 
@@ -92,10 +103,21 @@ class AdminController extends Controller
   
             $product_id = $request->input('product_id');
             $rejectremark = $request->input('rejectremark');
-
+            $adminid = $request->input('adminid');
 
             $products = Product::where('product_id',$product_id)->first(); 
             $user = User::where('user_id',$products->user_id)->first();
+
+            //rejectproduct
+            if($adminid){
+
+                $log = new Log;
+                $log->userid = $adminid;
+                $log->description = 'rejected product '. $products->product_name;
+
+                $log->save();
+
+            }
 
             $products->product_status = 'rejected';
             $products->rejectremark = $rejectremark;

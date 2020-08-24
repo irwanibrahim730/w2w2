@@ -9,6 +9,7 @@ use App\Notification;
 use App\User;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Mail\Mailer;
+use App\Log;
 
 class EnquiryController extends Controller
 
@@ -139,8 +140,19 @@ class EnquiryController extends Controller
         $id = $request->input('id');
         $answer = $request->input('answer');
         $owneranswer = $request->input('owneranswer');
+        $adminid = $request->input('adminid');
 
         $enquiries = Enquiry::find($id);
+
+        if($adminid){
+
+            $log = new Log;
+            $log->userid = $adminid;
+            $log->description = 'answer enquiry '. $enquiries->description;
+
+            $log->save();
+        }
+
 
         if($enquiries){
             

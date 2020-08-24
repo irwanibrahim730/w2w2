@@ -8,6 +8,7 @@ use App\User;
 use App\Package;
 use App\History;
 use App\Purchase;
+use App\Log;
 use DB;
 use Billplz\Laravel\Billplz;
 
@@ -28,6 +29,17 @@ class TokenController extends Controller
         $data->publish = 'yes';
         $data->arrangenum = $lastArrange;
         $data->save();
+
+        //admin log
+        $adminid = $request->input('adminid');
+        if($adminid){
+
+            $log = new Log;
+            $log->userid = $adminid;
+            $log->description = 'add new token name '. $data->type;
+
+            $log->save();
+          }
 
 
         return response()->json(['status'=>'success','value'=>'token added']);
@@ -101,11 +113,23 @@ class TokenController extends Controller
             $discount = $request->input('discount');
             $description = $request->input('description');
             $publish = $request->input('publish');
+            $adminid = $request->input('adminid');
+
+           
             
             if($type == null){
                
                 $type = $data->type;
     
+            }
+
+            if($adminid){
+
+                $log = new Log;
+                $log->userid = $adminid;
+                $log->description = 'edit token name '. $type;
+
+                $log->save();
             }
     
             if($quantity == null){
@@ -233,8 +257,19 @@ class TokenController extends Controller
 
           $user_id = $request->input('user_id');
           $amount = $request->input('amount');
+          $adminid = $request->input('adminid');
 
           $user = User::where('user_id',$user_id)->first();
+
+          //admin log
+          if($adminid){
+
+            $log = new Log;
+            $log->userid = $adminid;
+            $log->description = 'give token '. $amount . ' user name:' .$user->user_fname;
+
+            $log->save();
+          }
 
           if($user){
 

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Package;
 use App\Userpack;
 use DB;
+use App\Log;
 
 class PackageController extends Controller
 
@@ -57,6 +58,16 @@ class PackageController extends Controller
 
         $data->save();
 
+        $adminid = $request->input('adminid');
+        if($adminid){
+
+            $log = new Log;
+            $log->userid = $adminid;
+            $log->description = 'add packages '. $data->package_name;
+
+            $log->save();
+        }
+
         return response()->json(['status'=>'success','value'=>'Package success added']);
 
         }
@@ -93,12 +104,23 @@ class PackageController extends Controller
         $package_duration = $request->input('package_duration');
         $package_price = $request->input('package_price');
         $premiumlist = $request->input('premiumlist');
-        
+        $adminid = $request->input('adminid');
+
         if($package_name == null){
            
             $package_name = $data->package_name;
 
         }
+
+        if($adminid){
+
+            $log = new Log;
+            $log->userid = $adminid;
+            $log->description = 'update banners '. $package_name;
+
+            $log->save();
+        }
+
 
         if($package_duration == null){
 
@@ -129,8 +151,19 @@ class PackageController extends Controller
     public function destroy(Request $request){
 
         $package_id = $request->input('package_id');
+        $adminid = $request->input('adminid');
 
         $data = Package::where('package_id',$package_id)->first();
+
+        if($adminid){
+
+            $log = new Log;
+            $log->userid = $adminid;
+            $log->description = 'delete banners '. $data->package_name;
+
+            $log->save();
+        }
+
         $data->delete();
     
         return response()->json(['status'=>'success','value'=>'Package success deleted']);

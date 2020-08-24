@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Laravel\Lumen\Routing\Controller;
 use Illuminate\Http\Request;
 use App\News;
+use App\Log;
 
 class NewsController extends Controller
 
@@ -116,6 +117,7 @@ class NewsController extends Controller
             $news_photo = $request->file('news_photo');
             $published_at = $request->input('published_at');
             $publishstatus = $request->input('publishstatus');
+            $adminid = $request->input('adminid');
 
 
             if($request->hasfile('news_photo')){
@@ -128,6 +130,15 @@ class NewsController extends Controller
             else if ($news_photo == null) {
                 $imagename = null;
 
+            }
+        
+            if($adminid){
+
+                $log = new Log;
+                $log->userid = $adminid;
+                $log->description = 'add news '. $news_title;
+
+                $log->save();
             }
 
         $data = new News;
@@ -154,12 +165,23 @@ class NewsController extends Controller
             $published_at = $request->input('published_at');
             $shortdesc = $request->input('shortdesc');
             $publishstatus = $request->input('publishstatus');
+            $adminid = $request->input('adminid');
 
 
 
             if ($news_title == null) {
                 $news_title = $data->news_title;
             }
+
+            if($adminid){
+
+                $log = new Log;
+                $log->userid = $adminid;
+                $log->description = 'update news '. $news_title;
+
+                $log->save();
+            }
+
             if ($news_desc == null) {
                 $news_desc = $data->news_desc;
             }
@@ -204,7 +226,20 @@ class NewsController extends Controller
     public function destroy(Request $request){
             
         $news_id = $request->input('news_id');
+        $adminid = $request->input('adminid');
+
         $data = News::where('news_id',$news_id)->first();
+
+        if($adminid){
+
+            $log = new Log;
+            $log->userid = $adminid;
+            $log->description = 'delete news '. $data->news_title;
+
+            $log->save();
+        }
+
+
         $data->delete();
     
         return response()->json(['status'=>'success','value'=>'News deleted']);

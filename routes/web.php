@@ -192,10 +192,12 @@ Route::get('/review/listuser','ReviewController@listuser');
 Route::post('/email','EmailController@mail');
 
 //log
-Route::get('/log','LogController@list');
-Route::get('/log/detail','LogController@detail');
-Route::delete('/log/delete','LogController@delete');
-Route::get('/log/type','LogController@type');
+Route::get('/log', 'LogController@index');
+Route::get('/log/list', 'LogController@list');
+// Route::get('/log','LogController@list');
+// Route::get('/log/detail','LogController@detail');
+// Route::delete('/log/delete','LogController@delete');
+// Route::get('/log/type','LogController@type');
 
 //notification
 Route::get('/notification','NotificationController@list');
