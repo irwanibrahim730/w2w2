@@ -166,8 +166,7 @@ class CommentController extends Controller
                 $fname = $user->user_fname;
                 $lname = $user->user_lname; 
             }
-            
-                    foreach($user as $users){
+
             
                             $tempArray = [
                             'id' => $comments->id,
@@ -183,7 +182,7 @@ class CommentController extends Controller
                     ];
     
                     array_push($finalArray,$tempArray);
-                    }
+                    
 
         }
         
