@@ -79,6 +79,8 @@ class CategoryController extends Controller
 
       public function list(Request $request){
 
+        $finalarray = array();
+
         $maincategory = $request->input('maincategory');
         $parentid = $request->input('parentid');
 
@@ -103,11 +105,56 @@ class CategoryController extends Controller
               $list = Category::where('maincategory',$maincategory)->where('level','five')->where('levelfour',$parentid)->get();
             }
 
+           
+
         }       
 
         if($list){
 
-          return response()->json(['status'=>'success','value'=>$list]);
+          
+           foreach($list as $data){
+            $status = 'notavailable';
+              //level
+              $level = $data->level;
+
+              //query bawah dia
+              if($level == 'one'){
+                $exist = Category::where('level','two')->where('levelone',$data->id)->first();
+              } elseif($level == 'two'){
+                $exist = Category::where('level','three')->where('leveltwo',$data->id)->first();
+              } elseif($level == 'three'){
+                $exist = Category::where('level','four')->where('levelthree',$data->id)->first();
+              } elseif($level == 'four'){
+                $exist = Category::where('level','fice')->where('levelfour',$data->id)->first();
+              }
+
+              if($exist != null){
+                $status = 'available';
+              }
+            
+              
+              $temparray = [
+
+              'id' => $data->id,
+              'name' => $data->name,
+              'maincategory' => $data->maincategory,
+              'level' => $data->level,
+              'levelone' => $data->levelone,
+              'leveltwo' => $data->leveltwo,
+              'levelthree' => $data->levelthree,
+              'levelfour' => $data->levelfour,
+              'levelfive' => $data->levelfive,
+              'status' => $status,
+
+              ];
+            
+              array_push($finalarray,$temparray);
+
+            }
+
+           
+
+          return response()->json(['status'=>'success','value'=>$finalarray]);
 
         } else {
           return response()->json(['status'=>'failed','value'=>'invalid main category']);
