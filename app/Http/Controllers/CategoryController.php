@@ -116,7 +116,6 @@ class CategoryController extends Controller
         }     
         
 
-
         if($list){
 
           
@@ -159,8 +158,6 @@ class CategoryController extends Controller
               array_push($finalarray,$temparray);
 
             }
-
-           
 
           return response()->json(['status'=>'success','value'=>$finalarray]);
 
