@@ -83,12 +83,18 @@ class CategoryController extends Controller
 
         $maincategory = $request->input('maincategory');
         $parentid = $request->input('parentid');
+        
 
-        if($parentid == null){
+        if($parentid == null && $maincategory != null){
 
             $list = Category::where('maincategory',$maincategory)->where('level','one')->get();
 
-        } else {
+        } elseif($parentid == null && $maincategory == null){
+
+            $list = Category::where('level','one')->get();
+
+        }
+         else {
 
             $templist = Category::where('maincategory',$maincategory)->where('id',$parentid)->first();
 
@@ -107,7 +113,9 @@ class CategoryController extends Controller
 
            
 
-        }       
+        }     
+        
+
 
         if($list){
 
@@ -204,8 +212,9 @@ class CategoryController extends Controller
       public function level(Request $request){
 
         $level = $request->input('level');
+        $maincategory = $request->input('maincategory');
 
-        $list = Category::where('level',$level)->get();
+        $list = Category::where('maincategory',$maincategory)->where('level',$level)->get();
 
         return response()->json(['status'=>'success','value'=>$list]);
 
