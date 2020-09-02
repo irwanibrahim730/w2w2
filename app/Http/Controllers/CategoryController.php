@@ -42,77 +42,129 @@ class CategoryController extends Controller
 
         }
 
-        public function destroy(Request $request){
-
-          $id = $request->input('id');
-          $category = Category::find($id);
-
-          $category->delete();
-
-          return response()->json(['status'=>'success','value'=>'success deleted category']);
-
-        }
-
         public function update(Request $request){
 
           $id = $request->input('id');
           $name = $request->input('name');
-          $maincategory = $request->input('maincategory');
-          $level = $request->input('level');
-          $levelone = $request->input('levelone');
-          $leveltwo = $request->input('leveltwo');
-          $levelthree = $request->input('levelthree');
-          $levelfour = $request->input('levelfour');
-          $levelfive = $request->input('levelfive');
 
           $category = Category::find($id);
-          echo $category; 
 
           if($category){
 
-            if($name == null){
-              $name = $category->name;
-            }
-            if($maincategory == null){
-              $maincategory = $category->maincategory;
-            }
-            if($level == null){
-              $level = $category->level;
-            }
-            if($levelone == null){
-              $levelone = $category->levelone;
-            }
-            if($leveltwo == null){
-              $leveltwo = $category->leveltwo;
-            }
-            if($levelthree == null){
-              $levelthree = $category->levelthree;
-            }
-            if($levelfour == null){
-              $levelfour = $category->levelfour;
-            }
-            if($levelfive == null){
-              $levelfive == $category->levelfive;
-            }
+            $exist = Category::where('name',$name)->first();
 
-            $category->name = $name;
-            $category->maincategory = $maincategory;
-            $category->level = $level;
-            $category->levelone = $levelone;
-            $category->leveltwo = $leveltwo;
-            $category->levelthree = $levelthree;
-            $category->levelfour = $levelfour;
-            $category->levelfive = $levelfive;
+            if($exist){
+              
+              return response()->json(['status'=>'failed','value'=>'sorry name is already exist']);
 
-            //$category->save();
+            } else{
+              
+              if($name == null){
+                $name = $category->name;
+              }
 
-            //return response()->json(['status'=>'success','value'=>'success updated']);
+              $category->name = $name;
 
+              $category->save();
+
+              return response()->json(['status'=>'success','value'=>'success update name category']);
+              
+            }
+          
           } else {
             return response()->json(['status'=>'failed','value'=>'category not exist']);
           }
 
         }
+
+      public function list(Request $request){
+
+        $maincategory = $request->input('maincategory');
+        $parentid = $request->input('parentid');
+
+        if($parentid == null){
+
+            $list = Category::where('maincategory',$maincategory)->where('level','one')->get();
+
+        } else {
+
+            $templist = Category::where('maincategory',$maincategory)->where('id',$parentid)->first();
+
+            //getinfotemplist
+            $templevel = $templist->level;
+
+            if($templevel == 'one'){
+              $list = Category::where('maincategory',$maincategory)->where('level','two')->where('levelone',$parentid)->get();
+            } elseif($templevel == 'two'){
+              $list = Category::where('maincategory',$maincategory)->where('level','three')->where('leveltwo',$parentid)->get();
+            } elseif($templevel == 'three'){
+              $list = Category::where('maincategory',$maincategory)->where('level','four')->where('levelthree',$parentid)->get();
+            } elseif($templevel == 'four'){
+              $list = Category::where('maincategory',$maincategory)->where('level','five')->where('levelfour',$parentid)->get();
+            }
+
+        }       
+
+        if($list){
+
+          return response()->json(['status'=>'success','value'=>$list]);
+
+        } else {
+          return response()->json(['status'=>'failed','value'=>'invalid main category']);
+        }
+
+
+      }
+
+      public function details(Request $request){
+
+        $id = $request->input('id');
+
+        $details = Category::find($id);
+
+        if($details){
+          return response()->json(['status'=>'success','value'=>$details]);
+        } else {
+          return response()->json(['status'=>'failed','value'=>'category not exist']);
+        }
+        
+
+      }
+
+      public function destroy(Request $request){
+
+        $id = $request->input('id');
+
+        $details = Category::find($id);
+
+        if($details){
+
+          $list = Category::where('id',$id)
+                          ->orWhere('levelone',$id)
+                          ->orWhere('leveltwo',$id)
+                          ->orWhere('levelthree',$id)
+                          ->orWhere('levelfour',$id)
+                          ->orWhere('levelfive',$id)
+                ->delete();
+          return response()->json(['status'=>'success','value'=>'success delete']);
+
+        } else {
+          return response()->json(['status'=>'failed','value'=>'category not exist']);
+        }
+
+      }
+
+      public function level(Request $request){
+
+        $level = $request->input('level');
+
+        $list = Category::where('level',$level)->get();
+
+        return response()->json(['status'=>'success','value'=>$list]);
+
+      }
+
+
 
 //     public function addcategory(Request $request)
 //     {

@@ -116,13 +116,16 @@ Route::get('/category', 'CategoryController@index');
 Route::post('/category/add', 'CategoryController@store');
 Route::delete('/category/delete', 'CategoryController@destroy');
 Route::post('/category/edit', 'CategoryController@update');
+Route::get('/category/list', 'CategoryController@list');
+Route::get('/category/listlevel', 'CategoryController@level');
+Route::get('/category/details', 'CategoryController@details');
 
 //dummycategory
-Route::get('/dummycategory', 'DummyCategoryController@index');
-Route::post('/dummycategory/add', 'DummyCategoryController@add');
-Route::get('/dummycategory/list', 'DummyCategoryController@list');
-Route::delete('/dummycategory/delete', 'DummyCategoryController@delete');
-Route::post('/dummycategory/edit', 'DummyCategoryController@edit');
+// Route::get('/dummycategory', 'DummyCategoryController@index');
+// Route::post('/dummycategory/add', 'DummyCategoryController@add');
+// Route::get('/dummycategory/list', 'DummyCategoryController@list');
+// Route::delete('/dummycategory/delete', 'DummyCategoryController@delete');
+// Route::post('/dummycategory/edit', 'DummyCategoryController@edit');
 
 //comment
 Route::post('/comment','CommentController@addcomment');
