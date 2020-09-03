@@ -111,10 +111,11 @@ class SearchController extends Controller
                 }
 
                 //image
+            
                 $json_array = json_decode($product->product_image, true);
                 //$json_array = $product->product_image;
                 $imageArray = array();
-                if($json_array == null){
+                
 
                     foreach($json_array as $pic){
                         $url = 'http://codeviable.com/w2w2/public/image';
@@ -127,9 +128,7 @@ class SearchController extends Controller
                         array_push($imageArray,$imagetempArray);
                     }
 
-                } else {
-                    $imageArray = array();
-                }
+                
                
 
                 //location
