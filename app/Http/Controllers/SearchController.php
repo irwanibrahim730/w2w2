@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Mail\Mailer;
 use App\Product;
 use App\User;
+use DB;
 
 
 class SearchController extends Controller
@@ -20,44 +21,61 @@ class SearchController extends Controller
     public function resultsearch(Request $request){
 
         $main = $request->input('main');
-        $rating = $request->input('rating');
-        $category = $request->input('category');
         $state = $request->input('state');
-        $tempminprice = $request->input('minprice');
+        $maincategory = $request->input('maincategory');
+        $rating = $request->input('rating');
+        $maxprice = $request->input('maxprice');
         $tagging = $request->input('tagging');
 
-
-        if($tempminprice != null){
-           
-            $minprice = floatval($tempminprice);
-        } else {
-            $minprice = 1000000;
+        if($main == null){
+            $main = 'no';
         }
-      
-       
 
-        $data = [
-            'main'=>$main,
-            'rating' => $rating,
-            'category' => $category,
-            'state' => $state,
-            'minprice' => $minprice,
-            'tagging' => $tagging,
-        ];
+        if($state == null){
+            $state = 'no';
+        }
+
+        if($maincategory == null){
+            $maincategory = 'no';
+        }
+
+        if($rating == null){
+            $rating = 'no';
+        }
+
+        if($tagging == null){
+            $tagging = 'no';
+        }
 
     
-        $products = Product::where('product_status','success')
-                ->where('availability','!=','expired')
-                ->where('publishstatus','yes')
-                ->where(function($q) use ($data){
-                    $q->Where('mainstatus',$data['main'])
-                    ->orWhere('user_state',$data['state'])
-                    ->orWhere('product_category',$data['category'])
-                    ->orWhere('rating',$data['rating'])
-                    ->orWhere('product_price','>=',$data['minprice']);
-                })
-                ->orderBy('created_at','DESC')
-                ->get();
+
+        if($maxprice == null){
+
+            $products = DB::select("SELECT * FROM `products` WHERE 
+            `mainstatus` LIKE (CASE WHEN '$main' = 'no' THEN '%' ELSE '$main' END) AND
+            `user_state` LIKE (CASE WHEN '$state' = 'no' THEN '%' ELSE '$state' END) AND
+            `maincategory` LIKE (CASE WHEN '$maincategory' = 'no' THEN '%' ELSE '$maincategory' END) AND
+            `rating` LIKE (CASE WHEN '$rating' = 'no' THEN '%' ELSE '$rating' END) AND
+            `tagging` LIKE (CASE WHEN '$tagging' = 'no' THEN '%' ELSE '%$tagging%' END) AND
+            `publishstatus` = 'yes' ");
+
+        } else {
+
+            $products = DB::select("SELECT * FROM `products` WHERE 
+            `mainstatus` LIKE (CASE WHEN '$main' = 'no' THEN '%' ELSE '$main' END) AND
+            `user_state` LIKE (CASE WHEN '$state' = 'no' THEN '%' ELSE '$state' END) AND
+            `maincategory` LIKE (CASE WHEN '$maincategory' = 'no' THEN '%' ELSE '$maincategory' END) AND
+            `rating` LIKE (CASE WHEN '$rating' = 'no' THEN '%' ELSE '$rating' END) AND
+            `tagging` LIKE (CASE WHEN '$tagging' = 'no' THEN '%' ELSE '%$tagging%' END) AND
+            `publishstatus` = 'yes' AND
+            `product_price` <= $maxprice ");
+
+
+        }
+        
+
+    
+
         
         $finalArray = array();
 
@@ -96,17 +114,23 @@ class SearchController extends Controller
                 $json_array = json_decode($product->product_image, true);
                 //$json_array = $product->product_image;
                 $imageArray = array();
+                if($json_array == null){
 
-                foreach($json_array as $pic){
-                    $url = 'http://codeviable.com/w2w2/public/image';
-                    $public = $url . '/' . $pic;
+                    foreach($json_array as $pic){
+                        $url = 'http://codeviable.com/w2w2/public/image';
+                        $public = $url . '/' . $pic;
+    
+                        $imagetempArray = [
+                            'image' => $public,
+                        ];
+    
+                        array_push($imageArray,$imagetempArray);
+                    }
 
-                    $imagetempArray = [
-                        'image' => $public,
-                    ];
-
-                    array_push($imageArray,$imagetempArray);
+                } else {
+                    $imageArray = array();
                 }
+               
 
                 //location
                 $json_array = json_decode($product->product_location, true);
@@ -211,19 +235,18 @@ class SearchController extends Controller
                     'approved_at' => $product->approved_at,
                     'expired_at' => $product->expired_at,
                     'rating' => $product->rating,
-                    'created_at' => $product->created_at->format('d M Y - H:i:s'),
-                    'updated_at' => $product->updated_at->format('d M Y - H:i:s'),
+                    'state' => $product->user_state,
                 ];
 
                 array_push($finalArray,$tempArray);
 
-            }
+           }
 
             return response()->json(['status'=>'true','value'=>$finalArray]);
 
         } else {
             return response()->json(['status'=>'false','value'=>'products is not exist']);
-        }
+       }
     
 
     }
