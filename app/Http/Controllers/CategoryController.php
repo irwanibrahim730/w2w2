@@ -132,9 +132,11 @@ class CategoryController extends Controller
               } elseif($level == 'three'){
                 $exist = Category::where('level','four')->where('levelthree',$data->id)->first();
               } elseif($level == 'four'){
-                $exist = Category::where('level','fice')->where('levelfour',$data->id)->first();
+                $exist = Category::where('level','five')->where('levelfour',$data->id)->first();
+              } else {
+                $exist = null;
               }
-
+         
               if($exist != null){
                 $status = 'available';
               }
