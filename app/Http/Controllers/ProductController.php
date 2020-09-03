@@ -1284,20 +1284,40 @@ class ProductController extends Controller
             
         
 
-            $currentdate = date("y-m-d h:m:s");
+            $currentdate = date("y-m-d h:i:s");
 
             $timeDiff = abs(strtotime($product->expired_at) - strtotime($currentdate));
 
             $numberDays = $timeDiff/86400;
             $numberDays = intval($numberDays);
 
-            if($numberDays < 14){
+            if($numberDays < 14 ){
                 $statuspublishperiod = 'yes';
             } else {
                 $statuspublishperiod = 'no';
             }
+            
+            $tempcurrentdate = date("Y-m-d h:i:s");
 
-        
+    
+            if($product->expired_at != NULL){
+
+                $start = strtotime($tempcurrentdate);
+                $end = strtotime($product->expired_at);
+                
+                if($start >= $end){
+                    $isexpired = 'yes';
+                } else {
+                    $isexpired = 'no';
+                }
+
+            } else{
+                $isexpired = 'no';
+
+            }
+                
+               
+            
             $tempArray = [
                               
                 'product_id' => $product->product_id,
@@ -1344,6 +1364,7 @@ class ProductController extends Controller
                 'created_at' => $product->created_at->format('d M Y - H:i:s'),
                 'updated_at' => $product->updated_at->format('d M Y - H:i:s'),
                 'statuspublishperiod' => $statuspublishperiod,
+                'isexpired' => $isexpired,
              ];
 
              array_push($finalArray,$tempArray);

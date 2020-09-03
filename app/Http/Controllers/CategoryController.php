@@ -212,10 +212,27 @@ class CategoryController extends Controller
 
         $level = $request->input('level');
         $maincategory = $request->input('maincategory');
+        $parentid = $request->input('parentid');
 
-        $list = Category::where('maincategory',$maincategory)->where('level',$level)->get();
+        if($parentid == null){
 
-        return response()->json(['status'=>'success','value'=>$list]);
+          $list = Category::where('maincategory',$maincategory)->where('level',$level)->get();
+
+        } else {
+
+          if($level == 'two'){
+            $list = Category::where('maincategory',$maincategory)->where('levelone',$parentid)->where('level','two')->get();
+          } elseif($level == 'three'){
+            $list = Category::where('maincategory',$maincategory)->where('leveltwo',$parentid)->where('level','three')->get();
+          } elseif($level == 'four'){
+            $list = Category::where('maincategory',$maincategory)->where('levelthree',$parentid)->where('level','four')->get();
+          } elseif($level == 'five'){
+            $list = Category::where('maincategory',$maincategory)->where('levelfour', $parentid)->where('level','five')->get();
+          }
+          
+        }
+
+       return response()->json(['status'=>'success','value'=>$list]);
 
       }
 
