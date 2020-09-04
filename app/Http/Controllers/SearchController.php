@@ -53,7 +53,7 @@ class SearchController extends Controller
 
             $products = DB::select("SELECT * FROM `products` WHERE 
             `mainstatus` LIKE (CASE WHEN '$main' = 'no' THEN '%' ELSE '$main' END) AND
-            `user_state` LIKE (CASE WHEN '$state' = 'no' THEN '%' ELSE '$state' END) AND
+            `product_state` LIKE (CASE WHEN '$state' = 'no' THEN '%' ELSE '%$state%' END) AND
             `maincategory` LIKE (CASE WHEN '$maincategory' = 'no' THEN '%' ELSE '$maincategory' END) AND
             `rating` LIKE (CASE WHEN '$rating' = 'no' THEN '%' ELSE '$rating' END) AND
             `tagging` LIKE (CASE WHEN '$tagging' = 'no' THEN '%' ELSE '%$tagging%' END) AND
@@ -63,7 +63,7 @@ class SearchController extends Controller
 
             $products = DB::select("SELECT * FROM `products` WHERE 
             `mainstatus` LIKE (CASE WHEN '$main' = 'no' THEN '%' ELSE '$main' END) AND
-            `user_state` LIKE (CASE WHEN '$state' = 'no' THEN '%' ELSE '$state' END) AND
+            `product_state` LIKE (CASE WHEN '$state' = 'no' THEN '%' ELSE '%$state%' END) AND
             `maincategory` LIKE (CASE WHEN '$maincategory' = 'no' THEN '%' ELSE '$maincategory' END) AND
             `rating` LIKE (CASE WHEN '$rating' = 'no' THEN '%' ELSE '$rating' END) AND
             `tagging` LIKE (CASE WHEN '$tagging' = 'no' THEN '%' ELSE '%$tagging%' END) AND
