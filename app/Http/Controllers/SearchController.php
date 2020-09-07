@@ -39,43 +39,66 @@ class SearchController extends Controller
             $maincategory = 'no';
         }
 
-        if($rating == null){
-            $rating = 'no';
-        }
-
         if($tagging == null){
             $tagging = 'no';
         }
 
     
 
-        if($maxprice == null){
+        if($maxprice == null && $rating == null){
+
+            // echo 'price and rating null';
 
             $products = DB::select("SELECT * FROM `products` WHERE 
             `mainstatus` LIKE (CASE WHEN '$main' = 'no' THEN '%' ELSE '$main' END) AND
             `product_state` LIKE (CASE WHEN '$state' = 'no' THEN '%' ELSE '%$state%' END) AND
             `maincategory` LIKE (CASE WHEN '$maincategory' = 'no' THEN '%' ELSE '$maincategory' END) AND
-            `rating` LIKE (CASE WHEN '$rating' = 'no' THEN '%' ELSE '$rating' END) AND
             `tagging` LIKE (CASE WHEN '$tagging' = 'no' THEN '%' ELSE '%$tagging%' END) AND
             `publishstatus` = 'yes' ");
 
-        } else {
+        } elseif($rating == null && $maxprice != null) {
+
+            //echo 'price not null and rating null';
 
             $products = DB::select("SELECT * FROM `products` WHERE 
             `mainstatus` LIKE (CASE WHEN '$main' = 'no' THEN '%' ELSE '$main' END) AND
             `product_state` LIKE (CASE WHEN '$state' = 'no' THEN '%' ELSE '%$state%' END) AND
             `maincategory` LIKE (CASE WHEN '$maincategory' = 'no' THEN '%' ELSE '$maincategory' END) AND
-            `rating` LIKE (CASE WHEN '$rating' = 'no' THEN '%' ELSE '$rating' END) AND
             `tagging` LIKE (CASE WHEN '$tagging' = 'no' THEN '%' ELSE '%$tagging%' END) AND
             `publishstatus` = 'yes' AND
             `product_price` <= $maxprice ");
 
 
+        } elseif($rating != null && $maxprice == null){
+
+            //echo 'price null and rating not null';
+
+            $products = DB::select("SELECT * FROM `products` WHERE 
+            `mainstatus` LIKE (CASE WHEN '$main' = 'no' THEN '%' ELSE '$main' END) AND
+            `product_state` LIKE (CASE WHEN '$state' = 'no' THEN '%' ELSE '%$state%' END) AND
+            `maincategory` LIKE (CASE WHEN '$maincategory' = 'no' THEN '%' ELSE '$maincategory' END) AND
+            `tagging` LIKE (CASE WHEN '$tagging' = 'no' THEN '%' ELSE '%$tagging%' END) AND
+            `publishstatus` = 'yes' AND
+            `rating` >= $rating ");
+
+        } elseif($rating != null && $maxprice != null){
+
+            //echo 'price not null and rating not null';
+
+            $products = DB::select("SELECT * FROM `products` WHERE 
+            `mainstatus` LIKE (CASE WHEN '$main' = 'no' THEN '%' ELSE '$main' END) AND
+            `product_state` LIKE (CASE WHEN '$state' = 'no' THEN '%' ELSE '%$state%' END) AND
+            `maincategory` LIKE (CASE WHEN '$maincategory' = 'no' THEN '%' ELSE '$maincategory' END) AND
+            `tagging` LIKE (CASE WHEN '$tagging' = 'no' THEN '%' ELSE '%$tagging%' END) AND
+            `publishstatus` = 'yes' AND
+            `product_price` <= $maxprice AND
+            `rating` >= $rating ");
+
+        } else {
+            // echo 'free';
+            $products = Product::all();
         }
         
-
-    
-
         
         $finalArray = array();
 
