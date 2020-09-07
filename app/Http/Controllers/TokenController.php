@@ -339,8 +339,6 @@ class TokenController extends Controller
             $user = User::find($userid);
             //balance
             $tokenbalance = $user->balancetoken;
-
-        
             
             //transaction
             $transaction = History::where('user_id',$userid)->orderBy('created_at','DESC')->get();
@@ -348,7 +346,6 @@ class TokenController extends Controller
             foreach($transaction as $data){
 
                 $dateformat = $data->created_at->format('Y-m-d h:i:s');
-            
 
                 // {{ $post->created_at->format('Y-m-d') }}
                 if($data->type == 'token'){
