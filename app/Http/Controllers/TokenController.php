@@ -258,6 +258,7 @@ class TokenController extends Controller
           $user_id = $request->input('user_id');
           $amount = $request->input('amount');
           $adminid = $request->input('adminid');
+          $remarks = $request->input('remarks');
 
           $user = User::where('user_id',$user_id)->first();
 
@@ -266,7 +267,7 @@ class TokenController extends Controller
 
             $log = new Log;
             $log->userid = $adminid;
-            $log->description = 'give token '. $amount . ' user name:' .$user->user_fname;
+            $log->description = 'give token '. $amount . ' user name:' .$user->user_fname .' with remarks:' .$remarks;
 
             $log->save();
           }
