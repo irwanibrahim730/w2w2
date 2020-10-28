@@ -56,7 +56,7 @@ class ReserveController extends Controller
 
             Mail::raw( $messages , function ($message) use($useremail){
                 $message->to($useremail->user_email);
-                $message->from('hafizaldevtest@gmail.com', 'muhamad ijal');
+                $message->from('w2wmasteradm@gmail.com', 'W2W Master Admin Waste2Wealth');
                 $message->subject('Ecowaste Market');
             });
 

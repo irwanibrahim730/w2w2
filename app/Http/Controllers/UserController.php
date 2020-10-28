@@ -217,7 +217,7 @@ class UserController extends Controller
                 Mail::raw( $messages ,function ($message) use($data)
                 {
                  $message->to($data->user_email);
-                 $message->from('hafizaldevtest@gmail.com', 'muhamad ijal');
+                 $message->from('w2wmasteradm@gmail.com', 'W2W Master Admin Waste2Wealth');
                  $message->subject('EcoWaste Market');
       
       
@@ -655,7 +655,7 @@ class UserController extends Controller
         Mail::raw( $messages ,function ($message) use($data)
           {
            $message->to($data->user_email);
-           $message->from('testemaillumen123@gmail.com', 'Admin of W2W');
+           $message->from('w2wmasteradm@gmail.com', 'W2W Master Admin Waste2Wealth');
            $message->subject('Account Management');
 
 
@@ -689,7 +689,7 @@ class UserController extends Controller
         Mail::raw( $messages ,function ($message) use($data)
           {
            $message->to($data->user_email);
-           $message->from('testemaillumen123@gmail.com', 'Admin of W2W');
+           $message->from('w2wmasteradm@gmail.com', 'W2W Master Admin Waste2Wealth');
            $message->subject('Account Management');
 
 
@@ -759,7 +759,7 @@ class UserController extends Controller
             Mail::raw( $messages ,function ($message) use($user){
 
                 $message->to($user->user_email);
-                $message->from('hafizaldevtest@gmail.com', 'muhamad ijal');
+                $message->from('w2wmasteradm@gmail.com', 'W2W Master Admin Waste2Wealth');
                 $message->subject('EcoWaste Market');
 
             });
@@ -798,7 +798,7 @@ class UserController extends Controller
                 {
 
                  $message->to($user->user_email);
-                 $message->from('hafizaldevtest@gmail.com', 'muhamad ijal');
+                 $message->from('w2wmasteradm@gmail.com', 'W2W Master Admin Waste2Wealth');
                  $message->subject('EcoWaste Market');
       
                  }); 
@@ -840,7 +840,7 @@ class UserController extends Controller
                     {
 
                     $message->to($user->user_email);
-                    $message->from('hafizaldevtest@gmail.com', 'muhamad ijal');
+                    $message->from('w2wmasteradm@gmail.com', 'W2W Master Admin Waste2Wealth');
                     $message->subject('EcoWaste Market');
         
                     }); 

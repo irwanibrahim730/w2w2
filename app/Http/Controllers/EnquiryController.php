@@ -55,7 +55,7 @@ class EnquiryController extends Controller
             Mail::raw( $messages , function ($message) use ($data){
 
                 $message->to($data->user_email);
-                $message->from('hafizaldevtest@gmail.com', 'muhamad ijal');
+                $message->from('w2wmasteradm@gmail.com', 'W2W Master Admin Waste2Wealth');
                 $message->subject('EcoWaste Market');
 
             });
@@ -69,7 +69,7 @@ class EnquiryController extends Controller
                 Mail::raw( $messages , function ($message) use ($user){
 
                     $message->to($user->email);
-                    $message->from('hafizaldevtest@gmail.com', 'muhamad ijal');
+                    $message->from('w2wmasteradm@gmail.com', 'W2W Master Admin Waste2Wealth');
                     $message->subject('EcoWaste Market');
     
                 });

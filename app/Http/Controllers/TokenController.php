@@ -285,6 +285,7 @@ class TokenController extends Controller
             $history->type = 'token';
             $history->name = $amount;
             $history->price = '-';
+            $history->remarks = $remarks;
 
             $user->save();
             $history->save();
@@ -365,6 +366,11 @@ class TokenController extends Controller
                     $receiptstatus = 'no';
                 }
 
+                $tempremarks = "-";
+                if($data->remarks != null){
+                    $tempremarks = $data->remarks;
+                }
+
                 $tempArray = [
 
                     'id' => $data->id,
@@ -374,6 +380,7 @@ class TokenController extends Controller
                     'receiptstatus' => $receiptstatus,
                     'billid' => $data->billid,
                     'status' => 'success',
+                    'remarks' => $tempremarks,
     
                 ];
 

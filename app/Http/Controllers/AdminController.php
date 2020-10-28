@@ -81,7 +81,7 @@ class AdminController extends Controller
             Mail::raw( $messages ,function ($message) use($user)
               {
                 $message->to($user->user_email);
-                $message->from('testemaillumen123@gmail.com', 'Admin of W2W');
+                $message->from('w2wmasteradm@gmail.com', 'W2W Master Admin Waste2Wealth');
                 $message->subject('Product Approval');
                 }); 
             
@@ -156,7 +156,7 @@ class AdminController extends Controller
             Mail::raw( $messages ,function ($message) use($user)
               {
                $message->to($user->user_email);
-               $message->from('testemaillumen123@gmail.com', 'Admin of W2W');
+               $message->from('w2wmasteradm@gmail.com', 'W2W Master Admin Waste2Wealth');
                $message->subject('Product Has Been Rejected');
    
    

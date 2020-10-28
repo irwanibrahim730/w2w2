@@ -63,6 +63,11 @@ class HistoryController extends Controller
 
             foreach ($user as $users){
 
+            $tempremarks = "-";
+            if($histories->remarks != null){
+                $tempremarks = $histories->remarks;
+            }
+
             $temparray = [
                 'id' => $histories->id,
                 'user_id' => $histories->user_id,
@@ -70,6 +75,7 @@ class HistoryController extends Controller
                 'user_lname' => $users->user_lname,
                 'type' => $histories->type,
                 'name' => $histories->name,
+                'remarks' => $tempremarks,
             ];
 
             array_push($historyarray,$temparray);
