@@ -328,6 +328,7 @@ class DummyReserveController extends Controller
         $titlereview = $request->input('titlereview');
         $descreview = $request->input('descreview');
         $ratingreview = $request->input('ratingreview');
+        $pills = $request->input('pills');
 
         $reviewdetails = Reserve::where('id',$reserveid)->first();
 
@@ -342,6 +343,7 @@ class DummyReserveController extends Controller
         $review->title = $titlereview;
         $review->description = $descreview;
         $review->rating = $ratingreview;
+        $review->pills = $pills;
 
         $sellerinfo = User::where('user_id',$seller_id)->first();
         $productinfo = Product::where('product_id',$product_id)->first();

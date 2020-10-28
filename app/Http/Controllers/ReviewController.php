@@ -63,6 +63,14 @@ class ReviewController extends Controller
 
         $product = Product::where('product_id',$product_id)->get();
 
+        $temppills = [];
+
+        if($reviews->pills != null){
+          
+          $temppills = json_decode($reviews->pills);
+
+        }
+
 
         foreach($product as $products)
 
@@ -107,6 +115,7 @@ class ReviewController extends Controller
                     'title' => $reviews->title,
                     'description' => $reviews->description,
                     'rating' => $reviews->rating,
+                    'pills' => $temppills,
 
 
                   ];
