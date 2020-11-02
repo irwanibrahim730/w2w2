@@ -72,6 +72,24 @@ class DummyReserveController extends Controller
                 }
             } 
 
+            //daripada reserve tarik data negotiate id dia yang last
+            $negotiate = Negotiate::where('reserveid',$data->id)->where('negostatus','resubmit')->latest('created_at')->first();
+            $tempnego = Negotiate::where('reserveid',$data->id)->where('negostatus','reject')->latest('created_at')->first();
+            if($negotiate){
+                $offeredprice = $negotiate->price;
+                $quantity = $negotiate->quantity;
+                $unit = $negotiate->unit;
+                $remarks = $negotiate->desc;
+                $info = $tempnego->remarks;
+            } else {
+                $offeredprice = $data->offeredprice;
+                $quantity = $data->quantity;
+                $unit = $data->unit;
+                $remarks = $data->remarks;
+                $info = $data->info;
+            }
+       
+
             $temparray = [
 
                 'id' => $data->id,
@@ -79,17 +97,17 @@ class DummyReserveController extends Controller
                 'seller_id' => $data->user_id,
                 'buyer_id' => $data->buyer_id,
                 'product_name' => $product->product_name,
-                'offeredprice' => $data->offeredprice,
-                'quantity' => $data->quantity,
-                'unit' => $data->unit,
-                'info' => $data->info,
+                'offeredprice' => $offeredprice,
+                'quantity' => $quantity,
+                'unit' => $unit,
+                'info' => $info,
                 'buyer_name' => $buyerusername,
                 'buyer_contact' => $buyerinfo->user_contact,
                 'buyer_email' => $buyerinfo->user_email,
                 'product_id' => $data->product_id,
                 'product_category' => $data->category,
                 'product_image' => $imageArray,
-                'remarks' => $data->remarks,
+                'remarks' => $remarks,
                 'seller_type' => $sellerinfo->user_type,
                 'seller_name' => $username,
                 'seller_email' => $sellerinfo->user_email,
